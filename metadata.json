@@ -1,0 +1,8 @@
+{
+  "name": "Propuesta de Web para Psicología",
+  "description": "Prototipo de página web para servicios de psicología y medicina natural, incluyendo reservas en línea, preguntas frecuentes y contacto por WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
