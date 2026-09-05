@@ -230,25 +230,25 @@ export default function Panel() {
       <div className="space-y-8 animate-in fade-in duration-500">
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-[32px] border border-[#7D9D85]/10 shadow-sm flex items-center justify-between transition-transform hover:-translate-y-1">
+          <div className="bg-white p-6 rounded-[32px] border border-[#7895A3]/10 shadow-sm flex items-center justify-between transition-transform hover:-translate-y-1">
             <div>
               <p className="text-[#636E72] text-sm font-bold uppercase tracking-widest mb-1">Citas de Hoy</p>
-              <p className="text-4xl font-serif text-[#2D3436]">{todaysAppointments.length}</p>
+              <p className="text-4xl font-serif text-[#37454A]">{todaysAppointments.length}</p>
             </div>
-            <div className="w-14 h-14 rounded-2xl bg-[#E8F0EA] flex items-center justify-center text-[#4A5D4E]">
+            <div className="w-14 h-14 rounded-2xl bg-[#D9E6DF] flex items-center justify-center text-[#37454A]">
               <CalendarIcon className="w-7 h-7" />
             </div>
           </div>
-          <div className="bg-white p-6 rounded-[32px] border border-[#7D9D85]/10 shadow-sm flex items-center justify-between transition-transform hover:-translate-y-1">
+          <div className="bg-white p-6 rounded-[32px] border border-[#7895A3]/10 shadow-sm flex items-center justify-between transition-transform hover:-translate-y-1">
             <div>
               <p className="text-[#636E72] text-sm font-bold uppercase tracking-widest mb-1">Pacientes Activos</p>
-              <p className="text-4xl font-serif text-[#2D3436]">{patients.length}</p>
+              <p className="text-4xl font-serif text-[#37454A]">{patients.length}</p>
             </div>
-            <div className="w-14 h-14 rounded-2xl bg-[#E8F0EA] flex items-center justify-center text-[#4A5D4E]">
+            <div className="w-14 h-14 rounded-2xl bg-[#D9E6DF] flex items-center justify-center text-[#37454A]">
               <Users className="w-7 h-7" />
             </div>
           </div>
-          <div className="bg-[#7D9D85] text-white p-6 rounded-[32px] shadow-lg shadow-[#7D9D85]/20 flex items-center justify-between relative overflow-hidden transition-transform hover:-translate-y-1">
+          <div className="bg-[#7895A3] text-white p-6 rounded-[32px] shadow-lg shadow-[#7895A3]/20 flex items-center justify-between relative overflow-hidden transition-transform hover:-translate-y-1">
             <div className="relative z-10">
               <p className="text-white/80 text-sm font-bold uppercase tracking-widest mb-1">Ingresos del Mes</p>
               <p className="text-4xl font-serif">$12,450</p>
@@ -262,24 +262,24 @@ export default function Panel() {
 
         {/* Schedule & Messages */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 bg-white rounded-[32px] border border-[#7D9D85]/10 shadow-sm p-6 md:p-8">
+          <div className="lg:col-span-2 bg-white rounded-[32px] border border-[#7895A3]/10 shadow-sm p-6 md:p-8">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-serif font-medium text-[#2D3436]">Agenda de Hoy (25 Oct)</h2>
-              <button onClick={() => setActiveTab('Calendario y Citas')} className="text-sm font-bold text-[#7D9D85] hover:text-[#4A5D4E]">Ver todo</button>
+              <h2 className="text-xl font-serif font-medium text-[#37454A]">Agenda de Hoy (25 Oct)</h2>
+              <button onClick={() => setActiveTab('Calendario y Citas')} className="text-sm font-bold text-[#7895A3] hover:text-[#37454A]">Ver todo</button>
             </div>
             {todaysAppointments.length === 0 ? (
               <p className="text-[#636E72] text-center py-8">No hay citas programadas para hoy.</p>
             ) : (
               <div className="space-y-4">
                 {todaysAppointments.map((apt) => (
-                  <div key={apt.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl border border-[#E0E0E0] hover:border-[#7D9D85]/30 hover:bg-[#F9FBFA] transition-all gap-4">
+                  <div key={apt.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl border border-[#E7DED1] hover:border-[#7895A3]/30 hover:bg-[#F7F5F0] transition-all gap-4">
                     <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-[#E8F0EA] flex flex-col items-center justify-center text-[#4A5D4E] shrink-0 shadow-inner">
+                      <div className="w-16 h-16 rounded-2xl bg-[#D9E6DF] flex flex-col items-center justify-center text-[#37454A] shrink-0 shadow-inner">
                         <span className="text-xs font-bold uppercase">{apt.time.split(' ')[1]}</span>
                         <span className="text-lg font-serif">{apt.time.split(' ')[0]}</span>
                       </div>
                       <div>
-                        <h4 className="font-bold text-[#2D3436] text-lg">{getPatientName(apt.patientId)}</h4>
+                        <h4 className="font-bold text-[#37454A] text-lg">{getPatientName(apt.patientId)}</h4>
                         <p className="text-sm text-[#636E72]">{apt.type} • {apt.mode}</p>
                       </div>
                     </div>
@@ -287,14 +287,14 @@ export default function Panel() {
                       <button 
                         onClick={() => handleSendWhatsAppReminder(apt.id)}
                         title="Enviar recordatorio por WhatsApp"
-                        className="p-1.5 text-gray-400 hover:text-[#4A5D4E] hover:bg-[#E8F0EA] rounded-lg transition-colors flex items-center justify-center"
+                        className="p-1.5 text-gray-400 hover:text-[#37454A] hover:bg-[#D9E6DF] rounded-lg transition-colors flex items-center justify-center"
                       >
                         <MessageSquare className="w-5 h-5" />
                       </button>
                       <button 
                         onClick={() => handleToggleAptStatus(apt.id)}
                         className={`px-3 py-1.5 text-xs font-bold rounded-lg flex items-center gap-1.5 transition-colors
-                          ${apt.status === 'Confirmada' ? 'bg-[#E8F0EA] text-[#4A5D4E] hover:bg-[#D1E0D5]' : 
+                          ${apt.status === 'Confirmada' ? 'bg-[#D9E6DF] text-[#37454A] hover:bg-[#D9E6DF]' : 
                             apt.status === 'Cancelada' ? 'bg-red-50 text-red-700 hover:bg-red-100' : 'bg-yellow-50 text-yellow-700 hover:bg-yellow-100'}`}
                       >
                         {apt.status === 'Confirmada' ? <CheckCircle2 className="w-3.5 h-3.5" /> : apt.status === 'Cancelada' ? <XCircle className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
@@ -307,26 +307,26 @@ export default function Panel() {
             )}
           </div>
 
-          <div className="bg-white rounded-[32px] border border-[#7D9D85]/10 shadow-sm p-6 md:p-8 flex flex-col">
+          <div className="bg-white rounded-[32px] border border-[#7895A3]/10 shadow-sm p-6 md:p-8 flex flex-col">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-serif font-medium text-[#2D3436]">Mensajes Recientes</h2>
-              <button onClick={() => setActiveTab('Mensajes')} className="text-sm font-bold text-[#7D9D85] hover:text-[#4A5D4E]">Ir a chat</button>
+              <h2 className="text-xl font-serif font-medium text-[#37454A]">Mensajes Recientes</h2>
+              <button onClick={() => setActiveTab('Mensajes')} className="text-sm font-bold text-[#7895A3] hover:text-[#37454A]">Ir a chat</button>
             </div>
             <div className="space-y-6 flex-1">
               {messages.slice(0,3).map((msg) => (
                 <div key={msg.id} onClick={() => { setActiveTab('Mensajes'); openChat(msg.id); }} className="flex gap-4 cursor-pointer group">
                   <div className="relative shrink-0">
-                    <div className="w-12 h-12 rounded-full bg-[#E8F0EA] flex items-center justify-center text-[#4A5D4E] font-serif text-lg">
+                    <div className="w-12 h-12 rounded-full bg-[#D9E6DF] flex items-center justify-center text-[#37454A] font-serif text-lg">
                       {getPatientName(msg.patientId).charAt(0)}
                     </div>
                     {msg.unread && <div className="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 border-2 border-white rounded-full"></div>}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-center mb-1">
-                      <span className={`font-bold truncate ${msg.unread ? 'text-[#2D3436]' : 'text-[#636E72]'}`}>{getPatientName(msg.patientId)}</span>
+                      <span className={`font-bold truncate ${msg.unread ? 'text-[#37454A]' : 'text-[#636E72]'}`}>{getPatientName(msg.patientId)}</span>
                       <span className="text-xs text-gray-400 font-medium shrink-0 ml-2">{msg.time}</span>
                     </div>
-                    <p className={`text-sm truncate ${msg.unread ? 'font-medium text-[#2D3436]' : 'text-[#636E72]'}`}>{msg.msg}</p>
+                    <p className={`text-sm truncate ${msg.unread ? 'font-medium text-[#37454A]' : 'text-[#636E72]'}`}>{msg.msg}</p>
                   </div>
                 </div>
               ))}
@@ -338,15 +338,15 @@ export default function Panel() {
   };
 
   const renderCitas = () => (
-    <div className="bg-white rounded-[32px] border border-[#7D9D85]/10 shadow-sm p-6 md:p-8 animate-in fade-in duration-500">
+    <div className="bg-white rounded-[32px] border border-[#7895A3]/10 shadow-sm p-6 md:p-8 animate-in fade-in duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
-          <h2 className="text-2xl font-serif font-medium text-[#2D3436]">Todas las Citas</h2>
+          <h2 className="text-2xl font-serif font-medium text-[#37454A]">Todas las Citas</h2>
           <p className="text-[#636E72] mt-1 text-sm">Gestiona tu agenda completa</p>
         </div>
         <button 
           onClick={() => setIsAptModalOpen(true)}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#7D9D85] text-white rounded-xl font-bold hover:bg-[#6A8971] transition-all shadow-md"
+          className="flex items-center gap-2 px-5 py-2.5 bg-[#7895A3] text-white rounded-xl font-bold hover:bg-[#8FAF9D] transition-all shadow-md"
         >
           <Plus className="w-5 h-5" />
           Nueva Cita
@@ -366,23 +366,23 @@ export default function Panel() {
           </thead>
           <tbody>
             {appointments.sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map(apt => (
-              <tr key={apt.id} className="border-b border-gray-50 hover:bg-[#F9FBFA] transition-colors">
+              <tr key={apt.id} className="border-b border-gray-50 hover:bg-[#F7F5F0] transition-colors">
                 <td className="py-4 px-4">
-                  <div className="font-bold text-[#2D3436]">{apt.date}</div>
+                  <div className="font-bold text-[#37454A]">{apt.date}</div>
                   <div className="text-sm text-[#636E72]">{apt.time}</div>
                 </td>
-                <td className="py-4 px-4 font-medium text-[#4A5D4E]">
+                <td className="py-4 px-4 font-medium text-[#37454A]">
                   {getPatientName(apt.patientId)}
                 </td>
                 <td className="py-4 px-4">
-                  <div className="text-[#2D3436] text-sm">{apt.type}</div>
+                  <div className="text-[#37454A] text-sm">{apt.type}</div>
                   <div className="text-xs text-[#636E72]">{apt.mode}</div>
                 </td>
                 <td className="py-4 px-4">
                   <button 
                     onClick={() => handleToggleAptStatus(apt.id)}
                     className={`px-3 py-1 text-xs font-bold rounded-lg inline-flex items-center gap-1.5 transition-colors
-                      ${apt.status === 'Confirmada' ? 'bg-[#E8F0EA] text-[#4A5D4E] hover:bg-[#D1E0D5]' : 
+                      ${apt.status === 'Confirmada' ? 'bg-[#D9E6DF] text-[#37454A] hover:bg-[#D9E6DF]' : 
                         apt.status === 'Cancelada' ? 'bg-red-50 text-red-700 hover:bg-red-100' : 'bg-yellow-50 text-yellow-700 hover:bg-yellow-100'}`}
                   >
                     {apt.status === 'Confirmada' ? <CheckCircle2 className="w-3.5 h-3.5" /> : apt.status === 'Cancelada' ? <XCircle className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
@@ -394,7 +394,7 @@ export default function Panel() {
                     <button 
                       onClick={() => handleSendWhatsAppReminder(apt.id)}
                       title="Enviar recordatorio por WhatsApp"
-                      className="p-2 text-gray-400 hover:text-[#4A5D4E] hover:bg-[#E8F0EA] rounded-lg transition-all"
+                      className="p-2 text-gray-400 hover:text-[#37454A] hover:bg-[#D9E6DF] rounded-lg transition-all"
                     >
                       <MessageSquare className="w-5 h-5" />
                     </button>
@@ -425,10 +425,10 @@ export default function Panel() {
       const patientForms = forms.filter(f => f.patientId === activePatient);
 
       return (
-        <div className="bg-white rounded-[32px] border border-[#7D9D85]/10 shadow-sm p-6 md:p-8 animate-in fade-in duration-500">
+        <div className="bg-white rounded-[32px] border border-[#7895A3]/10 shadow-sm p-6 md:p-8 animate-in fade-in duration-500">
           <button 
             onClick={() => setActivePatient(null)}
-            className="flex items-center gap-2 text-[#7D9D85] font-bold hover:text-[#4A5D4E] transition-colors mb-6 text-sm"
+            className="flex items-center gap-2 text-[#7895A3] font-bold hover:text-[#37454A] transition-colors mb-6 text-sm"
           >
             <ArrowLeft className="w-4 h-4" />
             Volver al Directorio
@@ -437,7 +437,7 @@ export default function Panel() {
           <div className="flex flex-col md:flex-row gap-8">
             {/* Perfil */}
             <div className="w-full md:w-1/3">
-              <div className="bg-[#F9FBFA] p-6 rounded-3xl border border-[#7D9D85]/10 text-center">
+              <div className="bg-[#F7F5F0] p-6 rounded-3xl border border-[#7895A3]/10 text-center">
                 <div className="relative w-24 h-24 mx-auto mb-4 group">
                   <input
                     type="file"
@@ -454,7 +454,7 @@ export default function Panel() {
                   />
                   <label 
                     htmlFor={`avatar-upload-${patient.id}`}
-                    className="cursor-pointer block w-full h-full rounded-full bg-[#E8F0EA] flex items-center justify-center text-[#4A5D4E] font-serif text-4xl shadow-inner overflow-hidden border-2 border-transparent group-hover:border-[#7D9D85] transition-all relative"
+                    className="cursor-pointer block w-full h-full rounded-full bg-[#D9E6DF] flex items-center justify-center text-[#37454A] font-serif text-4xl shadow-inner overflow-hidden border-2 border-transparent group-hover:border-[#7895A3] transition-all relative"
                   >
                     {(patient as any).avatar ? (
                       <img src={(patient as any).avatar} alt={patient.name} className="w-full h-full object-cover" />
@@ -466,26 +466,26 @@ export default function Panel() {
                     </div>
                   </label>
                 </div>
-                <h2 className="text-2xl font-serif font-medium text-[#2D3436] mb-1">{patient.name}</h2>
+                <h2 className="text-2xl font-serif font-medium text-[#37454A] mb-1">{patient.name}</h2>
                 <p className="text-sm text-[#636E72] mb-6">Paciente desde {patient.date}</p>
                 
                 <div className="space-y-4 text-left">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-white border border-[#E0E0E0] flex items-center justify-center text-[#7D9D85]">
+                    <div className="w-10 h-10 rounded-xl bg-white border border-[#E7DED1] flex items-center justify-center text-[#7895A3]">
                       <Phone className="w-4 h-4" />
                     </div>
                     <div>
                       <p className="text-xs font-bold text-[#636E72] uppercase">Teléfono</p>
-                      <p className="text-sm text-[#2D3436]">{patient.phone}</p>
+                      <p className="text-sm text-[#37454A]">{patient.phone}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-white border border-[#E0E0E0] flex items-center justify-center text-[#7D9D85]">
+                    <div className="w-10 h-10 rounded-xl bg-white border border-[#E7DED1] flex items-center justify-center text-[#7895A3]">
                       <Mail className="w-4 h-4" />
                     </div>
                     <div>
                       <p className="text-xs font-bold text-[#636E72] uppercase">Email</p>
-                      <p className="text-sm text-[#2D3436] break-all">{patient.email}</p>
+                      <p className="text-sm text-[#37454A] break-all">{patient.email}</p>
                     </div>
                   </div>
                 </div>
@@ -496,27 +496,27 @@ export default function Panel() {
             <div className="w-full md:w-2/3 space-y-8">
               {/* Formularios */}
               <div>
-                <h3 className="text-lg font-bold text-[#2D3436] mb-4 flex items-center gap-2">
-                  <ClipboardList className="w-5 h-5 text-[#7D9D85]" />
+                <h3 className="text-lg font-bold text-[#37454A] mb-4 flex items-center gap-2">
+                  <ClipboardList className="w-5 h-5 text-[#7895A3]" />
                   Formularios y Cuestionarios
                 </h3>
                 <div className="space-y-3">
                   {patientForms.map(form => (
-                    <div key={form.id} className="flex items-center justify-between p-4 rounded-2xl border border-[#E0E0E0] hover:border-[#7D9D85]/30 transition-all bg-white">
+                    <div key={form.id} className="flex items-center justify-between p-4 rounded-2xl border border-[#E7DED1] hover:border-[#7895A3]/30 transition-all bg-white">
                       <div className="flex items-center gap-3">
-                        <FileText className="w-5 h-5 text-[#7D9D85]" />
+                        <FileText className="w-5 h-5 text-[#7895A3]" />
                         <div>
-                          <p className="font-bold text-[#2D3436] text-sm">{form.title}</p>
+                          <p className="font-bold text-[#37454A] text-sm">{form.title}</p>
                           <p className="text-xs text-[#636E72]">Enviado: {form.date}</p>
                         </div>
                       </div>
-                      <span className={`px-3 py-1 text-xs font-bold rounded-lg ${form.status === 'Completado' ? 'bg-[#E8F0EA] text-[#4A5D4E]' : 'bg-yellow-50 text-yellow-700'}`}>
+                      <span className={`px-3 py-1 text-xs font-bold rounded-lg ${form.status === 'Completado' ? 'bg-[#D9E6DF] text-[#37454A]' : 'bg-yellow-50 text-yellow-700'}`}>
                         {form.status}
                       </span>
                     </div>
                   ))}
                   {patientForms.length === 0 && <p className="text-sm text-[#636E72]">No hay formularios registrados.</p>}
-                  <button className="w-full py-3 border-2 border-dashed border-[#E0E0E0] text-[#7D9D85] font-bold rounded-2xl hover:bg-[#F9FBFA] transition-colors text-sm flex items-center justify-center gap-2">
+                  <button className="w-full py-3 border-2 border-dashed border-[#E7DED1] text-[#7895A3] font-bold rounded-2xl hover:bg-[#F7F5F0] transition-colors text-sm flex items-center justify-center gap-2">
                     <Plus className="w-4 h-4" /> Enviar Cuestionario
                   </button>
                 </div>
@@ -524,8 +524,8 @@ export default function Panel() {
 
               {/* Notas de Sesión */}
               <div>
-                <h3 className="text-lg font-bold text-[#2D3436] mb-4 flex items-center gap-2">
-                  <Activity className="w-5 h-5 text-[#7D9D85]" />
+                <h3 className="text-lg font-bold text-[#37454A] mb-4 flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-[#7895A3]" />
                   Notas Clínicas
                 </h3>
                 
@@ -534,24 +534,24 @@ export default function Panel() {
                     value={newNote}
                     onChange={e => setNewNote(e.target.value)}
                     placeholder="Escribe una nueva nota o resumen de sesión..."
-                    className="w-full p-4 rounded-2xl border border-[#E0E0E0] focus:ring-2 focus:ring-[#7D9D85] focus:border-transparent outline-none resize-none h-24 mb-3 text-sm"
+                    className="w-full p-4 rounded-2xl border border-[#E7DED1] focus:ring-2 focus:ring-[#7895A3] focus:border-transparent outline-none resize-none h-24 mb-3 text-sm"
                   ></textarea>
-                  <button type="submit" className="px-5 py-2.5 bg-[#7D9D85] text-white rounded-xl font-bold hover:bg-[#6A8971] transition-all shadow-md text-sm flex items-center gap-2 ml-auto">
+                  <button type="submit" className="px-5 py-2.5 bg-[#7895A3] text-white rounded-xl font-bold hover:bg-[#8FAF9D] transition-all shadow-md text-sm flex items-center gap-2 ml-auto">
                     <Plus className="w-4 h-4" /> Guardar Nota
                   </button>
                 </form>
 
                 <div className="space-y-4">
                   {patientNotes.map(note => (
-                    <div key={note.id} className="p-5 rounded-2xl border border-[#E0E0E0] bg-[#F9FBFA] relative group">
+                    <div key={note.id} className="p-5 rounded-2xl border border-[#E7DED1] bg-[#F7F5F0] relative group">
                       <button 
                         onClick={() => handleDeleteNote(note.id)}
                         className="absolute top-4 right-4 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
-                      <p className="text-xs font-bold text-[#7D9D85] mb-2">{note.date}</p>
-                      <p className="text-sm text-[#2D3436] leading-relaxed">{note.text}</p>
+                      <p className="text-xs font-bold text-[#7895A3] mb-2">{note.date}</p>
+                      <p className="text-sm text-[#37454A] leading-relaxed">{note.text}</p>
                     </div>
                   ))}
                   {patientNotes.length === 0 && <p className="text-sm text-[#636E72]">No hay notas registradas.</p>}
@@ -564,15 +564,15 @@ export default function Panel() {
     }
 
     return (
-      <div className="bg-white rounded-[32px] border border-[#7D9D85]/10 shadow-sm p-6 md:p-8 animate-in fade-in duration-500">
+      <div className="bg-white rounded-[32px] border border-[#7895A3]/10 shadow-sm p-6 md:p-8 animate-in fade-in duration-500">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h2 className="text-2xl font-serif font-medium text-[#2D3436]">Directorio de Pacientes</h2>
+            <h2 className="text-2xl font-serif font-medium text-[#37454A]">Directorio de Pacientes</h2>
             <p className="text-[#636E72] mt-1 text-sm">{patients.length} pacientes activos</p>
           </div>
           <button 
             onClick={() => setIsPatModalOpen(true)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#7D9D85] text-white rounded-xl font-bold hover:bg-[#6A8971] transition-all shadow-md"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#7895A3] text-white rounded-xl font-bold hover:bg-[#8FAF9D] transition-all shadow-md"
           >
             <Plus className="w-5 h-5" />
             Nuevo Paciente
@@ -581,9 +581,9 @@ export default function Panel() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {patients.map(pat => (
-            <div key={pat.id} className="border border-[#E0E0E0] rounded-2xl p-6 hover:border-[#7D9D85]/40 hover:shadow-md transition-all bg-[#F9FBFA]">
+            <div key={pat.id} className="border border-[#E7DED1] rounded-2xl p-6 hover:border-[#7895A3]/40 hover:shadow-md transition-all bg-[#F7F5F0]">
               <div className="flex justify-between items-start mb-4">
-                <div className="w-12 h-12 rounded-full bg-[#E8F0EA] flex items-center justify-center text-[#4A5D4E] font-serif text-xl overflow-hidden shadow-inner">
+                <div className="w-12 h-12 rounded-full bg-[#D9E6DF] flex items-center justify-center text-[#37454A] font-serif text-xl overflow-hidden shadow-inner">
                   {(pat as any).avatar ? (
                     <img src={(pat as any).avatar} alt={pat.name} className="w-full h-full object-cover" />
                   ) : (
@@ -594,20 +594,20 @@ export default function Panel() {
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
-              <h3 className="font-bold text-[#2D3436] text-lg mb-1">{pat.name}</h3>
+              <h3 className="font-bold text-[#37454A] text-lg mb-1">{pat.name}</h3>
               <p className="text-xs text-[#636E72] mb-4">Alta: {pat.date}</p>
               
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm text-[#636E72]">
-                  <Phone className="w-4 h-4 text-[#7D9D85]" />
+                  <Phone className="w-4 h-4 text-[#7895A3]" />
                   {pat.phone}
                 </div>
                 <div className="flex items-center gap-2 text-sm text-[#636E72]">
-                  <Mail className="w-4 h-4 text-[#7D9D85]" />
+                  <Mail className="w-4 h-4 text-[#7895A3]" />
                   {pat.email}
                 </div>
               </div>
-              <button onClick={() => setActivePatient(pat.id)} className="w-full mt-6 py-2 border border-[#7D9D85] text-[#7D9D85] rounded-xl font-bold hover:bg-[#E8F0EA] transition-colors text-sm">
+              <button onClick={() => setActivePatient(pat.id)} className="w-full mt-6 py-2 border border-[#7895A3] text-[#7895A3] rounded-xl font-bold hover:bg-[#D9E6DF] transition-colors text-sm">
                 Ver Historial
               </button>
             </div>
@@ -620,21 +620,21 @@ export default function Panel() {
   const renderMensajes = () => {
     const chatDetails = messages.find(m => m.id === activeChat);
     return (
-      <div className="bg-white rounded-[32px] border border-[#7D9D85]/10 shadow-sm overflow-hidden flex h-[70vh] animate-in fade-in duration-500">
+      <div className="bg-white rounded-[32px] border border-[#7895A3]/10 shadow-sm overflow-hidden flex h-[70vh] animate-in fade-in duration-500">
         {/* Lista de chats */}
         <div className={`w-full md:w-1/3 border-r border-gray-100 flex flex-col ${activeChat ? 'hidden md:flex' : 'flex'}`}>
-          <div className="p-4 border-b border-gray-100 bg-[#F9FBFA]">
-            <h2 className="font-bold text-[#2D3436] text-lg">Bandeja de Entrada</h2>
+          <div className="p-4 border-b border-gray-100 bg-[#F7F5F0]">
+            <h2 className="font-bold text-[#37454A] text-lg">Bandeja de Entrada</h2>
           </div>
           <div className="flex-1 overflow-y-auto">
             {messages.map(msg => (
               <div 
                 key={msg.id} 
                 onClick={() => openChat(msg.id)}
-                className={`p-4 border-b border-gray-50 cursor-pointer transition-colors ${activeChat === msg.id ? 'bg-[#E8F0EA]' : 'hover:bg-gray-50'}`}
+                className={`p-4 border-b border-gray-50 cursor-pointer transition-colors ${activeChat === msg.id ? 'bg-[#D9E6DF]' : 'hover:bg-gray-50'}`}
               >
                 <div className="flex justify-between items-center mb-1">
-                  <span className={`font-bold truncate ${msg.unread ? 'text-[#2D3436]' : 'text-[#636E72]'}`}>{getPatientName(msg.patientId)}</span>
+                  <span className={`font-bold truncate ${msg.unread ? 'text-[#37454A]' : 'text-[#636E72]'}`}>{getPatientName(msg.patientId)}</span>
                   <span className="text-xs text-gray-400">{msg.time}</span>
                 </div>
                 <p className="text-sm text-[#636E72] truncate">{msg.msg}</p>
@@ -644,21 +644,21 @@ export default function Panel() {
         </div>
 
         {/* Vista de chat */}
-        <div className={`w-full md:w-2/3 flex flex-col bg-[#F9FBFA] ${!activeChat ? 'hidden md:flex' : 'flex'}`}>
+        <div className={`w-full md:w-2/3 flex flex-col bg-[#F7F5F0] ${!activeChat ? 'hidden md:flex' : 'flex'}`}>
           {activeChat && chatDetails ? (
             <>
               <div className="p-4 border-b border-gray-100 bg-white flex items-center gap-3">
                 <button onClick={() => setActiveChat(null)} className="md:hidden p-2 -ml-2 text-gray-500">
                   <X className="w-5 h-5" />
                 </button>
-                <div className="w-10 h-10 rounded-full bg-[#E8F0EA] flex items-center justify-center text-[#4A5D4E] font-serif text-lg">
+                <div className="w-10 h-10 rounded-full bg-[#D9E6DF] flex items-center justify-center text-[#37454A] font-serif text-lg">
                   {getPatientName(chatDetails.patientId).charAt(0)}
                 </div>
-                <h3 className="font-bold text-[#2D3436]">{getPatientName(chatDetails.patientId)}</h3>
+                <h3 className="font-bold text-[#37454A]">{getPatientName(chatDetails.patientId)}</h3>
               </div>
               <div className="flex-1 p-6 overflow-y-auto space-y-4">
                 <div className="flex flex-col gap-1 max-w-[80%]">
-                  <div className="bg-white p-4 rounded-2xl rounded-tl-sm border border-gray-100 text-[#2D3436] shadow-sm">
+                  <div className="bg-white p-4 rounded-2xl rounded-tl-sm border border-gray-100 text-[#37454A] shadow-sm">
                     {chatDetails.msg}
                   </div>
                   <span className="text-xs text-gray-400 ml-1">{chatDetails.time}</span>
@@ -666,8 +666,8 @@ export default function Panel() {
               </div>
               <div className="p-4 bg-white border-t border-gray-100">
                 <div className="flex gap-2">
-                  <input type="text" placeholder="Escribe un mensaje..." className="flex-1 px-4 py-3 rounded-full border border-gray-200 focus:outline-none focus:border-[#7D9D85] focus:ring-1 focus:ring-[#7D9D85]" />
-                  <button className="w-12 h-12 bg-[#7D9D85] text-white rounded-full flex items-center justify-center hover:bg-[#6A8971] transition-colors shadow-md">
+                  <input type="text" placeholder="Escribe un mensaje..." className="flex-1 px-4 py-3 rounded-full border border-gray-200 focus:outline-none focus:border-[#7895A3] focus:ring-1 focus:ring-[#7895A3]" />
+                  <button className="w-12 h-12 bg-[#7895A3] text-white rounded-full flex items-center justify-center hover:bg-[#8FAF9D] transition-colors shadow-md">
                     <ArrowUpRight className="w-5 h-5" />
                   </button>
                 </div>
@@ -685,22 +685,22 @@ export default function Panel() {
   };
 
   const renderConfig = () => (
-    <div className="bg-white rounded-[32px] border border-[#7D9D85]/10 shadow-sm p-6 md:p-8 animate-in fade-in duration-500 max-w-2xl">
-      <h2 className="text-2xl font-serif font-medium text-[#2D3436] mb-8">Configuración del Panel</h2>
+    <div className="bg-white rounded-[32px] border border-[#7895A3]/10 shadow-sm p-6 md:p-8 animate-in fade-in duration-500 max-w-2xl">
+      <h2 className="text-2xl font-serif font-medium text-[#37454A] mb-8">Configuración del Panel</h2>
       <div className="space-y-6">
         <div>
           <label className="block text-sm font-bold text-[#636E72] mb-2">Nombre del Profesional</label>
-          <input type="text" defaultValue="Dra. Jazmin" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D9D85] focus:border-transparent outline-none" />
+          <input type="text" defaultValue="Dra. Jazmin" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7895A3] focus:border-transparent outline-none" />
         </div>
         <div>
           <label className="block text-sm font-bold text-[#636E72] mb-2">Notificaciones por Email</label>
-          <select className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D9D85] outline-none">
+          <select className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7895A3] outline-none">
             <option>Activadas (Para cada nueva cita)</option>
             <option>Solo un resumen diario</option>
             <option>Desactivadas</option>
           </select>
         </div>
-        <button className="px-6 py-3 bg-[#7D9D85] text-white rounded-xl font-bold hover:bg-[#6A8971] transition-all">
+        <button className="px-6 py-3 bg-[#7895A3] text-white rounded-xl font-bold hover:bg-[#8FAF9D] transition-all">
           Guardar Cambios
         </button>
       </div>
@@ -708,26 +708,26 @@ export default function Panel() {
   );
 
   return (
-    <div className="flex h-screen w-full bg-[#F9FBFA] overflow-hidden font-sans text-[#2D3436]">
+    <div className="flex h-screen w-full bg-[#F7F5F0] overflow-hidden font-sans text-[#37454A]">
       {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setIsMobileMenuOpen(false)}
-            className="fixed inset-0 bg-[#2D3436]/40 backdrop-blur-sm z-40 md:hidden"
+            className="fixed inset-0 bg-[#37454A]/40 backdrop-blur-sm z-40 md:hidden"
           />
         )}
       </AnimatePresence>
 
       {/* Sidebar */}
-      <aside className={`fixed md:static inset-y-0 left-0 z-50 w-72 bg-white border-r border-[#7D9D85]/10 flex flex-col transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+      <aside className={`fixed md:static inset-y-0 left-0 z-50 w-72 bg-white border-r border-[#7895A3]/10 flex flex-col transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
         <div className="p-6 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#7D9D85] flex items-center justify-center text-white shadow-md">
+            <div className="w-10 h-10 rounded-full bg-[#7895A3] flex items-center justify-center text-white shadow-md">
               <Leaf className="w-5 h-5" />
             </div>
-            <span className="font-serif text-xl font-bold tracking-tight text-[#4A5D4E]">Panel Privado</span>
+            <span className="font-serif text-xl font-bold tracking-tight text-[#37454A]">Panel Privado</span>
           </div>
           <button className="md:hidden text-gray-500" onClick={() => setIsMobileMenuOpen(false)}>
             <X className="w-6 h-6" />
@@ -741,14 +741,14 @@ export default function Panel() {
               <button 
                 key={i} 
                 onClick={() => { setActiveTab(link.label); setIsMobileMenuOpen(false); }}
-                className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl font-bold transition-all ${isActive ? 'bg-[#7D9D85] text-white shadow-md shadow-[#7D9D85]/20' : 'text-[#636E72] hover:bg-[#E8F0EA] hover:text-[#4A5D4E]'}`}
+                className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl font-bold transition-all ${isActive ? 'bg-[#7895A3] text-white shadow-md shadow-[#7895A3]/20' : 'text-[#636E72] hover:bg-[#D9E6DF] hover:text-[#37454A]'}`}
               >
                 <div className="flex items-center gap-3">
                   {link.icon}
                   {link.label}
                 </div>
                 {link.label === 'Mensajes' && getUnreadCount() > 0 && (
-                  <span className={`px-2 py-0.5 rounded-full text-xs ${isActive ? 'bg-white text-[#7D9D85]' : 'bg-red-500 text-white'}`}>
+                  <span className={`px-2 py-0.5 rounded-full text-xs ${isActive ? 'bg-white text-[#7895A3]' : 'bg-red-500 text-white'}`}>
                     {getUnreadCount()}
                   </span>
                 )}
@@ -757,7 +757,7 @@ export default function Panel() {
           })}
         </nav>
 
-        <div className="p-4 border-t border-[#7D9D85]/10 bg-gray-50/50">
+        <div className="p-4 border-t border-[#7895A3]/10 bg-gray-50/50">
           <Link href="/" className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl font-bold text-[#636E72] hover:bg-white hover:text-red-500 transition-all shadow-sm border border-transparent hover:border-red-100">
             <LogOut className="w-5 h-5" />
             Salir al sitio web
@@ -768,12 +768,12 @@ export default function Panel() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Top Header */}
-        <header className="h-20 px-4 md:px-8 bg-white/50 backdrop-blur-md border-b border-[#7D9D85]/10 flex items-center justify-between shrink-0">
+        <header className="h-20 px-4 md:px-8 bg-white/50 backdrop-blur-md border-b border-[#7895A3]/10 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-4">
             <button className="md:hidden p-2 text-gray-500 hover:bg-gray-100 rounded-xl" onClick={() => setIsMobileMenuOpen(true)}>
               <Menu className="w-6 h-6" />
             </button>
-            <h1 className="text-2xl font-serif font-medium text-[#2D3436] hidden sm:block">
+            <h1 className="text-2xl font-serif font-medium text-[#37454A] hidden sm:block">
               {activeTab === 'Inicio' ? 'Hola, Jazmin 👋' : activeTab}
             </h1>
           </div>
@@ -781,13 +781,13 @@ export default function Panel() {
           <div className="flex items-center gap-4">
             <div className="relative hidden lg:block">
               <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-              <input type="text" placeholder="Buscar pacientes..." className="pl-10 pr-4 py-2.5 rounded-full border border-gray-200 focus:ring-2 focus:ring-[#7D9D85] focus:border-transparent outline-none text-sm w-64 bg-white" />
+              <input type="text" placeholder="Buscar pacientes..." className="pl-10 pr-4 py-2.5 rounded-full border border-gray-200 focus:ring-2 focus:ring-[#7895A3] focus:border-transparent outline-none text-sm w-64 bg-white" />
             </div>
-            <button className="w-11 h-11 rounded-full bg-white border border-gray-200 flex items-center justify-center text-[#636E72] hover:bg-[#E8F0EA] hover:text-[#4A5D4E] transition-all relative">
+            <button className="w-11 h-11 rounded-full bg-white border border-gray-200 flex items-center justify-center text-[#636E72] hover:bg-[#D9E6DF] hover:text-[#37454A] transition-all relative">
               <Bell className="w-5 h-5" />
               {getUnreadCount() > 0 && <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 border-2 border-white rounded-full"></span>}
             </button>
-            <div className="w-11 h-11 rounded-full bg-[#7D9D85] text-white flex items-center justify-center font-bold shadow-md">
+            <div className="w-11 h-11 rounded-full bg-[#7895A3] text-white flex items-center justify-center font-bold shadow-md">
               J
             </div>
           </div>
@@ -809,14 +809,14 @@ export default function Panel() {
       <AnimatePresence>
         {isAptModalOpen && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-[#2D3436]/40 backdrop-blur-sm" onClick={() => setIsAptModalOpen(false)} />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-[#37454A]/40 backdrop-blur-sm" onClick={() => setIsAptModalOpen(false)} />
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-white rounded-[32px] p-6 md:p-8 w-full max-w-md relative z-10 shadow-2xl">
               <button onClick={() => setIsAptModalOpen(false)} className="absolute top-6 right-6 text-gray-400 hover:text-gray-600"><X className="w-6 h-6"/></button>
-              <h3 className="text-2xl font-serif text-[#2D3436] mb-6">Programar Nueva Cita</h3>
+              <h3 className="text-2xl font-serif text-[#37454A] mb-6">Programar Nueva Cita</h3>
               <form onSubmit={handleAddAppointment} className="space-y-4">
                 <div>
                   <label className="block text-sm font-bold text-[#636E72] mb-1">Paciente</label>
-                  <select required value={newApt.patientId} onChange={e => setNewApt({...newApt, patientId: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D9D85] outline-none">
+                  <select required value={newApt.patientId} onChange={e => setNewApt({...newApt, patientId: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7895A3] outline-none">
                     <option value="">Selecciona un paciente</option>
                     {patients.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                   </select>
@@ -824,11 +824,11 @@ export default function Panel() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-bold text-[#636E72] mb-1">Fecha</label>
-                    <input required type="date" value={newApt.date} onChange={e => setNewApt({...newApt, date: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D9D85] outline-none" />
+                    <input required type="date" value={newApt.date} onChange={e => setNewApt({...newApt, date: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7895A3] outline-none" />
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-[#636E72] mb-1">Hora</label>
-                    <select value={newApt.time} onChange={e => setNewApt({...newApt, time: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D9D85] outline-none">
+                    <select value={newApt.time} onChange={e => setNewApt({...newApt, time: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7895A3] outline-none">
                       <option>09:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
                       <option>12:00 PM</option><option>04:00 PM</option><option>05:00 PM</option>
                     </select>
@@ -836,17 +836,17 @@ export default function Panel() {
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-[#636E72] mb-1">Tipo de Servicio</label>
-                  <select value={newApt.type} onChange={e => setNewApt({...newApt, type: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D9D85] outline-none">
+                  <select value={newApt.type} onChange={e => setNewApt({...newApt, type: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7895A3] outline-none">
                     <option>Terapia Individual</option><option>Terapia de Pareja</option><option>Medicina Natural</option><option>Primera Sesión</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-[#636E72] mb-1">Modalidad</label>
-                  <select value={newApt.mode} onChange={e => setNewApt({...newApt, mode: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D9D85] outline-none">
+                  <select value={newApt.mode} onChange={e => setNewApt({...newApt, mode: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7895A3] outline-none">
                     <option>En línea</option><option>Presencial</option>
                   </select>
                 </div>
-                <button type="submit" className="w-full mt-4 py-3.5 bg-[#7D9D85] text-white font-bold rounded-xl hover:bg-[#6A8971] transition-all shadow-md">
+                <button type="submit" className="w-full mt-4 py-3.5 bg-[#7895A3] text-white font-bold rounded-xl hover:bg-[#8FAF9D] transition-all shadow-md">
                   Guardar Cita
                 </button>
               </form>
@@ -856,24 +856,24 @@ export default function Panel() {
 
         {isPatModalOpen && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-[#2D3436]/40 backdrop-blur-sm" onClick={() => setIsPatModalOpen(false)} />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-[#37454A]/40 backdrop-blur-sm" onClick={() => setIsPatModalOpen(false)} />
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-white rounded-[32px] p-6 md:p-8 w-full max-w-md relative z-10 shadow-2xl">
               <button onClick={() => setIsPatModalOpen(false)} className="absolute top-6 right-6 text-gray-400 hover:text-gray-600"><X className="w-6 h-6"/></button>
-              <h3 className="text-2xl font-serif text-[#2D3436] mb-6">Registrar Paciente</h3>
+              <h3 className="text-2xl font-serif text-[#37454A] mb-6">Registrar Paciente</h3>
               <form onSubmit={handleAddPatient} className="space-y-4">
                 <div>
                   <label className="block text-sm font-bold text-[#636E72] mb-1">Nombre Completo</label>
-                  <input required type="text" placeholder="Ej. Juan Pérez" value={newPat.name} onChange={e => setNewPat({...newPat, name: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D9D85] outline-none" />
+                  <input required type="text" placeholder="Ej. Juan Pérez" value={newPat.name} onChange={e => setNewPat({...newPat, name: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7895A3] outline-none" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-[#636E72] mb-1">Teléfono</label>
-                  <input required type="tel" placeholder="Ej. 555 123 4567" value={newPat.phone} onChange={e => setNewPat({...newPat, phone: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D9D85] outline-none" />
+                  <input required type="tel" placeholder="Ej. 555 123 4567" value={newPat.phone} onChange={e => setNewPat({...newPat, phone: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7895A3] outline-none" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-[#636E72] mb-1">Correo Electrónico</label>
-                  <input required type="email" placeholder="Ej. juan@correo.com" value={newPat.email} onChange={e => setNewPat({...newPat, email: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7D9D85] outline-none" />
+                  <input required type="email" placeholder="Ej. juan@correo.com" value={newPat.email} onChange={e => setNewPat({...newPat, email: e.target.value})} className="w-full p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#7895A3] outline-none" />
                 </div>
-                <button type="submit" className="w-full mt-4 py-3.5 bg-[#7D9D85] text-white font-bold rounded-xl hover:bg-[#6A8971] transition-all shadow-md">
+                <button type="submit" className="w-full mt-4 py-3.5 bg-[#7895A3] text-white font-bold rounded-xl hover:bg-[#8FAF9D] transition-all shadow-md">
                   Crear Expediente
                 </button>
               </form>

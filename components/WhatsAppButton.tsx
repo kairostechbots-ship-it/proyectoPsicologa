@@ -14,7 +14,7 @@ function WhatsAppIcon({ className }: { className?: string }) {
 export function WhatsAppButton() {
   return (
     <motion.a
-      href="https://wa.me/525512345678?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20o%20recibir%20m%C3%A1s%20informaci%C3%B3n."
+      href="https://wa.me/523331426601?text=Hola%2C%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20para%20solicitar%20una%20cita%20de%20terapia."
       target="_blank"
       rel="noopener noreferrer"
       initial={{ scale: 0, opacity: 0 }}

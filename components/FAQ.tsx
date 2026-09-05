@@ -1,80 +1,383 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
 
 const faqs = [
   {
-    question: '¿Cuánto dura una sesión típica?',
-    answer: 'Cada sesión tiene una duración aproximada de 50 a 60 minutos, dependiendo de las necesidades específicas del momento.'
+    question: '¿Cuánto dura una sesión de psicoterapia?',
+    answer:
+      'Cada sesión tiene una duración aproximada de 55 a 60 minutos.',
   },
   {
-    question: '¿Cómo funciona la terapia de medicina natural?',
-    answer: 'Es un enfoque complementario donde evaluamos tus hábitos, emociones y síntomas físicos para recomendar tratamientos basados en herbolaria, nutrición y técnicas de relajación, siempre respetando tu proceso médico tradicional.'
+    question: '¿La atención puede ser presencial o en línea?',
+    answer:
+      'Sí. La psicoterapia puede realizarse de manera presencial o en línea, de acuerdo con la modalidad acordada previamente.',
   },
   {
-    question: '¿Las consultas pueden ser en línea?',
-    answer: 'Sí, ofrezco la modalidad de consulta en línea a través de videollamada para que puedas recibir atención desde la comodidad de tu hogar.'
+    question: '¿Cuál es el costo de la psicoterapia?',
+    answer:
+      'La sesión individual tiene un costo de $400 MXN y la terapia de pareja de $500 MXN.',
   },
   {
-    question: '¿Qué necesito para mi primera cita?',
-    answer: 'Solo necesitas un dispositivo con cámara y micrófono (si es online), un espacio tranquilo donde te sientas cómodo/a, y disposición para platicar sobre lo que te trajo a buscar apoyo.'
+    question: '¿Cómo puedo solicitar una cita?',
+    answer:
+      'Puedes comunicarte directamente por WhatsApp. Ahí podrás solicitar información y acordar la disponibilidad, modalidad, día y horario de tu cita.',
   },
   {
-    question: '¿Cuáles son las formas de pago?',
-    answer: 'Aceptamos transferencias bancarias, tarjetas de crédito/débito y pagos en efectivo (en consultas presenciales). Los detalles se proporcionan al agendar.'
-  }
+    question: '¿En qué horarios se brinda atención?',
+    answer:
+      'La atención es de lunes a viernes, de 4:00 pm a 9:00 pm, con cita previa.',
+  },
+  {
+    question: '¿Dónde se encuentra el consultorio?',
+    answer:
+      'La atención presencial se brinda en Jacarandas 26-52, Prados de la Higuera, Tlajomulco Centro.',
+  },
 ];
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const reduceMotion = useReducedMotion();
 
   return (
-    <section id="faq" className="py-20 md:py-32 bg-[#F9FBFA]">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-[#7D9D85] font-bold tracking-widest text-sm uppercase mb-3">Respuestas Rápidas</h2>
-          <h3 className="text-3xl md:text-4xl font-serif font-medium text-[#2D3436] mb-4">
-            Dudas Frecuentes
-          </h3>
-          <p className="text-[#636E72] leading-relaxed">
-            Información que te ayudará a sentirte más seguro antes de nuestra primera sesión.
-          </p>
-        </div>
+    <section
+      id="faq"
+      aria-labelledby="faq-title"
+      className="
+        relative
+        overflow-hidden
+        bg-white
+        py-20
+        sm:py-24
+        lg:py-28
+      "
+    >
+      {/* =====================================================
+          DECORACIÓN MUY SUTIL
+      ====================================================== */}
 
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div 
-              key={index}
-              className="border border-[#7D9D85]/10 rounded-2xl overflow-hidden bg-white hover:border-[#7D9D85]/30 transition-colors shadow-sm hover:shadow-md"
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full flex justify-between items-center p-6 text-left focus:outline-none"
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          -left-[190px]
+          top-[80px]
+          h-[380px]
+          w-[380px]
+          rounded-full
+          border
+          border-[#A7B89A]/10
+        "
+      />
+
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          max-w-[1240px]
+          px-5
+          sm:px-6
+          lg:px-8
+        "
+      >
+        <div
+          className="
+            grid
+            gap-14
+            lg:grid-cols-[0.72fr_1.28fr]
+            lg:gap-20
+          "
+        >
+          {/* =================================================
+              COLUMNA IZQUIERDA
+          ================================================== */}
+
+          <motion.div
+            initial={
+              reduceMotion
+                ? false
+                : {
+                    opacity: 0,
+                    y: 20,
+                  }
+            }
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+              amount: 0.3,
+            }}
+            transition={{
+              duration: reduceMotion ? 0 : 0.7,
+              ease,
+            }}
+            className="lg:pt-4"
+          >
+            {/* Eyebrow */}
+            <div className="flex items-center gap-4">
+              <span
+                aria-hidden="true"
+                className="h-px w-9 bg-[#D4AF37]"
+              />
+
+              <p
+                className="
+                  text-[10px]
+                  font-semibold
+                  uppercase
+                  tracking-[0.24em]
+                  text-[#596D65]
+                  sm:text-[11px]
+                "
               >
-                <span className="font-bold text-[#4A5D4E]">{faq.question}</span>
-                <ChevronDown 
-                  className={`w-5 h-5 text-[#7D9D85] transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''}`}
-                />
-              </button>
-              
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    <div className="px-6 pb-6 text-[#636E72] leading-relaxed">
-                      {faq.answer}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                Preguntas frecuentes
+              </p>
             </div>
-          ))}
+
+            {/* Título */}
+            <h2
+              id="faq-title"
+              className="
+                mt-8
+                max-w-[470px]
+                font-serif
+                text-[42px]
+                font-medium
+                leading-[1.08]
+                tracking-[-0.03em]
+                text-[#0F4A55]
+                sm:text-[50px]
+                lg:text-[54px]
+              "
+            >
+              Antes de comenzar,{' '}
+              <span className="font-normal italic">
+                quizá quieras saber…
+              </span>
+            </h2>
+
+            {/* Texto */}
+            <p
+              className="
+                mt-6
+                max-w-[430px]
+                text-[15px]
+                leading-7
+                text-[#687A7D]
+                sm:text-[16px]
+              "
+            >
+              Aquí encontrarás respuesta a algunas de las dudas más comunes
+              antes de iniciar un proceso de psicoterapia.
+            </p>
+
+            {/* Detalle */}
+            <div
+              aria-hidden="true"
+              className="
+                mt-10
+                hidden
+                h-px
+                w-24
+                bg-[#A7B89A]/40
+                lg:block
+              "
+            />
+          </motion.div>
+
+          {/* =================================================
+              ACORDEÓN
+          ================================================== */}
+
+          <motion.div
+            initial={
+              reduceMotion
+                ? false
+                : {
+                    opacity: 0,
+                    y: 25,
+                  }
+            }
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+              amount: 0.15,
+            }}
+            transition={{
+              duration: reduceMotion ? 0 : 0.7,
+              delay: reduceMotion ? 0 : 0.08,
+              ease,
+            }}
+            className="
+              border-t
+              border-[#A7B89A]/30
+            "
+          >
+            {faqs.map((faq, index) => {
+              const isOpen = openIndex === index;
+              const contentId = `faq-content-${index}`;
+              const buttonId = `faq-button-${index}`;
+
+              return (
+                <div
+                  key={faq.question}
+                  className="
+                    border-b
+                    border-[#A7B89A]/30
+                  "
+                >
+                  <button
+                    id={buttonId}
+                    type="button"
+                    aria-expanded={isOpen}
+                    aria-controls={contentId}
+                    onClick={() =>
+                      setOpenIndex(isOpen ? null : index)
+                    }
+                    className="
+                      group
+                      flex
+                      w-full
+                      items-center
+                      justify-between
+                      gap-8
+                      py-6
+                      text-left
+                      focus-visible:outline-none
+                      focus-visible:ring-2
+                      focus-visible:ring-[#0F4A55]/30
+                      focus-visible:ring-offset-4
+                    "
+                  >
+                    <div className="flex items-start gap-5 sm:gap-7">
+                      {/* Número */}
+                      <span
+                        className="
+                          mt-[3px]
+                          shrink-0
+                          font-serif
+                          text-[13px]
+                          italic
+                          text-[#B2943D]
+                        "
+                      >
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+
+                      {/* Pregunta */}
+                      <span
+                        className={`
+                          font-serif
+                          text-[19px]
+                          leading-snug
+                          transition-colors
+                          duration-300
+                          sm:text-[21px]
+                          ${
+                            isOpen
+                              ? 'text-[#0F4A55]'
+                              : 'text-[#354F54] group-hover:text-[#0F4A55]'
+                          }
+                        `}
+                      >
+                        {faq.question}
+                      </span>
+                    </div>
+
+                    {/* Icono */}
+                    <span
+                      className={`
+                        flex
+                        h-9
+                        w-9
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-full
+                        transition-all
+                        duration-300
+                        ${
+                          isOpen
+                            ? 'bg-[#0F4A55] text-white'
+                            : 'bg-[#F0F3EE] text-[#0F4A55] group-hover:bg-[#E8EEE7]'
+                        }
+                      `}
+                    >
+                      <ChevronDown
+                        aria-hidden="true"
+                        className={`
+                          h-4
+                          w-4
+                          transition-transform
+                          duration-300
+                          ${isOpen ? 'rotate-180' : ''}
+                        `}
+                        strokeWidth={1.6}
+                      />
+                    </span>
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        id={contentId}
+                        role="region"
+                        aria-labelledby={buttonId}
+                        initial={
+                          reduceMotion
+                            ? false
+                            : {
+                                height: 0,
+                                opacity: 0,
+                              }
+                        }
+                        animate={{
+                          height: 'auto',
+                          opacity: 1,
+                        }}
+                        exit={{
+                          height: 0,
+                          opacity: 0,
+                        }}
+                        transition={{
+                          duration: reduceMotion ? 0 : 0.3,
+                          ease,
+                        }}
+                        className="overflow-hidden"
+                      >
+                        <div
+                          className="
+                            max-w-[680px]
+                            pb-7
+                            pl-[45px]
+                            pr-14
+                            text-[14px]
+                            leading-7
+                            text-[#687A7D]
+                            sm:pl-[56px]
+                            sm:text-[15px]
+                          "
+                        >
+                          {faq.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </motion.div>
         </div>
       </div>
     </section>
