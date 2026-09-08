@@ -27,7 +27,8 @@ export default function Home() {
   consultation={naturalMedicineMock}
 />
 <FinalCTA/>
-      <Footer />
+
+    <Footer variant="light" />
       <WhatsAppButton />
     </main>
   );

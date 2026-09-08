@@ -28,14 +28,7 @@ const formatPrice = (price: number) =>
     maximumFractionDigits: 0,
   }).format(price);
 
-const additionalTechniques = [
-  'Medicina China',
-  'Flores de Bach',
-  'Naturismo',
-  'Desintoxicación orgánica',
-  'Nutrición funcional',
-  'Reflexología podal',
-];
+
 
 export function NaturalMedicinePreview({
   consultation,
@@ -46,6 +39,9 @@ export function NaturalMedicinePreview({
     .filter((technique) => technique.active && technique.featured)
     .sort((a, b) => a.displayOrder - b.displayOrder)
     .slice(0, 4);
+    const additionalTechniques = consultation.techniques
+  .filter((technique) => technique.active && !technique.featured)
+  .sort((a, b) => a.displayOrder - b.displayOrder);
 
   return (
     <section
@@ -600,11 +596,11 @@ export function NaturalMedicinePreview({
                   gap-y-1
                 "
               >
-                {additionalTechniques.map((technique, index) => (
-                  <div
-                    key={technique}
-                    className="flex items-center gap-2"
-                  >
+               {additionalTechniques.map((technique, index) => (
+  <div
+    key={technique.id}
+    className="flex items-center gap-2"
+  >
                     {index > 0 && (
                       <span
                         aria-hidden="true"
@@ -624,7 +620,7 @@ export function NaturalMedicinePreview({
                         text-[#607579]
                       "
                     >
-                      {technique}
+                  {technique.name}
                     </span>
                   </div>
                 ))}
@@ -651,9 +647,7 @@ export function NaturalMedicinePreview({
                   text-[#78888A]
                 "
               >
-                Los servicios de Medicina Natural se ofrecen de manera
-                independiente a la psicoterapia y no sustituyen la valoración,
-                diagnóstico o tratamiento médico.
+                
               </p>
             </div>
           </motion.div>

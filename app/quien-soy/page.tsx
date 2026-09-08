@@ -13,7 +13,7 @@ export default function AboutPage() {
 
       <FinalCTA />
 
-      <Footer />
+   <Footer variant="light" />
 
       <WhatsAppButton />
     </main>

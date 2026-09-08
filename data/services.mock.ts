@@ -3,6 +3,7 @@ import type { Service } from '@/types/service';
 export const mockServices: Service[] = [
   {
     id: 1,
+    tipo: 'psicoterapia',
     slug: 'psicoterapia-infantil',
     nombre: 'Psicoterapia infantil',
     descripcion:
@@ -14,9 +15,9 @@ export const mockServices: Service[] = [
     activo: true,
     orden: 1,
   },
-
   {
     id: 2,
+    tipo: 'psicoterapia',
     slug: 'psicoterapia-adolescentes',
     nombre: 'Psicoterapia para adolescentes',
     descripcion:
@@ -28,9 +29,9 @@ export const mockServices: Service[] = [
     activo: true,
     orden: 2,
   },
-
   {
     id: 3,
+    tipo: 'psicoterapia',
     slug: 'psicoterapia-individual',
     nombre: 'Psicoterapia individual',
     descripcion:
@@ -42,9 +43,9 @@ export const mockServices: Service[] = [
     activo: true,
     orden: 3,
   },
-
   {
     id: 4,
+    tipo: 'psicoterapia',
     slug: 'terapia-de-pareja',
     nombre: 'Terapia de pareja',
     descripcion:

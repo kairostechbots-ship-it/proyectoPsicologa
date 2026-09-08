@@ -34,7 +34,10 @@ export function Hero() {
   };
 
   const item = {
-    hidden: { opacity: 0, y: 14 },
+    hidden: {
+      opacity: 0,
+      y: 14,
+    },
     show: {
       opacity: 1,
       y: 0,
@@ -46,7 +49,10 @@ export function Hero() {
   };
 
   const visual = {
-    hidden: { opacity: 0, y: 18 },
+    hidden: {
+      opacity: 0,
+      y: 18,
+    },
     show: {
       opacity: 1,
       y: 0,
@@ -59,7 +65,10 @@ export function Hero() {
   };
 
   const bottom = {
-    hidden: { opacity: 0, y: 8 },
+    hidden: {
+      opacity: 0,
+      y: 8,
+    },
     show: {
       opacity: 1,
       y: 0,
@@ -76,48 +85,123 @@ export function Hero() {
       id="home"
       aria-labelledby="hero-title"
       className="
-        relative overflow-hidden bg-[#FBFAF7]
-        pb-12 pt-28
-        sm:pb-14 sm:pt-32
-        lg:pb-16 lg:pt-40
+        relative
+        overflow-hidden
+        bg-[#FBFAF7]
+        pb-12
+        pt-28
+
+        sm:pb-14
+        sm:pt-32
+
+        lg:pb-16
+        lg:pt-40
       "
     >
-      {/* Fondo muy sutil */}
+      {/* =====================================================
+          DECORACIÓN GENERAL
+      ====================================================== */}
+
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        {/* Forma salvia grande superior derecha */}
+        <div
+          className="
+            absolute
+            -right-[190px]
+            top-[-120px]
+            h-[390px]
+            w-[390px]
+            rounded-full
+            bg-[#A7B89A]/[0.055]
+
+            sm:h-[480px]
+            sm:w-[480px]
+
+            lg:-right-[150px]
+            lg:top-[-180px]
+            lg:h-[720px]
+            lg:w-[720px]
+          "
+        />
+
+        {/* Círculo inferior izquierdo */}
+        <div
+          className="
+            absolute
+            -bottom-[180px]
+            -left-[190px]
+            h-[340px]
+            w-[340px]
+            rounded-full
+            border
+            border-[#A7B89A]/15
+          "
+        />
+
+        {/* Línea dorada decorativa */}
+        <svg
+          viewBox="0 0 400 400"
+          fill="none"
+          className="
+            absolute
+            -right-20
+            top-8
+            h-[260px]
+            w-[260px]
+            text-[#D4AF37]
+            opacity-[0.18]
+
+            lg:right-8
+            lg:top-12
+            lg:h-[480px]
+            lg:w-[480px]
+          "
+        >
+          <path
+            d="M34 353C89 222 181 103 354 40"
+            stroke="currentColor"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+          />
+        </svg>
+      </div>
+
+      {/* =====================================================
+          CONTENIDO
+      ====================================================== */}
+
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          max-w-7xl
+          px-5
+
+          sm:px-6
+
+          lg:px-8
+        "
       >
         <div
           className="
-            absolute -right-32 top-20
-            h-[420px] w-[420px]
-            rounded-full bg-[#A7B89A]/10 blur-[100px]
-            sm:h-[520px] sm:w-[520px]
-          "
-        />
+            grid
+            items-center
+            gap-14
 
-        <div
-          className="
-            absolute -left-40 bottom-[-12rem]
-            h-[360px] w-[360px]
-            rounded-full bg-[#D4AF37]/[0.04]
-            blur-[100px]
-          "
-        />
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div
-          className="
-            grid items-center gap-14
             lg:grid-cols-[1.05fr_0.95fr]
             lg:gap-14
+
             xl:gap-20
           "
         >
           {/* =====================================================
               COLUMNA IZQUIERDA
           ====================================================== */}
+
           <motion.div
             variants={reduceMotion ? {} : container}
             initial="hidden"
@@ -126,7 +210,7 @@ export function Hero() {
           >
             {/* Eyebrow */}
             <motion.div
-              variants={item}
+              variants={reduceMotion ? {} : item}
               className="mb-6 flex items-center gap-3"
             >
               <span
@@ -136,9 +220,13 @@ export function Hero() {
 
               <p
                 className="
-                  text-[10px] font-semibold uppercase
-                  leading-5 tracking-[0.17em]
+                  text-[10px]
+                  font-semibold
+                  uppercase
+                  leading-5
+                  tracking-[0.17em]
                   text-[#0F3D4A]
+
                   sm:text-[11px]
                 "
               >
@@ -148,7 +236,7 @@ export function Hero() {
 
             {/* Título */}
             <motion.h1
-              variants={item}
+              variants={reduceMotion ? {} : item}
               id="hero-title"
               className="
                 font-serif
@@ -157,7 +245,9 @@ export function Hero() {
                 leading-[1.06]
                 tracking-[-0.035em]
                 text-[#0F3D4A]
+
                 sm:text-[58px]
+
                 xl:text-[70px]
               "
             >
@@ -166,7 +256,7 @@ export function Hero() {
 
               <span className="whitespace-nowrap">
                 y{' '}
-                <span className="relative inline-block italic font-normal">
+                <span className="relative inline-block font-normal italic">
                   profesional
 
                   <svg
@@ -174,8 +264,11 @@ export function Hero() {
                     viewBox="0 0 300 14"
                     preserveAspectRatio="none"
                     className="
-                      absolute -bottom-2 left-0
-                      h-3 w-full
+                      absolute
+                      -bottom-2
+                      left-0
+                      h-3
+                      w-full
                       text-[#D4AF37]/45
                     "
                   >
@@ -187,10 +280,19 @@ export function Hero() {
                       strokeLinecap="round"
                       initial={
                         reduceMotion
-                          ? { pathLength: 1, opacity: 1 }
-                          : { pathLength: 0, opacity: 0 }
+                          ? {
+                              pathLength: 1,
+                              opacity: 1,
+                            }
+                          : {
+                              pathLength: 0,
+                              opacity: 0,
+                            }
                       }
-                      animate={{ pathLength: 1, opacity: 1 }}
+                      animate={{
+                        pathLength: 1,
+                        opacity: 1,
+                      }}
                       transition={{
                         duration: reduceMotion ? 0 : 0.8,
                         delay: reduceMotion ? 0 : 0.5,
@@ -204,11 +306,13 @@ export function Hero() {
 
             {/* Frase de marca */}
             <motion.p
-              variants={item}
+              variants={reduceMotion ? {} : item}
               className="
                 mt-8
-                text-sm font-semibold
-                tracking-wide text-[#52665A]
+                text-sm
+                font-semibold
+                tracking-wide
+                text-[#52665A]
               "
             >
               Salud mental basada en evidencia
@@ -216,12 +320,16 @@ export function Hero() {
 
             {/* Descripción */}
             <motion.p
-              variants={item}
+              variants={reduceMotion ? {} : item}
               className="
-                mt-4 max-w-xl
-                text-base leading-7
+                mt-4
+                max-w-xl
+                text-base
+                leading-7
                 text-[#657175]
-                sm:text-lg sm:leading-8
+
+                sm:text-lg
+                sm:leading-8
               "
             >
               Te acompaño a comprender lo que estás viviendo y a desarrollar
@@ -231,10 +339,15 @@ export function Hero() {
 
             {/* CTAs */}
             <motion.div
-              variants={item}
+              variants={reduceMotion ? {} : item}
               className="
-                mt-8 flex flex-col gap-3
-                sm:flex-row sm:flex-wrap
+                mt-8
+                flex
+                flex-col
+                gap-3
+
+                sm:flex-row
+                sm:flex-wrap
               "
             >
               <a
@@ -243,18 +356,28 @@ export function Hero() {
                 rel="noopener noreferrer"
                 aria-label="Solicitar cita por WhatsApp"
                 className={`
-                  inline-flex min-h-14
-                  items-center justify-center
-                  gap-2.5 rounded-xl
+                  inline-flex
+                  min-h-14
+                  items-center
+                  justify-center
+                  gap-2.5
+                  rounded-xl
                   bg-[#0F3D4A]
-                  px-6 py-3.5
-                  text-sm font-semibold text-white
+                  px-6
+                  py-3.5
+                  text-sm
+                  font-semibold
+                  text-white
                   shadow-[0_8px_20px_rgba(15,61,74,0.12)]
-                  transition-all duration-200
+                  transition-all
+                  duration-200
+
                   hover:-translate-y-0.5
                   hover:bg-[#174F5D]
                   hover:shadow-[0_10px_24px_rgba(15,61,74,0.15)]
+
                   motion-reduce:transform-none
+
                   ${focusStyles}
                 `}
               >
@@ -270,16 +393,26 @@ export function Hero() {
               <Link
                 href="/servicios"
                 className={`
-                  inline-flex min-h-14
-                  items-center justify-center
-                  gap-2 rounded-xl
-                  border border-[#0F3D4A]/15
+                  inline-flex
+                  min-h-14
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-xl
+                  border
+                  border-[#0F3D4A]/15
                   bg-transparent
-                  px-5 py-3.5
-                  text-sm font-semibold text-[#0F3D4A]
-                  transition-colors duration-200
+                  px-5
+                  py-3.5
+                  text-sm
+                  font-semibold
+                  text-[#0F3D4A]
+                  transition-colors
+                  duration-200
+
                   hover:border-[#A7B89A]/60
                   hover:bg-white/70
+
                   ${focusStyles}
                 `}
               >
@@ -294,19 +427,29 @@ export function Hero() {
             </motion.div>
 
             <motion.p
-              variants={item}
-              className="mt-4 text-xs leading-6 text-[#657175]"
+              variants={reduceMotion ? {} : item}
+              className="
+                mt-4
+                text-xs
+                leading-6
+                text-[#657175]
+              "
             >
               Escríbeme para resolver tus dudas y consultar disponibilidad.
             </motion.p>
 
             {/* Confianza */}
             <motion.div
-              variants={item}
+              variants={reduceMotion ? {} : item}
               className="
-                mt-7 flex flex-wrap
-                items-center gap-x-5 gap-y-3
-                text-sm text-[#657175]
+                mt-7
+                flex
+                flex-wrap
+                items-center
+                gap-x-5
+                gap-y-3
+                text-sm
+                text-[#657175]
               "
             >
               <div className="flex items-center gap-2">
@@ -325,7 +468,14 @@ export function Hero() {
 
               <span
                 aria-hidden="true"
-                className="hidden h-4 w-px bg-[#A7B89A]/40 sm:block"
+                className="
+                  hidden
+                  h-4
+                  w-px
+                  bg-[#A7B89A]/40
+
+                  sm:block
+                "
               />
 
               <div className="flex items-center gap-2">
@@ -341,241 +491,208 @@ export function Hero() {
           </motion.div>
 
           {/* =====================================================
-              COLUMNA DERECHA — COMPOSICIÓN EDITORIAL
+              COLUMNA DERECHA — COMPOSICIÓN BOTÁNICA
           ====================================================== */}
-         {/* =====================================================
-    COLUMNA DERECHA — COMPOSICIÓN BOTÁNICA
-====================================================== */}
-<motion.div
-  variants={reduceMotion ? {} : visual}
-  initial="hidden"
-  animate="show"
-className="
-  relative
-  hidden w-full max-w-[590px]
-  lg:block
-  lg:-translate-x-6
-  xl:-translate-x-8
-"
->
-  <div className="relative aspect-[1/0.92]">
-    {/* Forma orgánica principal */}
-    <div
-      aria-hidden="true"
-      className="
-        absolute
-        left-[12%] top-[4%]
-        h-[88%] w-[72%]
-        rotate-[3deg]
-        rounded-[48%_52%_45%_55%/42%_38%_62%_58%]
-        border border-[#A7B89A]/20
-        bg-[#A7B89A]/[0.09]
-      "
-    />
 
-    {/* Segunda forma muy tenue para dar profundidad */}
-    <div
-      aria-hidden="true"
-      className="
-        absolute
-        right-[7%] top-[22%]
-        h-[48%] w-[44%]
-        rounded-full
-        bg-[#F2F1EC]/70
-        blur-[1px]
-      "
-    />
+          <motion.div
+            variants={reduceMotion ? {} : visual}
+            initial="hidden"
+            animate="show"
+            className="
+              relative
+              hidden
+              w-full
+              max-w-[590px]
 
-    {/* Arco dorado exterior */}
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 560 500"
-      fill="none"
-      className="absolute inset-0 h-full w-full"
-    >
-      <path
-        d="
-          M108 445
-          C174 373 218 300 245 223
-          C268 157 282 101 301 46
-        "
-        stroke="#D4AF37"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        opacity="0.65"
-      />
-    </svg>
+              lg:block
+              lg:-translate-x-4
 
-    {/* Rama botánica */}
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 560 500"
-      fill="none"
-      className="
-        absolute
-        left-[3%] top-[-1%]
-        h-[104%] w-[104%]
-      "
-    >
-      {/* Tallo principal */}
-      <path
-        d="
-          M123 449
-          C170 394 203 338 230 278
-          C257 218 276 151 286 73
-        "
-        stroke="#718371"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        opacity="0.82"
-      />
+              xl:-translate-x-6
+            "
+          >
+            <div className="relative aspect-[1/0.92]">
+              {/* Semicírculo / forma exterior derecha */}
+              <div
+                aria-hidden="true"
+                className="
+                  absolute
+                  left-[48%]
+                  top-[-22%]
+                  h-[125%]
+                  w-[125%]
+                  rounded-full
+                  bg-[#A7B89A]/[0.055]
+                "
+              />
 
-      {/* Hoja inferior izquierda */}
-      <path
-        d="
-          M171 369
-          C116 369 76 340 61 297
-          C112 294 158 321 171 369Z
-        "
-        fill="#A7B89A"
-        fillOpacity="0.62"
-      />
+              {/* Forma orgánica salvia */}
+              <div
+                aria-hidden="true"
+                className="
+                  absolute
+                  left-1/2
+                  top-1/2
+                  h-[78%]
+                  w-[68%]
+                  -translate-x-1/2
+                  -translate-y-1/2
+                  rotate-[6deg]
+                  rounded-[43%_57%_46%_54%/57%_44%_56%_43%]
+                  bg-[#A7B89A]/[0.13]
+                "
+              />
 
-      <path
-        d="M166 364C136 338 104 317 69 304"
-        stroke="#718371"
-        strokeWidth="1"
-        opacity="0.6"
-      />
+              {/* Segunda forma tenue */}
+              <div
+                aria-hidden="true"
+                className="
+                  absolute
+                  left-[24%]
+                  top-[18%]
+                  h-[62%]
+                  w-[58%]
+                  rotate-[-7deg]
+                  rounded-[55%_45%_52%_48%/45%_57%_43%_55%]
+                  border
+                  border-[#A7B89A]/15
+                "
+              />
 
-      {/* Hoja inferior derecha */}
-      <path
-        d="
-          M204 319
-          C258 322 301 296 320 253
-          C267 247 220 273 204 319Z
-        "
-        fill="#708271"
-        fillOpacity="0.56"
-      />
+              {/* Arco dorado */}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 400 500"
+                fill="none"
+                className="
+                  absolute
+                  left-1/2
+                  top-1/2
+                  h-[88%]
+                  w-[74%]
+                  -translate-x-1/2
+                  -translate-y-1/2
+                  text-[#D4AF37]
+                  opacity-[0.45]
+                "
+              >
+                <path
+                  d="M65 445C90 320 138 198 322 55"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
+              </svg>
 
-      <path
-        d="M211 313C243 289 278 270 310 259"
-        stroke="#5D7162"
-        strokeWidth="1"
-        opacity="0.6"
-      />
+              {/* Rama lineal */}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 180 360"
+                fill="none"
+                className="
+                  absolute
+                  left-1/2
+                  top-1/2
+                  h-auto
+                  w-[42%]
+                  -translate-x-1/2
+                  -translate-y-1/2
+                  rotate-[-8deg]
+                  text-[#71856D]
+                  opacity-[0.72]
+                "
+              >
+                <g
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M51 344C72 299 94 254 103 202C113 151 115 96 110 28" />
 
-      {/* Hoja media izquierda */}
-      <path
-        d="
-          M238 258
-          C188 247 158 214 152 173
-          C199 177 233 210 238 258Z
-        "
-        fill="#A7B89A"
-        fillOpacity="0.7"
-      />
+                  <path d="M111 80C91 65 91 40 110 18C121 39 122 61 111 80Z" />
 
-      <path
-        d="M232 251C206 222 184 201 159 182"
-        stroke="#718371"
-        strokeWidth="1"
-        opacity="0.6"
-      />
+                  <path d="M113 125C132 111 148 87 144 64C124 75 111 101 113 125Z" />
 
-      {/* Hoja media derecha */}
-      <path
-        d="
-          M261 200
-          C307 194 341 163 352 123
-          C307 122 269 154 261 200Z
-        "
-        fill="#728673"
-        fillOpacity="0.62"
-      />
+                  <path d="M110 151C87 140 66 120 65 96C89 103 107 126 110 151Z" />
 
-      <path
-        d="M268 194C296 168 320 148 344 131"
-        stroke="#607461"
-        strokeWidth="1"
-        opacity="0.65"
-      />
+                  <path d="M103 197C126 190 150 170 153 147C127 153 110 172 103 197Z" />
 
-      {/* Hoja superior izquierda */}
-      <path
-        d="
-          M283 138
-          C244 119 226 84 234 52
-          C273 67 294 102 283 138Z
-        "
-        fill="#A7B89A"
-        fillOpacity="0.6"
-      />
+                  <path d="M96 222C72 211 52 193 48 168C73 174 91 198 96 222Z" />
 
-      <path
-        d="M279 131C263 103 249 80 239 60"
-        stroke="#718371"
-        strokeWidth="1"
-        opacity="0.6"
-      />
+                  <path d="M81 267C105 264 131 249 137 226C111 228 91 245 81 267Z" />
+                </g>
+              </svg>
 
-      {/* Hoja superior derecha pequeña */}
-      <path
-        d="
-          M287 105
-          C316 95 337 73 341 48
-          C311 52 290 76 287 105Z
-        "
-        fill="#708271"
-        fillOpacity="0.46"
-      />
-    </svg>
+              {/* Círculo dorado */}
+              <div
+                aria-hidden="true"
+                className="
+                  absolute
+                  right-[15%]
+                  top-[17%]
+                  h-[88px]
+                  w-[88px]
+                  rounded-full
+                  border
+                  border-[#D4AF37]/25
+                "
+              >
+                <span
+                  className="
+                    absolute
+                    left-1/2
+                    top-1/2
+                    h-2
+                    w-2
+                    -translate-x-1/2
+                    -translate-y-1/2
+                    rounded-full
+                    bg-[#D4AF37]/65
+                  "
+                />
+              </div>
 
-    {/* Círculo dorado */}
-    <div
-      aria-hidden="true"
-      className="
-        absolute
-        right-[12%] top-[19%]
-        h-24 w-24
-        rounded-full
-        border border-[#D4AF37]/25
-      "
-    >
-      <span
-        className="
-          absolute
-          left-1/2 top-1/2
-          h-2 w-2
-          -translate-x-1/2 -translate-y-1/2
-          rounded-full
-          bg-[#D4AF37]/70
-        "
-      />
-    </div>
-
-    {/* Línea decorativa pequeña */}
-   
-  </div>
-</motion.div>
+              {/* Punto dorado inferior */}
+              <span
+                aria-hidden="true"
+                className="
+                  absolute
+                  bottom-[18%]
+                  left-[19%]
+                  h-1.5
+                  w-1.5
+                  rounded-full
+                  bg-[#D4AF37]/55
+                "
+              />
+            </div>
+          </motion.div>
         </div>
 
         {/* =====================================================
             HORARIO
         ====================================================== */}
+
         <motion.div
           variants={reduceMotion ? {} : bottom}
           initial="hidden"
           animate="show"
           className="
             mt-11
-            flex flex-col gap-3
-            border-t border-[#A7B89A]/25
+            flex
+            flex-col
+            gap-3
+            border-t
+            border-[#A7B89A]/25
             pt-5
-            text-sm leading-6 text-[#657175]
-            sm:flex-row sm:items-center
+            text-sm
+            leading-6
+            text-[#657175]
+
+            sm:flex-row
+            sm:items-center
             sm:gap-5
+
             lg:mt-14
           "
         >
@@ -583,8 +700,11 @@ className="
             <Clock3
               aria-hidden="true"
               className="
-                mt-1 h-4 w-4
-                shrink-0 text-[#52665A]
+                mt-1
+                h-4
+                w-4
+                shrink-0
+                text-[#52665A]
               "
               strokeWidth={1.7}
             />
@@ -594,17 +714,18 @@ className="
                 Lunes a viernes
               </span>{' '}
               de 4:00 pm a 9:00 pm.
-              <span className="ml-2">
-                Atención con cita previa.
-              </span>
+              <span className="ml-2">Atención con cita previa.</span>
             </p>
           </div>
 
           <span
             aria-hidden="true"
             className="
-              hidden h-4 w-px
+              hidden
+              h-4
+              w-px
               bg-[#A7B89A]/35
+
               sm:block
             "
           />
@@ -621,10 +742,14 @@ className="
         </motion.div>
       </div>
 
+      {/* Línea inferior */}
       <div
         aria-hidden="true"
         className="
-          absolute inset-x-0 bottom-0 h-px
+          absolute
+          inset-x-0
+          bottom-0
+          h-px
           bg-gradient-to-r
           from-transparent
           via-[#A7B89A]/25

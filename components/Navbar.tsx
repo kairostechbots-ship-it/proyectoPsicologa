@@ -23,9 +23,10 @@ const links = [
   { name: 'Inicio', href: '/' },
   { name: 'Sobre mí', href: '/quien-soy' },
   { name: 'Psicoterapia', href: '/servicios' },
-  { name: 'Medicina Natural', href: '/bienestar-natural' },
+  { name: 'Medicina Natural', href: '/medicina-natural' },
   { name: 'Preguntas frecuentes', href: '/faq' },
   { name: 'Contacto', href: '/contacto' },
+
 ];
 
 const focusStyles =

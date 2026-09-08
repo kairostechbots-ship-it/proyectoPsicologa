@@ -4,17 +4,24 @@ import {
   MapPin,
   MessageCircle,
   Monitor,
-  Phone,
+  Navigation,
   Users,
 } from 'lucide-react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 
-const phoneNumber = '+523311383410';
+interface FooterProps {
+  variant?: 'light' | 'dark';
+}
 
-const whatsappUrl = `https://wa.me/523311383410?text=${encodeURIComponent(
+const whatsappNumber = '523311393410';
+
+const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
   'Hola, me gustaría recibir información para solicitar una cita.'
 )}`;
+
+const mapsUrl = 'https://maps.app.goo.gl/pWGLETvUZ9ChCHft8';
 
 const footerLinks = [
   {
@@ -58,16 +65,50 @@ const modalities = [
   },
 ];
 
-export function Footer() {
+export function Footer({
+  variant = 'dark',
+}: FooterProps) {
+  const isDark = variant === 'dark';
+
+  const footerBackground = isDark
+    ? 'bg-[#0F3D4A] text-white'
+    : 'bg-[#F7F5EF] text-[#66787C] border-t border-[#A7B89A]/20';
+
+  const headingColor = isDark
+    ? 'text-[#D8BD66]'
+    : 'text-[#9B7A1F]';
+
+  const bodyColor = isDark
+    ? 'text-white/60'
+    : 'text-[#66787C]';
+
+  const secondaryColor = isDark
+    ? 'text-white/35'
+    : 'text-[#82918B]';
+
+  const strongColor = isDark
+    ? 'text-white/85'
+    : 'text-[#435D61]';
+
+  const borderColor = isDark
+    ? 'border-white/10'
+    : 'border-[#A7B89A]/25';
+
+  const iconCircle = isDark
+    ? 'border-white/10 bg-white/[0.04] text-[#A7B89A]'
+    : 'border-[#A7B89A]/20 bg-[#A7B89A]/[0.10] text-[#597060]';
+
+  const hoverColor = isDark
+    ? 'hover:text-white'
+    : 'hover:text-[#0F4A55]';
+
   return (
     <footer
-      className="
+      className={`
         relative
         overflow-hidden
-        border-t
-        border-[#A7B89A]/20
-        bg-[#F7F5EF]
-      "
+        ${footerBackground}
+      `}
     >
       {/* =====================================================
           DECORACIÓN
@@ -82,35 +123,86 @@ export function Footer() {
           overflow-hidden
         "
       >
-        {/* Semicírculo inferior izquierdo */}
+        {/* Círculo inferior izquierdo */}
         <div
-          className="
+          className={`
             absolute
-            -bottom-[330px]
-            -left-[280px]
-            h-[600px]
-            w-[600px]
+            -bottom-[280px]
+            -left-[230px]
+            h-[500px]
+            w-[500px]
             rounded-full
             border
-            border-[#A7B89A]/10
-            bg-[#A7B89A]/[0.025]
-          "
+
+            ${
+              isDark
+                ? 'border-white/[0.04]'
+                : 'border-[#A7B89A]/10'
+            }
+          `}
+        />
+
+        {/* Círculo superior derecho */}
+        <div
+          className={`
+            absolute
+            -right-[170px]
+            -top-[220px]
+            h-[380px]
+            w-[380px]
+            rounded-full
+            border
+
+            ${
+              isDark
+                ? 'border-[#D4AF37]/[0.06]'
+                : 'border-[#D4AF37]/[0.08]'
+            }
+          `}
+        />
+
+        {/* Punto dorado */}
+        <span
+          className={`
+            absolute
+            right-[12%]
+            top-[28%]
+            h-1.5
+            w-1.5
+            rounded-full
+
+            ${
+              isDark
+                ? 'bg-[#D4AF37]/35'
+                : 'bg-[#D4AF37]/45'
+            }
+          `}
         />
 
         {/* Ramita decorativa */}
         <svg
           viewBox="0 0 180 360"
           fill="none"
-          className="
+          className={`
             absolute
-            -bottom-36
-            -left-14
+            -bottom-28
+            -left-10
             h-auto
-            w-[390px]
-            rotate-[18deg]
-            text-[#819275]
-            opacity-[0.045]
-          "
+            w-[260px]
+            rotate-[16deg]
+
+            sm:w-[320px]
+
+            lg:-bottom-36
+            lg:-left-8
+            lg:w-[390px]
+
+            ${
+              isDark
+                ? 'text-[#A7B89A] opacity-[0.07]'
+                : 'text-[#71856D] opacity-[0.08]'
+            }
+          `}
         >
           <g
             stroke="currentColor"
@@ -133,20 +225,6 @@ export function Footer() {
             <path d="M81 267C105 264 131 249 137 226C111 228 91 245 81 267Z" />
           </g>
         </svg>
-
-        {/* Círculo superior derecho */}
-        <div
-          className="
-            absolute
-            -right-[180px]
-            -top-[240px]
-            h-[420px]
-            w-[420px]
-            rounded-full
-            border
-            border-[#D4AF37]/[0.07]
-          "
-        />
       </div>
 
       {/* =====================================================
@@ -161,13 +239,13 @@ export function Footer() {
           max-w-[1240px]
           px-5
           pb-10
-          pt-16
+          pt-14
 
           sm:px-6
 
           lg:px-8
           lg:pb-10
-          lg:pt-20
+          lg:pt-16
         "
       >
         <div
@@ -189,36 +267,49 @@ export function Footer() {
             <Link
               href="/"
               aria-label="Ir a la página de inicio"
-              className="inline-flex"
+              className={`
+                inline-flex
+
+                ${
+                  isDark
+                    ? 'rounded-[16px] bg-white px-4 py-3'
+                    : ''
+                }
+              `}
             >
               <Image
                 src="/logo.png"
                 alt="Erika Pilar - Psicóloga Clínica"
                 width={260}
                 height={90}
-                className="
-                  h-[68px]
+                className={`
                   w-auto
                   object-contain
-                "
+
+                  ${
+                    isDark
+                      ? 'h-[60px]'
+                      : 'h-[68px]'
+                  }
+                `}
               />
             </Link>
 
             <p
-              className="
+              className={`
                 mt-6
                 max-w-[360px]
                 text-[13px]
                 leading-7
-                text-[#66787C]
-              "
+
+                ${bodyColor}
+              `}
             >
               Atención psicológica profesional desde un enfoque
               cognitivo-conductual, en un espacio confidencial, humano y libre
               de juicios.
             </p>
 
-            {/* Frase de marca */}
             <div
               className="
                 mt-7
@@ -239,14 +330,19 @@ export function Footer() {
               />
 
               <p
-                className="
+                className={`
                   max-w-[300px]
                   font-serif
                   text-[16px]
                   italic
                   leading-6
-                  text-[#0F4A55]
-                "
+
+                  ${
+                    isDark
+                      ? 'text-white/90'
+                      : 'text-[#0F4A55]'
+                  }
+                `}
               >
                 Salud mental basada en evidencia. Atención humana y
                 profesional.
@@ -255,18 +351,19 @@ export function Footer() {
           </div>
 
           {/* =================================================
-              NAVEGACIÓN
+              EXPLORAR
           ================================================== */}
 
           <div>
             <p
-              className="
+              className={`
                 text-[10px]
                 font-semibold
                 uppercase
                 tracking-[0.22em]
-                text-[#9B7A1F]
-              "
+
+                ${headingColor}
+              `}
             >
               Explorar
             </p>
@@ -280,14 +377,15 @@ export function Footer() {
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className="
+                      className={`
                         inline-flex
                         text-[13px]
-                        text-[#66787C]
                         transition-colors
                         duration-300
-                        hover:text-[#0F4A55]
-                      "
+
+                        ${bodyColor}
+                        ${hoverColor}
+                      `}
                     >
                       {link.name}
                     </Link>
@@ -298,18 +396,19 @@ export function Footer() {
           </div>
 
           {/* =================================================
-              MODALIDADES
+              ATENCIÓN
           ================================================== */}
 
           <div>
             <p
-              className="
+              className={`
                 text-[10px]
                 font-semibold
                 uppercase
                 tracking-[0.22em]
-                text-[#9B7A1F]
-              "
+
+                ${headingColor}
+              `}
             >
               Atención
             </p>
@@ -318,16 +417,17 @@ export function Footer() {
               {modalities.map(({ name, icon: Icon }) => (
                 <li
                   key={name}
-                  className="
+                  className={`
                     flex
                     items-center
                     gap-3
                     text-[13px]
-                    text-[#66787C]
-                  "
+
+                    ${bodyColor}
+                  `}
                 >
                   <span
-                    className="
+                    className={`
                       flex
                       h-8
                       w-8
@@ -336,10 +436,9 @@ export function Footer() {
                       justify-center
                       rounded-full
                       border
-                      border-[#A7B89A]/20
-                      bg-[#A7B89A]/[0.10]
-                      text-[#597060]
-                    "
+
+                      ${iconCircle}
+                    `}
                   >
                     <Icon
                       aria-hidden="true"
@@ -360,28 +459,30 @@ export function Footer() {
 
           <div>
             <p
-              className="
+              className={`
                 text-[10px]
                 font-semibold
                 uppercase
                 tracking-[0.22em]
-                text-[#9B7A1F]
-              "
+
+                ${headingColor}
+              `}
             >
               Contacto
             </p>
 
             <p
-              className="
+              className={`
                 mt-6
                 max-w-[290px]
                 text-[13px]
                 leading-6
-                text-[#66787C]
-              "
+
+                ${bodyColor}
+              `}
             >
               Para solicitar información o conocer disponibilidad, puedes
-              comunicarte directamente.
+              comunicarte directamente por WhatsApp.
             </p>
 
             <div className="mt-5 space-y-3">
@@ -391,15 +492,16 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Enviar mensaje por WhatsApp"
-                className="
+                className={`
                   group
                   flex
                   items-center
                   gap-3
                   border-b
-                  border-[#A7B89A]/25
                   pb-4
-                "
+
+                  ${borderColor}
+                `}
               >
                 <MessageCircle
                   aria-hidden="true"
@@ -407,139 +509,82 @@ export function Footer() {
                     h-[18px]
                     w-[18px]
                     shrink-0
-                    text-[#9B7A1F]
+                    text-[#D4AF37]
                   "
                   strokeWidth={1.5}
                 />
 
                 <span>
                   <span
-                    className="
+                    className={`
                       block
                       text-[9px]
                       uppercase
                       tracking-[0.14em]
-                      text-[#82918B]
-                    "
+
+                      ${secondaryColor}
+                    `}
                   >
                     WhatsApp
                   </span>
 
                   <span
-                    className="
+                    className={`
                       mt-1
                       block
                       text-[13px]
                       font-medium
-                      text-[#435D61]
                       transition-colors
                       duration-300
-                      group-hover:text-[#0F4A55]
-                    "
+
+                      ${strongColor}
+                      ${hoverColor}
+                    `}
                   >
-                    33 1138 3410
+                    33 1139 3410
                   </span>
                 </span>
 
                 <ArrowUpRight
                   aria-hidden="true"
-                  className="
+                  className={`
                     ml-auto
                     h-4
                     w-4
-                    text-[#A7B89A]
                     transition-all
                     duration-300
 
-                    group-hover:-translate-y-0.5
-                    group-hover:translate-x-0.5
-                    group-hover:text-[#9B7A1F]
-                  "
-                  strokeWidth={1.5}
-                />
-              </a>
-
-              {/* Teléfono */}
-              <a
-                href={`tel:${phoneNumber}`}
-                aria-label="Llamar al teléfono 33 1138 3410"
-                className="
-                  group
-                  flex
-                  items-center
-                  gap-3
-                  border-b
-                  border-[#A7B89A]/25
-                  pb-4
-                  pt-1
-                "
-              >
-                <Phone
-                  aria-hidden="true"
-                  className="
-                    h-[18px]
-                    w-[18px]
-                    shrink-0
-                    text-[#9B7A1F]
-                  "
-                  strokeWidth={1.5}
-                />
-
-                <span>
-                  <span
-                    className="
-                      block
-                      text-[9px]
-                      uppercase
-                      tracking-[0.14em]
-                      text-[#82918B]
-                    "
-                  >
-                    Teléfono
-                  </span>
-
-                  <span
-                    className="
-                      mt-1
-                      block
-                      text-[13px]
-                      font-medium
-                      text-[#435D61]
-                      transition-colors
-                      duration-300
-                      group-hover:text-[#0F4A55]
-                    "
-                  >
-                    33 1138 3410
-                  </span>
-                </span>
-
-                <ArrowUpRight
-                  aria-hidden="true"
-                  className="
-                    ml-auto
-                    h-4
-                    w-4
-                    text-[#A7B89A]
-                    transition-all
-                    duration-300
+                    ${
+                      isDark
+                        ? 'text-white/25'
+                        : 'text-[#A7B89A]'
+                    }
 
                     group-hover:-translate-y-0.5
                     group-hover:translate-x-0.5
-                    group-hover:text-[#9B7A1F]
-                  "
+                    group-hover:text-[#D4AF37]
+                  `}
                   strokeWidth={1.5}
                 />
               </a>
 
               {/* Ubicación */}
-              <div
-                className="
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Ver ubicación del consultorio en Google Maps"
+                className={`
+                  group
                   flex
                   items-start
                   gap-3
+                  border-b
+                  pb-4
                   pt-1
-                "
+
+                  ${borderColor}
+                `}
               >
                 <MapPin
                   aria-hidden="true"
@@ -548,22 +593,98 @@ export function Footer() {
                     h-[18px]
                     w-[18px]
                     shrink-0
-                    text-[#9B7A1F]
+                    text-[#D4AF37]
                   "
                   strokeWidth={1.5}
                 />
 
-                <span
-                  className="
-                    max-w-[230px]
-                    text-[12px]
-                    leading-5
-                    text-[#718083]
-                  "
-                >
-                  Jacarandas 26-52, Prados de la Higuera, Tlajomulco Centro.
+                <span className="min-w-0 flex-1">
+                  <span
+                    className={`
+                      block
+                      text-[9px]
+                      uppercase
+                      tracking-[0.14em]
+
+                      ${secondaryColor}
+                    `}
+                  >
+                    Consultorio
+                  </span>
+
+                  <span
+                    className={`
+                      mt-1
+                      block
+                      max-w-[230px]
+                      text-[12px]
+                      leading-5
+                      transition-colors
+                      duration-300
+
+                      ${
+                        isDark
+                          ? 'text-white/55 group-hover:text-white/85'
+                          : 'text-[#718083] group-hover:text-[#0F4A55]'
+                      }
+                    `}
+                  >
+                    C. Jacarandá 26, Prados de la Higuera, 45640 Tlajomulco de
+                    Zúñiga, Jalisco.
+                  </span>
                 </span>
-              </div>
+
+                <ArrowUpRight
+                  aria-hidden="true"
+                  className={`
+                    ml-auto
+                    mt-1
+                    h-4
+                    w-4
+                    shrink-0
+                    transition-all
+                    duration-300
+
+                    ${
+                      isDark
+                        ? 'text-white/25'
+                        : 'text-[#A7B89A]'
+                    }
+
+                    group-hover:-translate-y-0.5
+                    group-hover:translate-x-0.5
+                    group-hover:text-[#D4AF37]
+                  `}
+                  strokeWidth={1.5}
+                />
+              </a>
+
+              {/* Cómo llegar */}
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`
+                  inline-flex
+                  items-center
+                  gap-2
+                  pt-1
+                  text-[12px]
+                  font-semibold
+                  transition-colors
+
+                  ${bodyColor}
+                  ${hoverColor}
+                `}
+              >
+                <Navigation
+                  aria-hidden="true"
+                  className="h-4 w-4 text-[#D4AF37]"
+                  strokeWidth={1.5}
+                />
+
+                Cómo llegar
+              </a>
             </div>
           </div>
         </div>
@@ -574,16 +695,20 @@ export function Footer() {
       ====================================================== */}
 
       <div
-        className="
+        className={`
           relative
           z-10
           border-t
-          border-[#A7B89A]/20
-          bg-white/20
-        "
+
+          ${
+            isDark
+              ? 'border-white/[0.08] bg-black/[0.035]'
+              : 'border-[#A7B89A]/20 bg-white/20'
+          }
+        `}
       >
         <div
-          className="
+          className={`
             mx-auto
             flex
             max-w-[1240px]
@@ -595,7 +720,12 @@ export function Footer() {
             py-5
             text-center
             text-[10px]
-            text-[#82918B]
+
+            ${
+              isDark
+                ? 'text-white/35'
+                : 'text-[#82918B]'
+            }
 
             sm:px-6
 
@@ -603,7 +733,7 @@ export function Footer() {
             md:text-left
 
             lg:px-8
-          "
+          `}
         >
           <p>
             © {new Date().getFullYear()} Erika Pilar. Todos los derechos
@@ -622,22 +752,32 @@ export function Footer() {
           >
             <Link
               href="/privacidad"
-              className="
+              className={`
                 transition-colors
                 duration-300
-                hover:text-[#0F4A55]
-              "
+
+                ${
+                  isDark
+                    ? 'hover:text-white/75'
+                    : 'hover:text-[#0F4A55]'
+                }
+              `}
             >
               Aviso de privacidad
             </Link>
 
             <Link
               href="/terminos"
-              className="
+              className={`
                 transition-colors
                 duration-300
-                hover:text-[#0F4A55]
-              "
+
+                ${
+                  isDark
+                    ? 'hover:text-white/75'
+                    : 'hover:text-[#0F4A55]'
+                }
+              `}
             >
               Términos y condiciones
             </Link>
