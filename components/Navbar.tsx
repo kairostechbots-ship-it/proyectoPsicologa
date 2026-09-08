@@ -400,7 +400,7 @@ export function Navbar() {
                       strokeWidth={1.8}
                     />
 
-                    Agendar cita
+                   Solicitar cita
                   </a>
 
                   <div className="mt-4 text-center">
