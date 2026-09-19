@@ -21,8 +21,19 @@ export const naturalMedicineMock: NaturalMedicineConsultation = {
       id: 1,
       slug: 'biomagnetismo',
       name: 'Biomagnetismo',
+
       shortDescription:
-        'Aplicación complementaria mediante el uso de imanes.',
+        'Técnica complementaria basada en la aplicación de imanes en puntos específicos del cuerpo.',
+
+      description:
+        'Dentro de la Medicina Natural, el biomagnetismo utiliza la aplicación de imanes en zonas específicas como una práctica complementaria orientada al bienestar y la relajación.',
+
+      benefits: [
+        'Relajación y disminución de la tensión cotidiana.',
+        'Bienestar ante molestias musculares y articulares.',
+        'Aplicación localizada en diferentes zonas del cuerpo.',
+      ],
+
       featured: true,
       active: true,
       displayOrder: 1,
@@ -32,8 +43,19 @@ export const naturalMedicineMock: NaturalMedicineConsultation = {
       id: 2,
       slug: 'acupuntura',
       name: 'Acupuntura',
+
       shortDescription:
-        'Técnica basada en la estimulación de puntos específicos.',
+        'Técnica de la Medicina Tradicional China basada en la estimulación de puntos específicos del cuerpo.',
+
+      description:
+        'La acupuntura es una técnica perteneciente a la Medicina Tradicional China que consiste en estimular puntos específicos del cuerpo mediante agujas.',
+
+      benefits: [
+        'Manejo complementario de algunas molestias y dolor.',
+        'Relajación y manejo del estrés.',
+        'Apoyo al bienestar general.',
+      ],
+
       featured: true,
       active: true,
       displayOrder: 2,
@@ -43,8 +65,19 @@ export const naturalMedicineMock: NaturalMedicineConsultation = {
       id: 3,
       slug: 'fitoterapia',
       name: 'Fitoterapia',
+
       shortDescription:
-        'Uso de fórmulas elaboradas a partir de plantas medicinales.',
+        'Uso de preparados elaborados a partir de plantas dentro de la práctica de Medicina Natural.',
+
+      description:
+        'La fitoterapia utiliza plantas y preparados de origen vegetal dentro de la práctica de Medicina Natural. En consulta pueden emplearse presentaciones en microdosis.',
+
+      benefits: [
+        'Uso de preparados de origen vegetal.',
+        'Presentaciones en microdosis.',
+        'Atención seleccionada de acuerdo con las características de cada persona.',
+      ],
+
       featured: true,
       active: true,
       displayOrder: 3,
@@ -52,21 +85,43 @@ export const naturalMedicineMock: NaturalMedicineConsultation = {
 
     {
       id: 4,
-      slug: 'auriculoterapia',
-      name: 'Auriculoterapia',
+      slug: 'flores-de-bach',
+      name: 'Flores de Bach',
+
       shortDescription:
-        'Estimulación de puntos específicos del pabellón auricular.',
-      featured: true,
+        'Preparados florales utilizados como práctica complementaria orientada al bienestar emocional.',
+
+      description:
+        'Las Flores de Bach son preparados florales utilizados dentro de algunas prácticas complementarias orientadas al bienestar emocional.',
+
+      benefits: [
+        'Acompañamiento del bienestar emocional.',
+        'Orientadas al manejo cotidiano del estrés y la tensión.',
+        'Uso como práctica complementaria.',
+      ],
+
+      featured: false,
       active: true,
       displayOrder: 4,
     },
 
     {
       id: 5,
-      slug: 'medicina-china',
-      name: 'Medicina China',
+      slug: 'naturismo',
+      name: 'Naturismo',
+
       shortDescription:
-        'Técnicas y principios correspondientes a la Medicina Tradicional China.',
+        'Enfoque de bienestar que integra hábitos de vida y el aprovechamiento responsable de elementos naturales.',
+
+      description:
+        'El naturismo busca favorecer el bienestar integral mediante hábitos de vida y el aprovechamiento de elementos naturales como la alimentación, el agua, el aire, las plantas y la exposición responsable al sol.',
+
+      benefits: [
+        'Promoción de hábitos de vida saludables.',
+        'Alimentación como parte del bienestar integral.',
+        'Incorporación responsable de elementos naturales.',
+      ],
+
       featured: false,
       active: true,
       displayOrder: 5,
@@ -74,10 +129,22 @@ export const naturalMedicineMock: NaturalMedicineConsultation = {
 
     {
       id: 6,
-      slug: 'flores-de-bach',
-      name: 'Flores de Bach',
+      slug: 'desintoxicacion-organica',
+      name: 'Desintoxicación orgánica',
+
       shortDescription:
-        'Terapia floral incluida dentro de los servicios de Medicina Natural.',
+        'Enfoque naturista centrado en revisar hábitos de alimentación y estilo de vida.',
+
+      description:
+        'Dentro del enfoque naturista, esta práctica se centra en revisar hábitos cotidianos de alimentación y estilo de vida, buscando reducir el consumo de productos altamente procesados y favorecer hábitos de bienestar.',
+
+      benefits: [
+        'Revisión de hábitos de alimentación.',
+        'Reducción del consumo de alimentos ultraprocesados.',
+        'Incorporación de preparaciones naturales.',
+        'Ajustes de hábitos relacionados con el bienestar.',
+      ],
+
       featured: false,
       active: true,
       displayOrder: 6,
@@ -85,10 +152,21 @@ export const naturalMedicineMock: NaturalMedicineConsultation = {
 
     {
       id: 7,
-      slug: 'naturismo',
-      name: 'Naturismo',
+      slug: 'nutricion-funcional',
+      name: 'Nutrición funcional',
+
       shortDescription:
-        'Servicio complementario dentro del área de Medicina Natural.',
+        'Enfoque que considera alimentación, hábitos y estilo de vida como parte del bienestar integral.',
+
+      description:
+        'La nutrición funcional considera los hábitos de alimentación, el estilo de vida y las características individuales con el propósito de favorecer el bienestar general.',
+
+      benefits: [
+        'Revisión de hábitos alimenticios.',
+        'Consideración del estilo de vida.',
+        'Orientación individual de acuerdo con las necesidades de la persona.',
+      ],
+
       featured: false,
       active: true,
       displayOrder: 7,
@@ -96,35 +174,46 @@ export const naturalMedicineMock: NaturalMedicineConsultation = {
 
     {
       id: 8,
-      slug: 'desintoxicacion-organica',
-      name: 'Desintoxicación orgánica',
+      slug: 'auriculoterapia',
+      name: 'Auriculoterapia',
+
       shortDescription:
-        'Servicio ofrecido como parte de la atención en Medicina Natural.',
-      featured: false,
+        'Técnica complementaria basada en la estimulación de puntos específicos de la oreja.',
+
+      description:
+        'La auriculoterapia consiste en la estimulación de puntos específicos del pabellón auricular y se utiliza dentro de la Medicina Natural como una práctica complementaria orientada al bienestar.',
+
+      benefits: [
+        'Relajación y manejo del estrés.',
+        'Bienestar ante algunas molestias.',
+        'Estimulación de puntos específicos del pabellón auricular.',
+      ],
+
+      featured: true,
       active: true,
       displayOrder: 8,
     },
 
     {
       id: 9,
-      slug: 'nutricion-funcional',
-      name: 'Nutrición funcional',
+      slug: 'reflexologia-podal',
+      name: 'Reflexología podal',
+
       shortDescription:
-        'Orientación dentro del enfoque de bienestar y Medicina Natural.',
+        'Técnica complementaria basada en la aplicación de presión en puntos específicos de los pies.',
+
+      description:
+        'La reflexología podal utiliza presión y estimulación en diferentes puntos de los pies como una práctica complementaria orientada principalmente a la relajación y el bienestar.',
+
+      benefits: [
+        'Relajación y disminución de la tensión.',
+        'Estimulación mediante presión en puntos específicos de los pies.',
+        'Sensación general de bienestar.',
+      ],
+
       featured: false,
       active: true,
       displayOrder: 9,
-    },
-
-    {
-      id: 10,
-      slug: 'reflexologia-podal',
-      name: 'Reflexología podal',
-      shortDescription:
-        'Técnica aplicada en puntos específicos de los pies.',
-      featured: false,
-      active: true,
-      displayOrder: 10,
     },
   ],
 };
