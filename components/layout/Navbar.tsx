@@ -1,4 +1,5 @@
 'use client';
+import { useSiteData } from '@/components/SiteDataProvider';
 
 import { useEffect, useRef, useState } from 'react';
 import { Menu, MessageCircle, X } from 'lucide-react';
@@ -11,13 +12,11 @@ import {
   useReducedMotion,
 } from 'motion/react';
 
-import { contactMock } from '@/data/contact.mock';
+
 
 const LOGO_SRC = '/logo.png';
 
-const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-  'Hola, me gustaría recibir información para solicitar una cita.'
-)}`;
+
 
 const links = [
   { name: 'Inicio', href: '/' },
@@ -34,6 +33,11 @@ const focusStyles =
   'focus-visible:ring-offset-[#FBFAF7]';
 
 export function Navbar() {
+ const { contact: contactMock } = useSiteData();
+const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
+  'Hola, me gustaría recibir información para solicitar una cita.'
+)}`;
+
   const [isOpen, setIsOpen] = useState(false);
 
   const pathname = usePathname();
@@ -51,9 +55,11 @@ export function Navbar() {
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
-  useEffect(() => {
+  const [previousPath, setPreviousPath] = useState(pathname);
+  if (previousPath !== pathname) {
+    setPreviousPath(pathname);
     setIsOpen(false);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     const desktopQuery = window.matchMedia('(min-width: 1280px)');

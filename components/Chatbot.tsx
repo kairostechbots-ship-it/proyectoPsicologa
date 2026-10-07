@@ -1,25 +1,29 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { MessageSquare, X, Send, Bot, User, Loader2 } from 'lucide-react';
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { MessageSquare, X, Send, Bot, User, Loader2 } from "lucide-react";
 
 interface Message {
-  role: 'user' | 'model';
+  role: "user" | "model";
   content: string;
 }
 
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'model', content: '¡Hola! Soy el asistente virtual de la Dra. Jazmin. ¿En qué te puedo ayudar hoy? (Horarios, información, agendar cita...)' }
+    {
+      role: "model",
+      content:
+        "¡Hola! Soy el asistente virtual del consultorio. ¿En qué te puedo ayudar hoy? (Horarios, información, agendar cita...)",
+    },
   ]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -33,40 +37,47 @@ export function Chatbot() {
     if (!input.trim() || isLoading) return;
 
     const userMessage = input.trim();
-    setInput('');
-    const newMessages: Message[] = [...messages, { role: 'user', content: userMessage }];
+    setInput("");
+    const newMessages: Message[] = [
+      ...messages,
+      { role: "user", content: userMessage },
+    ];
     setMessages(newMessages);
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages }),
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: newMessages.slice(-40) }),
       });
 
-      const data = await response.json();
-      
+      const payload = await response.json();
+      const data = payload.data;
+
       if (response.ok) {
-        setMessages([...newMessages, { role: 'model', content: data.text }]);
-        
-        if (data.action === 'book_appointment') {
-          try {
-            const savedApts = JSON.parse(localStorage.getItem('chatbot_appointments') || '[]');
-            savedApts.push(data.appointmentDetails);
-            localStorage.setItem('chatbot_appointments', JSON.stringify(savedApts));
-            
-            // Dispatch a custom event so the panel can update
-            window.dispatchEvent(new Event('appointments_updated'));
-          } catch (e) {
-            console.error('Error saving appointment:', e);
-          }
-        }
+        setMessages([...newMessages, { role: "model", content: data.text }]);
+
+        if (data.action === "book_appointment")
+          window.dispatchEvent(new Event("appointments_updated"));
       } else {
-        setMessages([...newMessages, { role: 'model', content: data.error || 'Lo siento, hubo un error de conexión.' }]);
+        setMessages([
+          ...newMessages,
+          {
+            role: "model",
+            content:
+              payload.error?.message || "Lo siento, hubo un error de conexión.",
+          },
+        ]);
       }
     } catch (error) {
-      setMessages([...newMessages, { role: 'model', content: 'Lo siento, hubo un error al conectar con el servidor.' }]);
+      setMessages([
+        ...newMessages,
+        {
+          role: "model",
+          content: "Lo siento, hubo un error al conectar con el servidor.",
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -81,8 +92,8 @@ export function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-6 z-50 w-[350px] bg-white rounded-2xl shadow-2xl border border-[#7895A3]/20 overflow-hidden flex flex-col"
-            style={{ maxHeight: 'calc(100vh - 120px)' }}
+            className="fixed bottom-24 right-6 z-50 w-[calc(100vw-3rem)] max-w-[350px] bg-white rounded-2xl shadow-2xl border border-[#7895A3]/20 overflow-hidden flex flex-col"
+            style={{ maxHeight: "calc(100vh - 120px)" }}
           >
             {/* Header */}
             <div className="bg-[#7895A3] p-4 text-white flex justify-between items-center">
@@ -90,7 +101,7 @@ export function Chatbot() {
                 <Bot className="w-6 h-6" />
                 <h3 className="font-bold">Asistente Virtual</h3>
               </div>
-              <button 
+              <button
                 onClick={() => setIsOpen(false)}
                 className="text-white/80 hover:text-white transition-colors p-1"
               >
@@ -101,17 +112,22 @@ export function Chatbot() {
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[400px] min-h-[300px] bg-[#F7F5F0]">
               {messages.map((msg, i) => (
-                <div key={i} className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  {msg.role === 'model' && (
+                <div
+                  key={i}
+                  className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                >
+                  {msg.role === "model" && (
                     <div className="w-8 h-8 rounded-full bg-[#D9E6DF] flex items-center justify-center text-[#37454A] flex-shrink-0">
                       <Bot className="w-4 h-4" />
                     </div>
                   )}
-                  <div className={`p-3 rounded-2xl max-w-[80%] text-sm ${
-                    msg.role === 'user' 
-                      ? 'bg-[#7895A3] text-white rounded-tr-none' 
-                      : 'bg-white border border-[#E7DED1] text-[#37454A] rounded-tl-none shadow-sm'
-                  }`}>
+                  <div
+                    className={`p-3 rounded-2xl max-w-[80%] text-sm ${
+                      msg.role === "user"
+                        ? "bg-[#7895A3] text-white rounded-tr-none"
+                        : "bg-white border border-[#E7DED1] text-[#37454A] rounded-tl-none shadow-sm"
+                    }`}
+                  >
                     {msg.content}
                   </div>
                 </div>
@@ -135,12 +151,13 @@ export function Chatbot() {
                 <input
                   type="text"
                   value={input}
+                  maxLength={4000}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Escribe tu mensaje..."
                   className="flex-1 p-2 border border-[#E7DED1] rounded-xl focus:outline-none focus:border-[#7895A3] focus:ring-1 focus:ring-[#7895A3] text-sm"
                   disabled={isLoading}
                 />
-                <button 
+                <button
                   type="submit"
                   disabled={isLoading || !input.trim()}
                   className="p-2 bg-[#7895A3] text-white rounded-xl hover:bg-[#8FAF9D] transition-colors disabled:opacity-50 flex-shrink-0"
@@ -156,7 +173,7 @@ export function Chatbot() {
       <motion.button
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 1.2, type: 'spring', stiffness: 200, damping: 20 }}
+        transition={{ delay: 1.2, type: "spring", stiffness: 200, damping: 20 }}
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-50 bg-white text-[#7895A3] p-4 rounded-full shadow-2xl hover:scale-110 border border-[#7895A3]/20 hover:shadow-lg transition-all flex items-center justify-center group"
         aria-label="Abrir Asistente"

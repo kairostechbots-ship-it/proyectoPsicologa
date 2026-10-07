@@ -1,3 +1,5 @@
+'use client';
+import { useSiteData } from '@/components/SiteDataProvider';
 import {
   ArrowUpRight,
   HeartHandshake,
@@ -11,15 +13,13 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { contactMock } from '@/data/contact.mock';
+
 
 interface FooterProps {
   variant?: 'light' | 'dark';
 }
 
-const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-  'Hola, me gustaría recibir información para solicitar una cita.'
-)}`;
+
 
 const footerLinks = [
   {
@@ -66,6 +66,11 @@ const modalities = [
 export function Footer({
   variant = 'dark',
 }: FooterProps) {
+ const { contact: contactMock } = useSiteData();
+const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
+  'Hola, me gustaría recibir información para solicitar una cita.'
+)}`;
+
   const isDark = variant === 'dark';
 
   const footerBackground = isDark

@@ -1,4 +1,5 @@
 'use client';
+import { useSiteData } from '@/components/SiteDataProvider';
 
 import { motion, useReducedMotion } from 'motion/react';
 
@@ -20,8 +21,8 @@ import {
 
 import { PsychotherapyPromotionDetail } from '@/components/psychotherapy/PsychotherapyPromotionDetail';
 
-import { contactMock } from '@/data/contact.mock';
-import { mockServices } from '@/data/services.mock';
+
+
 
 import { getBusinessHoursText } from '@/lib/utils';
 
@@ -47,9 +48,7 @@ const iconMap: Record<string, LucideIcon> = {
    WHATSAPP
 ========================================================= */
 
-const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-  'Hola, me gustaría recibir información sobre los servicios de psicoterapia y solicitar una cita.',
-)}`;
+
 
 /* =========================================================
    ANIMACIONES
@@ -62,6 +61,11 @@ const smoothEase = [0.22, 1, 0.36, 1] as const;
 ========================================================= */
 
 export function Services() {
+ const { contact: contactMock, services: mockServices } = useSiteData();
+const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
+  'Hola, me gustaría recibir información sobre los servicios de psicoterapia y solicitar una cita.',
+)}`;
+
   const reduceMotion = useReducedMotion();
 
   /*
@@ -779,6 +783,11 @@ interface EmptyServicesProps {
 function EmptyServices({
   reduceMotion,
 }: EmptyServicesProps) {
+ const { contact: contactMock } = useSiteData();
+const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
+  'Hola, me gustaría recibir información sobre los servicios de psicoterapia y solicitar una cita.',
+)}`;
+
   return (
     <motion.div
       initial={

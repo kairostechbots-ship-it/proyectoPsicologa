@@ -1,4 +1,5 @@
 'use client';
+import { useSiteData } from '@/components/SiteDataProvider';
 
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'motion/react';
@@ -9,16 +10,19 @@ import {
   Monitor,
 } from 'lucide-react';
 
-import { contactMock } from '@/data/contact.mock';
+
 import { getBusinessHoursText } from '@/lib/utils';
 
-const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-  'Hola, me gustaría recibir información para solicitar una cita.'
-)}`;
+
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function FinalCTA() {
+ const { contact: contactMock } = useSiteData();
+const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
+  'Hola, me gustaría recibir información para solicitar una cita.'
+)}`;
+
   const reduceMotion = useReducedMotion();
 
   const businessHoursText = getBusinessHoursText(

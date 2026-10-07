@@ -7,12 +7,12 @@ import { TCCSection } from '@/components/home/TCCSection';
 import { ProfessionalSummary } from '@/components/home/ProfessionalSummary';
 import { AppointmentSteps } from '@/components/home/AppointmentSteps';
 import { PsychotherapyPromotion } from '@/components/home/PsychotherapyPromotion';
-import { NaturalMedicinePreview } from '@/components/home/NaturalMedicinePreview';
+import { LiveNaturalPreview } from '@/components/LivePageSections';
 import { FinalCTA } from '@/components/home/FinalCTA';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 
-import { naturalMedicineMock } from '@/data/natural-medicine.mock';
+
 
 export const metadata: Metadata = {
   title: 'Psicología Clínica y Psicoterapia',
@@ -54,9 +54,7 @@ export default function Home() {
 
       <PsychotherapyPromotion />
 
-      <NaturalMedicinePreview
-        consultation={naturalMedicineMock}
-      />
+      <LiveNaturalPreview />
 
       <FinalCTA />
 

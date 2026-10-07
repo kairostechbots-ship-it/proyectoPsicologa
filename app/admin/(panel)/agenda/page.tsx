@@ -10,7 +10,7 @@ import { AdminCalendar } from '@/components/admin/agenda/AdminCalendar';
 import { AppointmentDetail } from '@/components/admin/agenda/AppointmentDetail';
 import { UpcomingAppointments } from '@/components/admin/agenda/UpcomingAppointments';
 
-import { mockCalendarEvents } from '@/data/calendar.mock';
+import { useCalendar } from '@/hooks/use-calendar';
 import type { CalendarEvent } from '@/types/calendar';
 
 export default function AgendaPage() {
@@ -35,7 +35,7 @@ export default function AgendaPage() {
    * no necesitarán modificarse.
    */
 
-  const events: CalendarEvent[] = mockCalendarEvents;
+  const events: CalendarEvent[] = useCalendar();
 
   /*
    * Evento seleccionado.
@@ -155,7 +155,7 @@ export default function AgendaPage() {
                 text-[#806A32]
               "
             >
-              Google Calendar · Pendiente
+              Agenda del consultorio
             </span>
           </div>
         </section>

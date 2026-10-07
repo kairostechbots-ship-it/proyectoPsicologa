@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 
 import { Navbar } from '@/components/layout/Navbar';
-import { NaturalTechniques } from '@/components/natural-medicine/NaturalTechniques';
+import { LiveNaturalMedicine } from '@/components/LivePageSections';
 import { FinalCTA } from '@/components/home/FinalCTA';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 
-import { naturalMedicineMock } from '@/data/natural-medicine.mock';
+
 
 export const metadata: Metadata = {
   title: 'Medicina Natural en Tlajomulco',
@@ -38,9 +38,7 @@ export default function NaturalMedicinePage() {
 
       <div className="pt-20" />
 
-      <NaturalTechniques
-        consultation={naturalMedicineMock}
-      />
+      <LiveNaturalMedicine />
 
       <FinalCTA />
 

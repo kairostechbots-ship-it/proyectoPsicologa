@@ -1,4 +1,5 @@
 'use client';
+import { useAdminContent } from '@/hooks/use-admin-content';
 
 import {
   useMemo,
@@ -47,8 +48,8 @@ export default function NaturalMedicinePage() {
      ESTADO GENERAL
   ======================================================== */
 
-  const [consultation, setConsultation] =
-    useState<NaturalMedicineConsultation>({
+  const [consultation, setConsultation, contentReady] =
+    useAdminContent<NaturalMedicineConsultation>("natural-medicine",{
       ...naturalMedicineMock,
 
       techniques:
@@ -400,7 +401,8 @@ export default function NaturalMedicinePage() {
      RENDER
   ======================================================== */
 
-  return (
+  if (!contentReady) return <p role="status">Cargando datos del consultorio...</p>;
+return (
     <>
       <div className="pb-10">
 

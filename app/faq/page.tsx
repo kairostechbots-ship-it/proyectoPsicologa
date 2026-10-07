@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 
 import { Navbar } from '@/components/layout/Navbar';
-import { FAQList } from '@/components/faq/FAQList';
+import { LiveFAQ } from '@/components/LivePageSections';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 
-import { faqMock } from '@/data/faq.mock';
+
 
 export const metadata: Metadata = {
   title: 'Preguntas Frecuentes sobre Psicoterapia',
@@ -37,7 +37,7 @@ export default function FAQPage() {
 
       <div className="pt-20" />
 
-      <FAQList faqs={faqMock} />
+      <LiveFAQ />
 
       <Footer />
 

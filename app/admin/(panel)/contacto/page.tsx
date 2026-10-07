@@ -1,4 +1,5 @@
 'use client';
+import { useAdminContent } from '@/hooks/use-admin-content';
 
 import { useState } from 'react';
 import {
@@ -55,23 +56,18 @@ export default function AdminContactPage() {
    * Sustituir contactMock por:
    * GET /api/contact
    */
-  const [contact, setContact] =
-    useState<ContactInfo>(() =>
-      cloneContact(contactMock),
-    );
+  const [contact, setContact, contentReady] =
+    useAdminContent<ContactInfo>("contact",() =>
+      cloneContact(contactMock));
 
   /*
    * Los horarios tienen un estado temporal
    * separado para permitir "Descartar cambios".
    */
-  const [
-    draftHours,
-    setDraftHours,
-  ] = useState<BusinessHours[]>(() =>
-    contactMock.businessHours.map(
-      (item) => ({ ...item }),
-    ),
-  );
+  const [hoursDraft, setHoursDraft] = useState<{source: BusinessHours[]; value: BusinessHours[]}|null>(null);
+  const draftHours = hoursDraft?.source === contact.businessHours ? hoursDraft.value : contact.businessHours;
+  const setDraftHours = (next: React.SetStateAction<BusinessHours[]>) => setHoursDraft({source: contact.businessHours, value: typeof next === "function" ? next(draftHours) : next});
+
 
   const [
     contactFormOpen,
@@ -231,7 +227,8 @@ export default function AdminContactPage() {
      RENDER
   ======================================================== */
 
-  return (
+  if (!contentReady) return <p role="status">Cargando datos del consultorio...</p>;
+return (
     <div
       className="
         mx-auto

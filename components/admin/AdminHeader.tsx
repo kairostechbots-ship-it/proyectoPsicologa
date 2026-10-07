@@ -19,7 +19,7 @@ import {
   useState,
 } from 'react';
 
-import { logout } from '@/lib/auth';
+import { logout, getCurrentUser } from '@/lib/auth';
 
 interface AdminHeaderProps {
   onOpenMenu: () => void;
@@ -76,6 +76,8 @@ const pageTitles: Record<
 export function AdminHeader({
   onOpenMenu,
 }: AdminHeaderProps) {
+  const [account, setAccount] = useState<{name:string;role:string}|null>(null);
+  useEffect(() => { getCurrentUser().then(setAccount); }, []);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -131,9 +133,11 @@ export function AdminHeader({
    * =========================================================
    */
 
-  useEffect(() => {
+  const [previousPath, setPreviousPath] = useState(pathname);
+  if (previousPath !== pathname) {
+    setPreviousPath(pathname);
     setProfileOpen(false);
-  }, [pathname]);
+  }
 
   /*
    * =========================================================
@@ -374,9 +378,7 @@ export function AdminHeader({
                     font-semibold
                     text-[#435D61]
                   "
-                >
-                  Erika Pilar
-                </p>
+                >{account?.name ?? 'Mi cuenta'}</p>
 
                 <p
                   className="
@@ -384,9 +386,7 @@ export function AdminHeader({
                     text-[9px]
                     text-[#89938F]
                   "
-                >
-                  Administradora
-                </p>
+                >{account?.role === 'admin' ? 'Administración' : account?.role === 'editor' ? 'Edición' : 'Recepción'}</p>
               </div>
 
               {/* Avatar */}
@@ -485,9 +485,7 @@ export function AdminHeader({
                       font-semibold
                       text-[#435D61]
                     "
-                  >
-                    Erika Pilar
-                  </p>
+                  >{account?.name ?? 'Mi cuenta'}</p>
 
                   <p
                     className="
@@ -495,9 +493,7 @@ export function AdminHeader({
                       text-[9px]
                       text-[#89938F]
                     "
-                  >
-                    Administradora
-                  </p>
+                  >{account?.role === 'admin' ? 'Administración' : account?.role === 'editor' ? 'Edición' : 'Recepción'}</p>
                 </div>
 
                 {/* Cerrar sesión */}

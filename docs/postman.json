@@ -1,0 +1,732 @@
+{
+  "info": {
+    "name": "Consultorio Psicología",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "id",
+      "value": ""
+    },
+    {
+      "key": "serviceId",
+      "value": ""
+    },
+    {
+      "key": "patientId",
+      "value": ""
+    },
+    {
+      "key": "email",
+      "value": ""
+    },
+    {
+      "key": "password",
+      "value": ""
+    },
+    {
+      "key": "csrfToken",
+      "value": ""
+    },
+    {
+      "key": "key",
+      "value": "profile"
+    }
+  ],
+  "item": [
+    {
+      "name": "Obtener CSRF",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/auth/csrf"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.set('csrfToken', pm.response.json().csrfToken);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Iniciar sesión (conservar cookies)",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/auth/callback/credentials",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "csrfToken",
+              "value": "{{csrfToken}}"
+            },
+            {
+              "key": "email",
+              "value": "{{email}}"
+            },
+            {
+              "key": "password",
+              "value": "{{password}}"
+            },
+            {
+              "key": "callbackUrl",
+              "value": "{{baseUrl}}/admin"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET /api/auth/me",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/auth/me"
+      }
+    },
+    {
+      "name": "GET /api/site",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/site"
+      }
+    },
+    {
+      "name": "GET /api/services",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/services"
+      }
+    },
+    {
+      "name": "GET /api/services/psicoterapia-individual",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/services/psicoterapia-individual"
+      }
+    },
+    {
+      "name": "GET /api/faq",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/faq"
+      }
+    },
+    {
+      "name": "GET /api/content/{{key}}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/content/{{key}}"
+      }
+    },
+    {
+      "name": "GET /api/availability?date=2026-12-07&serviceId={{serviceId}}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/availability?date=2026-12-07&serviceId={{serviceId}}"
+      }
+    },
+    {
+      "name": "services",
+      "item": [
+        {
+          "name": "Listar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/services?limit=50&offset=0"
+          }
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/services",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"servicio-ejemplo\",\n  \"name\": \"Servicio ejemplo\",\n  \"description\": \"Descripción del servicio\",\n  \"type\": \"psicoterapia\",\n  \"priceCents\": 40000,\n  \"durationMinutes\": 60\n}"
+            }
+          }
+        },
+        {
+          "name": "Editar",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/services/{{id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"servicio-ejemplo\",\n  \"name\": \"Servicio ejemplo\",\n  \"description\": \"Descripción del servicio\",\n  \"type\": \"psicoterapia\",\n  \"priceCents\": 40000,\n  \"durationMinutes\": 60\n}"
+            }
+          }
+        },
+        {
+          "name": "Consultar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/services/{{id}}"
+          }
+        },
+        {
+          "name": "Eliminar",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/services/{{id}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "faq",
+      "item": [
+        {
+          "name": "Listar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/faq?limit=50&offset=0"
+          }
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/faq",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"¿Cómo solicitar una cita?\",\n  \"answer\": \"Consulta los horarios disponibles.\",\n  \"category\": \"general\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Editar",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/faq/{{id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"¿Cómo solicitar una cita?\",\n  \"answer\": \"Consulta los horarios disponibles.\",\n  \"category\": \"general\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Consultar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/faq/{{id}}"
+          }
+        },
+        {
+          "name": "Eliminar",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/faq/{{id}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "patients",
+      "item": [
+        {
+          "name": "Listar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/patients?limit=50&offset=0"
+          }
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/patients",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Paciente de prueba\",\n  \"phone\": \"5512345678\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Editar",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/patients/{{id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Paciente de prueba\",\n  \"phone\": \"5512345678\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Consultar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/patients/{{id}}"
+          }
+        },
+        {
+          "name": "Eliminar",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/patients/{{id}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "notes",
+      "item": [
+        {
+          "name": "Listar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/notes?limit=50&offset=0"
+          }
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/notes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"body\": \"Nota de prueba\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Editar",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/notes/{{id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"body\": \"Nota de prueba\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Consultar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/notes/{{id}}"
+          }
+        },
+        {
+          "name": "Eliminar",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/notes/{{id}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "messages",
+      "item": [
+        {
+          "name": "Listar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/messages?limit=50&offset=0"
+          }
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/messages",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"body\": \"Registro interno de prueba\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Editar",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/messages/{{id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"body\": \"Registro interno de prueba\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Consultar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/messages/{{id}}"
+          }
+        },
+        {
+          "name": "Eliminar",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/messages/{{id}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "forms",
+      "item": [
+        {
+          "name": "Listar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/forms?limit=50&offset=0"
+          }
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/forms",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"title\": \"Cuestionario inicial\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Editar",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/forms/{{id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"title\": \"Cuestionario inicial\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Consultar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/forms/{{id}}"
+          }
+        },
+        {
+          "name": "Eliminar",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/forms/{{id}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "appointments",
+      "item": [
+        {
+          "name": "Listar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/appointments?limit=50&offset=0"
+          }
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/appointments",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"serviceId\": \"{{serviceId}}\",\n  \"startsAt\": \"2026-12-07T16:00:00-06:00\",\n  \"modality\": \"presencial\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Editar",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/appointments/{{id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"confirmed\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "users",
+      "item": [
+        {
+          "name": "Listar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/admin/users?limit=50&offset=0"
+          }
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/users",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Edición\",\n  \"email\": \"editor@example.com\",\n  \"password\": \"CAMBIA_ESTA_CLAVE_123\",\n  \"role\": \"editor\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Editar",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/admin/users/{{id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"active\": false\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Solicitar cita pública",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/appointments",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"patient\": {\n    \"name\": \"Paciente de prueba\",\n    \"phone\": \"5512345678\"\n  },\n  \"serviceId\": \"{{serviceId}}\",\n  \"startsAt\": \"2026-12-07T16:00:00-06:00\",\n  \"modality\": \"presencial\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Consultar contenido editable",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/admin/content/{{key}}"
+      }
+    },
+    {
+      "name": "Guardar documento completo",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/admin/content/{{key}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"version\": 1,\n  \"data\": {}\n}"
+        }
+      }
+    },
+    {
+      "name": "Enviar pregunta",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/questions",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"question\": \"¿Cómo puedo contactarlos?\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Preguntas recibidas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/admin/questions"
+      }
+    },
+    {
+      "name": "Responder pregunta",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/admin/questions/{{id}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"answered\",\n  \"answer\": \"Respuesta de prueba\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Agenda",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/admin/calendar?from=2026-12-01T00:00:00Z&to=2027-01-01T00:00:00Z"
+      }
+    },
+    {
+      "name": "Chat",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/chat",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"¿Qué servicios tienen?\"\n    }\n  ]\n}"
+        }
+      }
+    }
+  ]
+}

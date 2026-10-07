@@ -1,4 +1,5 @@
 'use client';
+import { useAdminContent } from '@/hooks/use-admin-content';
 
 import { useState } from 'react';
 
@@ -158,8 +159,8 @@ export default function AdminProfilePage() {
     Sustituir profileMock por GET /api/profile
     cuando exista backend.
   */
-  const [profile, setProfile] =
-    useState<ProfessionalProfile>(() => ({
+  const [profile, setProfile, contentReady] =
+    useAdminContent<ProfessionalProfile>("profile",() => ({
       ...profileMock,
 
       biography: [
@@ -777,7 +778,8 @@ export default function AdminProfilePage() {
      RENDER
   ======================================================== */
 
-  return (
+  if (!contentReady) return <p role="status">Cargando datos del consultorio...</p>;
+return (
     <div
       className="
         mx-auto

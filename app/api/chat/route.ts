@@ -1,135 +1,130 @@
-import { GoogleGenAI, Type } from '@google/genai';
-import { NextRequest, NextResponse } from 'next/server';
-
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  httpOptions: {
-    headers: {
-      'User-Agent': 'aistudio-build',
-    },
-  },
+import { GoogleGenAI, Type } from "@google/genai";
+import { z } from "zod";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/lib/db";
+import { services } from "@/lib/db/schema";
+import { getContent } from "@/lib/content";
+import {
+  success,
+  handleApiError,
+  readJson,
+  checkOrigin,
+  ApiError,
+} from "@/lib/api";
+import { bookingSchema } from "@/lib/validators";
+import { createAppointment } from "@/lib/appointments";
+import { consumeRateLimit, requestIdentifier } from "@/lib/rate-limit";
+const inputSchema = z.object({
+  messages: z
+    .array(
+      z.object({
+        role: z.enum(["user", "model"]),
+        content: z.string().trim().min(1).max(4000),
+      }),
+    )
+    .min(1)
+    .max(40),
 });
-
-export async function POST(req: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const { messages } = await req.json();
-
-    const systemInstruction = `
-You are a helpful and empathetic virtual assistant for Dra. Jazmin, a psychologist.
-You answer questions about the clinic's hours, services, and you can help book appointments.
-
-Hours of Operation:
-- Monday to Friday: 9:00 AM - 5:00 PM
-- Saturday: 9:00 AM - 1:00 PM
-
-Services:
-- Individual Therapy
-- Couples Therapy
-- Online Therapy
-
-To book an appointment, you must ask the user for:
-1. Their name.
-2. The date and time they prefer.
-3. The type of therapy they want.
-4. Their phone number (if they are a new patient).
-
-When you have enough information to book, use the 'bookAppointment' tool.
-If the user provides their name, the tool will check if they are in the database and create a new patient record if not, then book the appointment.
-
-Keep your responses friendly, professional, and concise. Speak in Spanish as Dra. Jazmin's patients speak Spanish.
-`;
-
-    const bookAppointmentTool = {
-      name: 'bookAppointment',
-      description: 'Books an appointment for a patient. Checks if the patient exists by name, creates a new one if not, and then creates the appointment.',
-      parameters: {
-        type: Type.OBJECT,
-        properties: {
-          name: {
-            type: Type.STRING,
-            description: 'The full name of the patient.',
+    checkOrigin(request);
+    await consumeRateLimit("chat:" + requestIdentifier(request), 30, 3600);
+    if (!process.env.GEMINI_API_KEY)
+      throw new ApiError(
+        503,
+        "El chat no está disponible. Puedes contactarnos por WhatsApp.",
+      );
+    const { messages } = inputSchema.parse(await readJson(request));
+    const [catalog, profile, contact] = await Promise.all([
+      getDb()
+        .select({
+          id: services.id,
+          name: services.name,
+          modality: services.modality,
+        })
+        .from(services)
+        .where(eq(services.active, true))
+        .limit(100),
+      getContent("profile", true),
+      getContent("contact", true),
+    ]);
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const response = await ai.models.generateContent({
+      model: process.env.GEMINI_MODEL || "gemini-3.5-flash",
+      contents: messages.map((m) => ({
+        role: m.role,
+        parts: [{ text: m.content }],
+      })),
+      config: {
+        systemInstruction:
+          "Eres el asistente del consultorio. Responde en español y ayuda con información y solicitudes de cita. No des diagnósticos ni solicites historias clínicas. Datos actuales: " +
+          JSON.stringify({
+            profile: profile.data,
+            contact: contact.data,
+            services: catalog,
+          }) +
+          ". Hoy es " +
+          new Date().toISOString() +
+          ". Zona America/Mexico_City. Para solicitar una cita pide nombre, teléfono, servicio, fecha, hora y modalidad. Confirma los datos y pide aceptación antes de llamar bookAppointment. Usa serviceId del catálogo y startsAt ISO con zona -06:00. No inventes datos ni afirmes que guardaste, confirmaste o enviaste recordatorios. La herramienta registra solicitudes pendientes; el consultorio confirma posteriormente.",
+        tools: [
+          {
+            functionDeclarations: [
+              {
+                name: "bookAppointment",
+                description:
+                  "Registra una solicitud de cita pendiente después de la aceptación expresa del usuario.",
+                parameters: {
+                  type: Type.OBJECT,
+                  properties: {
+                    name: { type: Type.STRING },
+                    phone: { type: Type.STRING },
+                    email: { type: Type.STRING },
+                    serviceId: { type: Type.STRING },
+                    startsAt: { type: Type.STRING },
+                    modality: {
+                      type: Type.STRING,
+                      enum: ["presencial", "online"],
+                    },
+                  },
+                  required: [
+                    "name",
+                    "phone",
+                    "serviceId",
+                    "startsAt",
+                    "modality",
+                  ],
+                },
+              },
+            ],
           },
-          date: {
-            type: Type.STRING,
-            description: 'The date for the appointment (e.g., YYYY-MM-DD or a clear description).',
-          },
-          time: {
-            type: Type.STRING,
-            description: 'The time for the appointment.',
-          },
-          type: {
-            type: Type.STRING,
-            description: 'The type of therapy (e.g., Terapia Individual, Terapia de Pareja).',
-          },
-          phone: {
-            type: Type.STRING,
-            description: 'The phone number of the patient. Optional if they are already a patient, but required if they are new.',
-          },
-        },
-        required: ['name', 'date', 'time', 'type'],
+        ],
       },
-    };
-
-    // Convert messages to the format expected by the model
-    // Assuming messages from client are { role: 'user' | 'model', content: string }
-    const formattedMessages = messages.map((m: any) => ({
-      role: m.role,
-      parts: [{ text: m.content }],
-    }));
-
-    let response;
-    let retries = 3;
-    while (retries > 0) {
-      try {
-        response = await ai.models.generateContent({
-          model: 'gemini-3.5-flash',
-          contents: formattedMessages,
-          config: {
-            systemInstruction,
-            tools: [{ functionDeclarations: [bookAppointmentTool] }],
-            temperature: 0.2,
-          },
-        });
-        break; // Success, exit retry loop
-      } catch (e: any) {
-        if (e.status === 503 && retries > 1) {
-          retries--;
-          await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s before retry
-        } else {
-          throw e; // Re-throw if not 503 or out of retries
-        }
-      }
-    }
-
-    // Tell TypeScript that response is defined here
-    if (!response) {
-       throw new Error("Failed to generate content");
-    }
-
-    const functionCalls = response.functionCalls;
-    if (functionCalls && functionCalls.length > 0) {
-      const call = functionCalls[0];
-      if (call.name === 'bookAppointment') {
-        const args = call.args as any;
-        // In a real app, we would save this to the database.
-        // For now, we will return a success message back to the chat.
-        // We'll simulate a successful booking.
-        const responseText = `¡Perfecto! He agendado la cita para ${args.name} el ${args.date} a las ${args.time} para ${args.type}. Le hemos enviado un recordatorio. ¿Hay algo más en lo que pueda ayudarte?`;
-        
-        return NextResponse.json({
-          text: responseText,
-          action: 'book_appointment', // We can send this to the client to update local state if needed
-          appointmentDetails: args,
-        });
-      }
-    }
-
-    return NextResponse.json({ text: response.text });
-  } catch (error) {
-    console.error('Error in chat API:', error);
-    return NextResponse.json(
-      { error: 'Lo siento, hubo un problema al procesar tu solicitud.' },
-      { status: 500 }
+    });
+    const call = response.functionCalls?.find(
+      (c) => c.name === "bookAppointment",
     );
+    if (call) {
+      const args = call.args ?? {};
+      const input = bookingSchema.parse({
+        patient: { name: args.name, phone: args.phone, email: args.email },
+        serviceId: args.serviceId,
+        startsAt: args.startsAt,
+        modality: args.modality,
+      });
+      await consumeRateLimit("booking-phone:" + input.patient.phone, 5, 86400);
+      const result = await createAppointment(input);
+      return success({
+        text:
+          "Tu solicitud quedó registrada y está pendiente de confirmación del consultorio. Referencia: " +
+          result.appointment.id,
+        action: "book_appointment",
+        appointmentId: result.appointment.id,
+      });
+    }
+    return success({
+      text: response.text || "¿Qué información necesitas del consultorio?",
+    });
+  } catch (e) {
+    return handleApiError(e);
   }
 }

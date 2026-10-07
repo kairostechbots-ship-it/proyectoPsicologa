@@ -1,8 +1,9 @@
 'use client';
+import { useSiteData } from '@/components/SiteDataProvider';
 
 import { motion } from 'motion/react';
 
-import { contactMock } from '@/data/contact.mock';
+
 
 // Using a custom SVG for WhatsApp since lucide doesn't have the exact brand logo
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -21,11 +22,14 @@ function WhatsAppIcon({ className }: { className?: string }) {
    WHATSAPP
 ========================================================= */
 
+
+
+export function WhatsAppButton() {
+ const { contact: contactMock } = useSiteData();
 const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
   'Hola, me gustaría recibir información para solicitar una cita de terapia.',
 )}`;
 
-export function WhatsAppButton() {
   return (
     <motion.a
       href={whatsappUrl}

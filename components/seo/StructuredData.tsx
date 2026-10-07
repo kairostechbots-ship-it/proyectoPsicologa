@@ -1,5 +1,7 @@
-import { contactMock } from '@/data/contact.mock';
-import { profileMock } from '@/data/profile.mock';
+'use client';
+import { useSiteData } from '@/components/SiteDataProvider';
+
+
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '');
 
@@ -14,6 +16,9 @@ const dayMap: Record<string, string> = {
 };
 
 export function StructuredData() {
+ const { contact: contactMock, profile: profileMock } = useSiteData();
+
+
   /*
    * Mientras no exista un dominio definitivo,
    * evitamos generar URLs falsas o localhost

@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 
 import { Navbar } from '@/components/layout/Navbar';
-import { Contact } from '@/components/contact/Contact';
+import { LiveContact } from '@/components/LivePageSections';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 
-import { contactMock } from '@/data/contact.mock';
+
 
 export const metadata: Metadata = {
   title: 'Contacto y Consultorio en Tlajomulco',
@@ -36,7 +36,7 @@ export default function ContactPage() {
       <Navbar />
 
       <div className="pt-20">
-        <Contact contact={contactMock} />
+        <LiveContact />
       </div>
 
       <Footer />

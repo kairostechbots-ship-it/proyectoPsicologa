@@ -1,4 +1,5 @@
 'use client';
+import { useAdminList } from '@/hooks/use-admin-list';
 
 import {
   useMemo,
@@ -58,15 +59,12 @@ export default function AdminFAQPage() {
 
   const [
     faqs,
-    setFaqs,
-  ] =
-    useState<FAQ[]>(
-      faqMock.map(
+    setFaqs, contentReady] =
+    useAdminList<FAQ>("faq",faqMock.map(
         (faq) => ({
           ...faq,
         }),
-      ),
-    );
+      ));
 
   const [
     search,
@@ -441,7 +439,8 @@ export default function AdminFAQPage() {
      RENDER
   ======================================================== */
 
-  return (
+  if (!contentReady) return <p role="status">Cargando datos del consultorio...</p>;
+return (
     <>
       <div className="pb-10">
 

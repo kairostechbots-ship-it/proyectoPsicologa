@@ -1,5 +1,7 @@
 'use client';
 
+import { SaveStatus } from './SaveStatus';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import { AdminHeader } from './AdminHeader';
@@ -86,7 +88,7 @@ export function AdminShell({
             lg:py-9
           "
         >
-          {children}
+          <nav className="mb-5 flex gap-4"><Link href="/admin/pacientes">Pacientes y citas</Link><Link href="/admin/usuarios">Usuarios</Link></nav>{children}<SaveStatus />
         </main>
       </div>
     </div>

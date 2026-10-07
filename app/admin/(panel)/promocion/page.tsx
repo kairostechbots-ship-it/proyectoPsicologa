@@ -1,4 +1,5 @@
 'use client';
+import { useAdminContent } from '@/hooks/use-admin-content';
 
 import { useState } from 'react';
 
@@ -21,8 +22,8 @@ export default function PromotionPage() {
      ESTADO TEMPORAL
   ========================================================= */
 
-  const [promotion, setPromotion] =
-    useState<Promotion>({
+  const [promotion, setPromotion, contentReady] =
+    useAdminContent<Promotion>("promotion",{
       ...mockPromotion,
     });
 
@@ -69,7 +70,8 @@ export default function PromotionPage() {
      */
   };
 
-  return (
+  if (!contentReady) return <p role="status">Cargando datos del consultorio...</p>;
+return (
     <>
       <div className="pb-10">
 

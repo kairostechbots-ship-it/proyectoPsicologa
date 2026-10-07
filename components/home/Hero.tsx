@@ -1,4 +1,5 @@
 'use client';
+import { useSiteData } from '@/components/SiteDataProvider';
 
 import { motion, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
@@ -10,12 +11,10 @@ import {
   MapPin,
 } from 'lucide-react';
 
-import { contactMock } from '@/data/contact.mock';
+
 import { getBusinessHoursText } from '@/lib/utils';
 
-const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-  'Hola, me gustaría recibir información para solicitar una cita.',
-)}`;
+
 
 const focusStyles =
   'focus-visible:outline-none focus-visible:ring-2 ' +
@@ -23,6 +22,11 @@ const focusStyles =
   'focus-visible:ring-offset-[#FBFAF7]';
 
 export function Hero() {
+ const { contact: contactMock } = useSiteData();
+const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
+  'Hola, me gustaría recibir información para solicitar una cita.',
+)}`;
+
   const reduceMotion = useReducedMotion();
 
   const businessHoursText = getBusinessHoursText(

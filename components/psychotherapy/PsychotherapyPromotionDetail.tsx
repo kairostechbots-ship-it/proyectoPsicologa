@@ -1,4 +1,5 @@
 'use client';
+import { useSiteData } from '@/components/SiteDataProvider';
 
 import { motion, useReducedMotion } from 'motion/react';
 import {
@@ -6,17 +7,20 @@ import {
   PackageCheck,
 } from 'lucide-react';
 
-import { contactMock } from '@/data/contact.mock';
-import { mockPromotion } from '@/data/promotion.mock';
+
+
 
 const smoothEase = [0.22, 1, 0.36, 1] as const;
 
 export function PsychotherapyPromotionDetail() {
+ const { contact: contactMock, promotion: mockPromotion } = useSiteData();
+
+
   const reduceMotion = useReducedMotion();
 
   const promotion = mockPromotion;
 
-  if (!promotion.activo) {
+  if (!promotion?.activo) {
     return null;
   }
 

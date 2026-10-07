@@ -1,4 +1,5 @@
 'use client';
+import { useAdminList } from '@/hooks/use-admin-list';
 
 import {
   useMemo,
@@ -53,8 +54,8 @@ export default function PsychotherapyPage() {
     [],
   );
 
-  const [services, setServices] =
-    useState<Service[]>(initialServices);
+  const [services, setServices, contentReady] =
+    useAdminList<Service>("services",initialServices);
 
   const [selectedService, setSelectedService] =
     useState<Service | null>(null);
@@ -227,7 +228,8 @@ export default function PsychotherapyPage() {
      */
   };
 
-  return (
+  if (!contentReady) return <p role="status">Cargando datos del consultorio...</p>;
+return (
     <>
       <div className="pb-10">
 

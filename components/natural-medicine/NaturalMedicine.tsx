@@ -1,4 +1,5 @@
 'use client';
+import { useSiteData } from '@/components/SiteDataProvider';
 
 import { motion, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
@@ -7,7 +8,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 
-import { contactMock } from '@/data/contact.mock';
+
 
 import type { NaturalMedicineConsultation } from '@/types/natural-medicine';
 
@@ -15,15 +16,18 @@ interface NaturalMedicineHeroProps {
   consultation: NaturalMedicineConsultation;
 }
 
-const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-  'Hola, me gustaría recibir información sobre la consulta de Medicina Natural.'
-)}`;
+
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function NaturalMedicineHero({
   consultation,
 }: NaturalMedicineHeroProps) {
+ const { contact: contactMock } = useSiteData();
+const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
+  'Hola, me gustaría recibir información sobre la consulta de Medicina Natural.'
+)}`;
+
   const reduceMotion = useReducedMotion();
 
   const item = {

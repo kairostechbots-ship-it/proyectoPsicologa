@@ -1,4 +1,5 @@
 'use client';
+import { useSiteData } from '@/components/SiteDataProvider';
 
 import { motion, useReducedMotion } from 'motion/react';
 import {
@@ -8,11 +9,9 @@ import {
   HeartHandshake,
 } from 'lucide-react';
 
-import { contactMock } from '@/data/contact.mock';
 
-const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-  'Hola, me gustaría recibir información para solicitar una cita.'
-)}`;
+
+
 
 const steps = [
   {
@@ -41,6 +40,11 @@ const steps = [
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function AppointmentSteps() {
+ const { contact: contactMock } = useSiteData();
+const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
+  'Hola, me gustaría recibir información para solicitar una cita.'
+)}`;
+
   const reduceMotion = useReducedMotion();
 
   return (

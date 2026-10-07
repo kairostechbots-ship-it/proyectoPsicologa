@@ -1,4 +1,5 @@
 'use client';
+import { useSiteData } from '@/components/SiteDataProvider';
 
 import { useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
@@ -14,7 +15,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-import { contactMock } from '@/data/contact.mock';
+
 
 import type {
   NaturalMedicineConsultation,
@@ -57,19 +58,17 @@ const iconMap: Record<string, React.ElementType> = {
    WHATSAPP
 ========================================================= */
 
-function getTechniqueWhatsappUrl(techniqueName: string) {
+function getTechniqueWhatsappUrl(techniqueName: string, whatsapp: string) {
   const message =
     `Hola, me gustaría recibir información sobre ${techniqueName} ` +
     'dentro de la consulta de Medicina Natural.';
 
-  return `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
+  return `https://wa.me/${whatsapp}?text=${encodeURIComponent(
     message,
   )}`;
 }
 
-const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-  'Hola, me gustaría recibir información sobre la consulta de Medicina Natural.'
-)}`;
+
 
 /* =========================================================
    ANIMACIÓN
@@ -87,6 +86,9 @@ function TechniqueCard({
   consultation,
   reduceMotion,
 }: TechniqueCardProps) {
+ const { contact: contactMock } = useSiteData();
+
+
   const [showDetails, setShowDetails] = useState(false);
 
   const Icon = iconMap[technique.slug] ?? Leaf;
@@ -667,7 +669,7 @@ function TechniqueCard({
           {/* CTA */}
 
           <a
-            href={getTechniqueWhatsappUrl(technique.name)}
+            href={getTechniqueWhatsappUrl(technique.name, contactMock.whatsapp)}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(event) => event.stopPropagation()}
@@ -711,6 +713,11 @@ function TechniqueCard({
 export function NaturalTechniques({
   consultation,
 }: NaturalTechniquesProps) {
+ const { contact: contactMock } = useSiteData();
+const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
+  'Hola, me gustaría recibir información sobre la consulta de Medicina Natural.'
+)}`;
+
   const reduceMotion = useReducedMotion();
 
   const techniques = consultation.techniques

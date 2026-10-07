@@ -1,4 +1,5 @@
 'use client';
+import { useSiteData } from '@/components/SiteDataProvider';
 
 import { useMemo, useState } from 'react';
 import {
@@ -11,7 +12,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 
-import { contactMock } from '@/data/contact.mock';
+
 
 import type { FAQ, FAQCategory } from '@/types/faq';
 
@@ -45,11 +46,14 @@ const categoryLabels: Record<FAQCategory, string> = {
   'medicina-natural': 'Medicina Natural',
 };
 
+
+
+export function FAQList({ faqs }: FAQListProps) {
+ const { contact: contactMock } = useSiteData();
 const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
   'Hola, estuve revisando las preguntas frecuentes de tu página y tengo una duda: ',
 )}`;
 
-export function FAQList({ faqs }: FAQListProps) {
   const reduceMotion = useReducedMotion();
 
   const [activeFilter, setActiveFilter] =

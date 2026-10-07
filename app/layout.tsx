@@ -4,7 +4,7 @@ import {
   Playfair_Display,
 } from 'next/font/google';
 
-import { StructuredData } from '@/components/seo/StructuredData';
+import { SiteDataProvider, type SiteData } from '@/components/SiteDataProvider';
 
 import './globals.css';
 
@@ -142,11 +142,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export const dynamic = 'force-dynamic';
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let initialData: SiteData | null = null;
+  try {
+    if (process.env.APP_URL) {
+      const response = await fetch(new URL('/api/site', process.env.APP_URL), { cache: 'no-store', signal: AbortSignal.timeout(5000) });
+      if (response.ok) initialData = (await response.json()).data;
+    }
+  } catch { /* The client retries if the public API is temporarily unavailable. */ }
   return (
     <html
       lang="es-MX"
@@ -171,7 +180,7 @@ export default function RootLayout({
             DATOS ESTRUCTURADOS / JSON-LD
         ====================================================== */}
 
-        <StructuredData />
+
 
         {/* =====================================================
             FONDO GLOBAL UNIFICADO
@@ -212,7 +221,7 @@ export default function RootLayout({
             CONTENIDO DEL SITIO
         ====================================================== */}
 
-        {children}
+        <SiteDataProvider initialData={initialData}>{children}</SiteDataProvider>
       </body>
     </html>
   );

@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 
 import { Navbar } from '@/components/layout/Navbar';
-import { About } from '@/components/about/About';
+import { LiveAbout } from '@/components/LivePageSections';
 import { FinalCTA } from '@/components/home/FinalCTA';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 
-import { profileMock } from '@/data/profile.mock';
+
 
 export const metadata: Metadata = {
   title: 'Sobre Erika Pilar | Psicóloga Clínica',
@@ -34,7 +34,7 @@ export default function AboutPage() {
     <main className="min-h-screen">
       <Navbar />
 
-      <About profile={profileMock} />
+      <LiveAbout />
 
       <FinalCTA />
 
