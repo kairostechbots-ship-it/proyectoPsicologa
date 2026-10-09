@@ -36,40 +36,50 @@ const pageTitles: Record<
     title: 'Dashboard',
     description: 'Resumen general de tu sitio web.',
   },
+
   '/admin/agenda': {
     title: 'Mi agenda',
-    description:
-      'Consulta tus próximas citas y eventos.',
+    description: 'Consulta tus próximas citas y eventos.',
   },
+
+  '/admin/pacientes': {
+    title: 'Pacientes y citas',
+    description: 'Consulta tus pacientes y administra sus citas.',
+  },
+
   '/admin/psicoterapia': {
     title: 'Psicoterapia',
-    description:
-      'Administra los servicios de psicoterapia.',
+    description: 'Administra los servicios de psicoterapia.',
   },
+
   '/admin/promocion': {
     title: 'Promoción',
-    description:
-      'Administra la promoción disponible en el sitio.',
+    description: 'Administra la promoción disponible en el sitio.',
   },
+
   '/admin/medicina-natural': {
     title: 'Medicina Natural',
-    description:
-      'Administra las técnicas y su información.',
+    description: 'Administra las técnicas y su información.',
   },
+
   '/admin/faq': {
     title: 'Preguntas frecuentes',
-    description:
-      'Administra las preguntas y respuestas del sitio.',
+    description: 'Administra las preguntas y respuestas del sitio.',
   },
+
   '/admin/perfil': {
     title: 'Perfil profesional',
-    description:
-      'Administra la información profesional de Erika.',
+    description: 'Administra la información profesional de Erika.',
   },
+
   '/admin/contacto': {
     title: 'Contacto y horarios',
-    description:
-      'Administra los datos de contacto y atención.',
+    description: 'Administra los datos de contacto y atención.',
+  },
+
+  '/admin/cuenta': {
+    title: 'Cuenta y seguridad',
+    description: 'Administra los accesos al panel administrativo.',
   },
 };
 

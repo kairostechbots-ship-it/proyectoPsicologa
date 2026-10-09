@@ -1,9 +1,10 @@
 'use client';
 
-import { SaveStatus } from './SaveStatus';
-import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { apiFetch } from '@/lib/http';
+
+import { SaveStatus } from './SaveStatus';
 import { AdminHeader } from './AdminHeader';
 import { AdminSidebar } from './AdminSidebar';
 
@@ -11,23 +12,36 @@ interface AdminShellProps {
   children: React.ReactNode;
 }
 
+interface CurrentUser {
+  name: string;
+  role: string;
+}
+
 export function AdminShell({
   children,
 }: AdminShellProps) {
-  /*
-   * Menú móvil.
-   */
   const [mobileMenuOpen, setMobileMenuOpen] =
     useState(false);
 
-  /*
-   * Sidebar de escritorio.
-   *
-   * false = 280px
-   * true  = 80px
-   */
   const [sidebarCollapsed, setSidebarCollapsed] =
     useState(false);
+
+  const [user, setUser] =
+    useState<CurrentUser | null>(null);
+
+  /* =========================================================
+     USUARIO AUTENTICADO
+  ========================================================= */
+
+  useEffect(() => {
+    apiFetch<CurrentUser>('/api/auth/me')
+      .then((currentUser) => {
+        setUser(currentUser);
+      })
+      .catch(() => {
+        setUser(null);
+      });
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#F6F6F2]">
@@ -40,8 +54,11 @@ export function AdminShell({
         onClose={() => setMobileMenuOpen(false)}
         collapsed={sidebarCollapsed}
         onToggleCollapse={() =>
-          setSidebarCollapsed((previous) => !previous)
+          setSidebarCollapsed(
+            (previous) => !previous,
+          )
         }
+        role={user?.role ?? null}
       />
 
       {/* =====================================================
@@ -63,15 +80,11 @@ export function AdminShell({
           }
         `}
       >
-        {/* Header */}
-
         <AdminHeader
           onOpenMenu={() =>
             setMobileMenuOpen(true)
           }
         />
-
-        {/* Página */}
 
         <main
           className="
@@ -88,7 +101,9 @@ export function AdminShell({
             lg:py-9
           "
         >
-          <nav className="mb-5 flex gap-4"><Link href="/admin/pacientes">Pacientes y citas</Link><Link href="/admin/usuarios">Usuarios</Link></nav>{children}<SaveStatus />
+          {children}
+
+          <SaveStatus />
         </main>
       </div>
     </div>

@@ -11,7 +11,9 @@ import {
   Leaf,
   MapPin,
   Stethoscope,
+  ShieldCheck,
   UserRound,
+  Users,
   X,
 } from 'lucide-react';
 
@@ -19,24 +21,35 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+/* =========================================================
+   TIPOS
+========================================================= */
+
 interface AdminSidebarProps {
   mobileOpen: boolean;
   onClose: () => void;
 
   collapsed: boolean;
   onToggleCollapse: () => void;
+
+  role: string | null;
 }
 
 interface MenuItem {
   label: string;
   href: string;
   icon: React.ElementType;
+  roles?: string[];
 }
 
 interface MenuSection {
   title: string;
   items: MenuItem[];
 }
+
+/* =========================================================
+   MENÚ
+========================================================= */
 
 const menuSections: MenuSection[] = [
   {
@@ -46,11 +59,19 @@ const menuSections: MenuSection[] = [
         label: 'Dashboard',
         href: '/admin',
         icon: LayoutDashboard,
+        roles: ['admin', 'editor', 'receptionist'],
       },
       {
         label: 'Mi agenda',
         href: '/admin/agenda',
         icon: CalendarDays,
+        roles: ['admin', 'receptionist'],
+      },
+      {
+        label: 'Pacientes y citas',
+        href: '/admin/pacientes',
+        icon: Users,
+        roles: ['admin', 'receptionist'],
       },
     ],
   },
@@ -61,21 +82,25 @@ const menuSections: MenuSection[] = [
         label: 'Psicoterapia',
         href: '/admin/psicoterapia',
         icon: Stethoscope,
+        roles: ['admin', 'editor'],
       },
       {
         label: 'Promoción',
         href: '/admin/promocion',
         icon: Gift,
+        roles: ['admin', 'editor'],
       },
       {
         label: 'Medicina Natural',
         href: '/admin/medicina-natural',
         icon: Leaf,
+        roles: ['admin', 'editor'],
       },
       {
         label: 'Preguntas frecuentes',
         href: '/admin/faq',
         icon: CircleHelp,
+        roles: ['admin', 'editor'],
       },
     ],
   },
@@ -86,23 +111,45 @@ const menuSections: MenuSection[] = [
         label: 'Perfil profesional',
         href: '/admin/perfil',
         icon: UserRound,
+        roles: ['admin', 'editor'],
       },
       {
         label: 'Contacto y horarios',
         href: '/admin/contacto',
         icon: MapPin,
+        roles: ['admin', 'editor'],
       },
     ],
   },
+  {
+  title: 'Cuenta',
+  items: [
+    {
+      label: 'Cuenta y seguridad',
+      href: '/admin/cuenta',
+      icon: ShieldCheck,
+      roles: ['admin'],
+    },
+  ],
+},
 ];
+
+/* =========================================================
+   COMPONENTE
+========================================================= */
 
 export function AdminSidebar({
   mobileOpen,
   onClose,
   collapsed,
   onToggleCollapse,
+  role,
 }: AdminSidebarProps) {
   const pathname = usePathname();
+
+  /* =========================================================
+     ESTADO ACTIVO
+  ========================================================= */
 
   const isActive = (href: string) => {
     if (href === '/admin') {
@@ -111,6 +158,32 @@ export function AdminSidebar({
 
     return pathname.startsWith(href);
   };
+
+  /* =========================================================
+     FILTRAR MENÚ POR ROL
+  ========================================================= */
+
+  const visibleSections = menuSections
+    .map((section) => ({
+      ...section,
+
+      items: section.items.filter((item) => {
+        /*
+         * Mientras el usuario todavía se está cargando,
+         * mostramos únicamente Dashboard.
+         */
+        if (!role) {
+          return item.href === '/admin';
+        }
+
+        if (!item.roles) {
+          return true;
+        }
+
+        return item.roles.includes(role);
+      }),
+    }))
+    .filter((section) => section.items.length > 0);
 
   return (
     <>
@@ -129,6 +202,7 @@ export function AdminSidebar({
             z-40
             bg-[#071E24]/45
             backdrop-blur-[2px]
+
             lg:hidden
           "
         />
@@ -319,7 +393,6 @@ export function AdminSidebar({
               border-white/[0.09]
               bg-[#0F3D4A]
               text-white/50
-
               shadow-[0_4px_14px_rgba(0,0,0,0.10)]
 
               transition-all
@@ -409,7 +482,7 @@ export function AdminSidebar({
           `}
         >
           <div className="space-y-6">
-            {menuSections.map((section) => (
+            {visibleSections.map((section) => (
               <div key={section.title}>
                 {/* Título de sección */}
 
@@ -451,7 +524,10 @@ export function AdminSidebar({
 
                 <div className="space-y-1">
                   {section.items.map((item) => {
-                    const active = isActive(item.href);
+                    const active = isActive(
+                      item.href,
+                    );
+
                     const Icon = item.icon;
 
                     return (
