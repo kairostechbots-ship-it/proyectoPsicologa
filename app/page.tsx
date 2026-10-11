@@ -12,28 +12,47 @@ import { FinalCTA } from '@/components/home/FinalCTA';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 
+const title =
+  'Psicóloga en Tlajomulco y en línea | Erika Pilar';
 
+const description =
+  'Psicoterapia con enfoque cognitivo-conductual en Tlajomulco, Jalisco, y en línea. Conoce a Erika Pilar y solicita tu cita por WhatsApp.';
 
 export const metadata: Metadata = {
-  title: 'Psicología Clínica y Psicoterapia',
+  title: {
+    absolute: title,
+  },
 
-  description:
-    'Psicología clínica y psicoterapia con enfoque cognitivo-conductual. Atención presencial en Tlajomulco y en línea para niños, adolescentes, adultos y parejas.',
+  description,
+
+  alternates: {
+    canonical: '/',
+  },
 
   openGraph: {
-    title:
-      'Erika Pilar | Psicología Clínica y Psicoterapia',
+    type: 'website',
+    locale: 'es_MX',
+    siteName: 'Erika Pilar',
+    url: '/',
+    title,
+    description,
 
-    description:
-      'Psicología clínica y psicoterapia con enfoque cognitivo-conductual. Atención presencial en Tlajomulco y en línea.',
+    images: [
+      {
+        url: '/og-erika-pilar.png',
+        width: 1200,
+        height: 630,
+        alt:
+          'Erika Pilar, psicóloga clínica. Atención presencial en Tlajomulco y en línea.',
+      },
+    ],
   },
 
   twitter: {
-    title:
-      'Erika Pilar | Psicología Clínica y Psicoterapia',
-
-    description:
-      'Psicología clínica y psicoterapia con enfoque cognitivo-conductual. Atención presencial en Tlajomulco y en línea.',
+    card: 'summary_large_image',
+    title,
+    description,
+    images: ['/og-erika-pilar.png'],
   },
 };
 

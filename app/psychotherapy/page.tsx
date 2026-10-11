@@ -6,26 +6,48 @@ import { ConsultationRecommendations } from '@/components/psychotherapy/Consulta
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 
-export const metadata: Metadata = {
-  title: 'Psicoterapia en Tlajomulco | Terapia TCC',
+const title =
+  'Psicoterapia TCC en Tlajomulco y en línea';
 
-  description:
-    'Psicoterapia con enfoque cognitivo-conductual en Tlajomulco y en línea. Atención psicológica para niños, adolescentes, adultos y parejas con Erika Pilar.',
+const socialTitle = `${title} | Erika Pilar`;
+
+const description =
+  'Psicoterapia con enfoque cognitivo-conductual para niños, adolescentes, adultos y parejas. Atención en Tlajomulco y en línea con Erika Pilar.';
+
+export const metadata: Metadata = {
+  // El layout agrega automáticamente: | Erika Pilar.
+  title,
+
+  description,
+
+  alternates: {
+    canonical: '/psychotherapy',
+  },
 
   openGraph: {
-    title:
-      'Psicoterapia en Tlajomulco | Erika Pilar',
+    type: 'website',
+    locale: 'es_MX',
+    siteName: 'Erika Pilar',
+    url: '/psychotherapy',
+    title: socialTitle,
+    description,
 
-    description:
-      'Atención psicológica con enfoque cognitivo-conductual para niños, adolescentes, adultos y parejas. Modalidad presencial y en línea.',
+    images: [
+      {
+        url: '/og-erika-pilar.png',
+        width: 1200,
+        height: 630,
+        alt:
+          'Psicoterapia con Erika Pilar. Terapia cognitivo-conductual en Tlajomulco y en línea.',
+      },
+    ],
   },
 
   twitter: {
-    title:
-      'Psicoterapia en Tlajomulco | Erika Pilar',
-
-    description:
-      'Atención psicológica con enfoque cognitivo-conductual en modalidad presencial y en línea.',
+    card: 'summary_large_image',
+    title: socialTitle,
+    description,
+    images: ['/og-erika-pilar.png'],
   },
 };
 

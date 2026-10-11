@@ -6,28 +6,47 @@ import { FinalCTA } from '@/components/home/FinalCTA';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 
+const title = 'Medicina Natural en Tlajomulco';
 
+const socialTitle = `${title} | Erika Pilar`;
+
+const description =
+  'Conoce la consulta de medicina natural de Erika Pilar en Tlajomulco, las técnicas disponibles y cómo solicitar información y una cita.';
 
 export const metadata: Metadata = {
-  title: 'Medicina Natural en Tlajomulco',
+  // El layout agrega automáticamente: | Erika Pilar.
+  title,
 
-  description:
-    'Conoce la consulta de medicina natural que ofrece Erika Pilar en Tlajomulco, así como las técnicas disponibles y la información para solicitar una cita.',
+  description,
+
+  alternates: {
+    canonical: '/medicina-natural',
+  },
 
   openGraph: {
-    title:
-      'Medicina Natural en Tlajomulco | Erika Pilar',
+    type: 'website',
+    locale: 'es_MX',
+    siteName: 'Erika Pilar',
+    url: '/medicina-natural',
+    title: socialTitle,
+    description,
 
-    description:
-      'Conoce las técnicas de medicina natural disponibles, la modalidad de atención y la información para solicitar una cita con Erika Pilar.',
+    images: [
+      {
+        url: '/og-erika-pilar.png',
+        width: 1200,
+        height: 630,
+        alt:
+          'Erika Pilar. Información sobre la consulta de medicina natural en Tlajomulco.',
+      },
+    ],
   },
 
   twitter: {
-    title:
-      'Medicina Natural en Tlajomulco | Erika Pilar',
-
-    description:
-      'Información sobre consulta y técnicas de medicina natural disponibles con Erika Pilar en Tlajomulco.',
+    card: 'summary_large_image',
+    title: socialTitle,
+    description,
+    images: ['/og-erika-pilar.png'],
   },
 };
 

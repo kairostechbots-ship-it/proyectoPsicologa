@@ -255,9 +255,9 @@ export function TCCSection() {
                 sm:leading-8
               "
             >
-              La Terapia Cognitivo-Conductual es un enfoque basado en
-              evidencia que permite explorar la relación entre lo que
-              pensamos, sentimos y hacemos.
+              La Terapia Cognitivo-Conductual (TCC) es un enfoque psicológico basado en evidencia que ayuda a comprender cómo se relacionan nuestros pensamientos, emociones y conductas.
+
+Durante el proceso terapéutico se trabajan estrategias prácticas para afrontar dificultades, desarrollar nuevas habilidades y avanzar hacia objetivos personales.
             </motion.p>
 
             <motion.p
@@ -283,15 +283,15 @@ export function TCCSection() {
               className="mt-6 space-y-3 sm:mt-7"
             >
               <Principle>
-                Un proceso centrado en tus necesidades y objetivos.
+               Identificación de pensamientos y conductas que influyen en tu bienestar.
               </Principle>
 
               <Principle>
-                Estrategias que pueden aplicarse también fuera de consulta.
+                Herramientas prácticas para aplicar en situaciones cotidianas.
               </Principle>
 
               <Principle>
-                Acompañamiento profesional, colaborativo y sin juicios.
+                Objetivos terapéuticos definidos y revisión de avances durante el proceso.
               </Principle>
             </motion.div>
 

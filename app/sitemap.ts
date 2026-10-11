@@ -1,53 +1,46 @@
 import type { MetadataRoute } from 'next';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '');
+function getSiteUrl(): string | null {
+  const value = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 
-  /*
-   * Mientras no exista un dominio definitivo,
-   * evitamos generar URLs de localhost dentro del sitemap.
-   */
+  if (!value) {
+    return null;
+  }
+
+  try {
+    const url = new URL(value);
+
+    if (
+      url.protocol !== 'https:' ||
+      url.hostname === 'localhost' ||
+      url.hostname === '127.0.0.1'
+    ) {
+      return null;
+    }
+
+    return url.origin;
+  } catch {
+    return null;
+  }
+}
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const siteUrl = getSiteUrl();
+
   if (!siteUrl) {
     return [];
   }
 
   const routes = [
-    {
-      path: '',
-      changeFrequency: 'weekly' as const,
-      priority: 1,
-    },
-    {
-      path: '/quien-soy',
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      path: '/psicoterapia',
-      changeFrequency: 'monthly' as const,
-      priority: 0.9,
-    },
-    {
-      path: '/medicina-natural',
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      path: '/faq',
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      path: '/contacto',
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
+    '/',
+    '/quien-soy',
+    '/psychotherapy',
+    '/medicina-natural',
+    '/faq',
+    '/contacto',
   ];
 
-  return routes.map((route) => ({
-    url: `${siteUrl}${route.path}`,
-    lastModified: new Date(),
-    changeFrequency: route.changeFrequency,
-    priority: route.priority,
+  return routes.map((path) => ({
+    url: new URL(path, `${siteUrl}/`).href,
   }));
 }

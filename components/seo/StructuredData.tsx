@@ -1,153 +1,189 @@
 'use client';
+
 import { useSiteData } from '@/components/SiteDataProvider';
 
-
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '');
-
 const dayMap: Record<string, string> = {
-  Lunes: 'Monday',
-  Martes: 'Tuesday',
-  Miércoles: 'Wednesday',
-  Jueves: 'Thursday',
-  Viernes: 'Friday',
-  Sábado: 'Saturday',
-  Domingo: 'Sunday',
+  lunes: 'Monday',
+  martes: 'Tuesday',
+  miercoles: 'Wednesday',
+  jueves: 'Thursday',
+  viernes: 'Friday',
+  sabado: 'Saturday',
+  domingo: 'Sunday',
 };
 
+function normalizeDay(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
+function getSiteUrl(): string | null {
+  const value = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+
+  if (!value) {
+    return null;
+  }
+
+  try {
+    const url = new URL(value);
+
+    if (
+      url.protocol !== 'https:' ||
+      url.hostname === 'localhost' ||
+      url.hostname === '127.0.0.1'
+    ) {
+      return null;
+    }
+
+    return url.origin;
+  } catch {
+    return null;
+  }
+}
+
+function normalizeTime(value: string): string | null {
+  const match = value.trim().match(
+    /^([01]\d|2[0-3]):([0-5]\d)(?::[0-5]\d)?$/,
+  );
+
+  return match ? `${match[1]}:${match[2]}` : null;
+}
+
+const SITE_URL = getSiteUrl();
+
 export function StructuredData() {
- const { contact: contactMock, profile: profileMock } = useSiteData();
+  const { contact, profile } = useSiteData();
 
-
-  /*
-   * Mientras no exista un dominio definitivo,
-   * evitamos generar URLs falsas o localhost
-   * dentro de los datos estructurados.
-   */
   if (!SITE_URL) {
     return null;
   }
 
-  const openingHoursSpecification = contactMock.businessHours
-    .filter(
-      (item) =>
-        item.enabled &&
-        item.startTime &&
-        item.endTime &&
-        dayMap[item.day],
-    )
-    .map((item) => ({
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: `https://schema.org/${dayMap[item.day]}`,
-      opens: item.startTime,
-      closes: item.endTime,
-    }));
+  const websiteId = `${SITE_URL}/#website`;
+  const businessId = `${SITE_URL}/#consultorio`;
+  const personId = `${SITE_URL}/#erika-pilar`;
+
+  const openingHoursSpecification = (
+    contact.businessHours ?? []
+  ).flatMap((item) => {
+    if (
+      !item.enabled ||
+      !item.startTime ||
+      !item.endTime
+    ) {
+      return [];
+    }
+
+    const day = dayMap[normalizeDay(item.day)];
+    const opens = normalizeTime(item.startTime);
+    const closes = normalizeTime(item.endTime);
+
+    if (!day || !opens || !closes) {
+      return [];
+    }
+
+    return [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: `https://schema.org/${day}`,
+        opens,
+        closes,
+      },
+    ];
+  });
 
   const jsonLd = {
     '@context': 'https://schema.org',
 
     '@graph': [
-      /* =====================================================
-         SITIO WEB
-      ====================================================== */
-
       {
         '@type': 'WebSite',
-        '@id': `${SITE_URL}/#website`,
-
-        url: SITE_URL,
-
-        name: 'Erika Pilar | Psicología Clínica',
-
-        alternateName: 'Erika Pilar',
-
+        '@id': websiteId,
+        url: `${SITE_URL}/`,
+        name: 'Erika Pilar',
+        alternateName: 'Erika Pilar | Psicología Clínica',
         inLanguage: 'es-MX',
 
         publisher: {
-          '@id': `${SITE_URL}/#professional-service`,
+          '@id': businessId,
         },
       },
-
-      /* =====================================================
-         PROFESIONAL
-      ====================================================== */
 
       {
         '@type': 'Person',
-        '@id': `${SITE_URL}/#erika-pilar`,
-
-        name: profileMock.name,
-
-        jobTitle: profileMock.professionalTitle,
-
-        description:
-          'Licenciada en Psicología Clínica con enfoque en Terapia Cognitivo-Conductual (TCC) y trayectoria en atención psicológica y psicoterapia.',
-
+        '@id': personId,
+        name: profile.name,
+        jobTitle: profile.professionalTitle,
         url: `${SITE_URL}/quien-soy`,
 
+        description:
+          'Psicóloga clínica con enfoque en Terapia Cognitivo-Conductual y atención presencial en Tlajomulco de Zúñiga y en línea.',
+
         knowsAbout: [
-          'Psicología Clínica',
+          'Psicología clínica',
           'Psicoterapia',
           'Terapia Cognitivo-Conductual',
         ],
-
-        worksFor: {
-          '@id': `${SITE_URL}/#professional-service`,
-        },
       },
 
-      /* =====================================================
-         SERVICIO PROFESIONAL
-      ====================================================== */
-
       {
-        '@type': 'ProfessionalService',
-        '@id': `${SITE_URL}/#professional-service`,
-
+        '@type': 'LocalBusiness',
+        '@id': businessId,
         name: 'Erika Pilar | Psicología Clínica',
+        url: `${SITE_URL}/`,
+        telephone: contact.phone?.trim() || undefined,
 
-        url: SITE_URL,
-
-        telephone: contactMock.phone,
-
+        // Estas imágenes deben existir en la carpeta public.
         image: `${SITE_URL}/logo.png`,
-
         logo: `${SITE_URL}/03-isotipo.png`,
 
         description:
-          'Servicios de psicología clínica y psicoterapia con enfoque cognitivo-conductual, con atención presencial y en línea.',
+          'Consultorio de psicología clínica y psicoterapia con enfoque cognitivo-conductual. Atención presencial en Tlajomulco de Zúñiga, Jalisco, y en línea, con cita previa.',
 
         address: {
           '@type': 'PostalAddress',
-
           streetAddress:
             'Calle Jacaranda #26, Fraccionamiento Prados de la Higuera, cruce con Andador N3',
-
           postalCode: '45640',
-
-          addressLocality: 'Tlajomulco Centro',
-
+          addressLocality: 'Tlajomulco de Zúñiga',
           addressRegion: 'Jalisco',
-
           addressCountry: 'MX',
         },
 
-        openingHoursSpecification,
+        openingHoursSpecification:
+          openingHoursSpecification.length > 0
+            ? openingHoursSpecification
+            : undefined,
 
-        employee: {
-          '@id': `${SITE_URL}/#erika-pilar`,
+        hasMap: contact.mapsUrl?.trim() || undefined,
+      },
+
+      {
+        '@type': 'Service',
+        '@id': `${SITE_URL}/#psicoterapia`,
+        name: 'Psicoterapia',
+        serviceType:
+          'Psicoterapia con enfoque cognitivo-conductual',
+        url: `${SITE_URL}/psychotherapy`,
+
+        provider: {
+          '@id': personId,
         },
-
-        hasMap: contactMock.mapsUrl,
       },
     ],
   };
 
   return (
     <script
+      id="site-structured-data"
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+        __html: JSON.stringify(jsonLd).replace(
+          /</g,
+          '\\u003c',
+        ),
       }}
     />
   );

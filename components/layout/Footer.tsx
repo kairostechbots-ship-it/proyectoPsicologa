@@ -1,5 +1,8 @@
+
 'use client';
+
 import { useSiteData } from '@/components/SiteDataProvider';
+
 import {
   ArrowUpRight,
   HeartHandshake,
@@ -13,109 +16,100 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 
-
+// =====================================================
+// TIPOS
+// =====================================================
 
 interface FooterProps {
   variant?: 'light' | 'dark';
 }
 
-
+// =====================================================
+// NAVEGACIÓN
+// =====================================================
 
 const footerLinks = [
-  {
-    name: 'Inicio',
-    href: '/',
-  },
-  {
-    name: 'Sobre mí',
-    href: '/quien-soy',
-  },
-  {
-    name: 'Psicoterapia',
-    href: '/psychotherapy',
-  },
-  {
-    name: 'Medicina Natural',
-    href: '/medicina-natural',
-  },
-  {
-    name: 'Preguntas frecuentes',
-    href: '/faq',
-  },
-  {
-    name: 'Contacto',
-    href: '/contacto',
-  },
+  { name: 'Inicio', href: '/' },
+  { name: 'Sobre mí', href: '/quien-soy' },
+  { name: 'Psicoterapia', href: '/psychotherapy' },
+  { name: 'Medicina Natural', href: '/medicina-natural' },
+  { name: 'Preguntas frecuentes', href: '/faq' },
+  { name: 'Contacto', href: '/contacto' },
 ];
 
 const modalities = [
-  {
-    name: 'Terapia presencial',
-    icon: HeartHandshake,
-  },
-  {
-    name: 'Terapia en línea',
-    icon: Monitor,
-  },
-  {
-    name: 'Terapia de pareja',
-    icon: Users,
-  },
+  { name: 'Terapia presencial', icon: HeartHandshake },
+  { name: 'Terapia en línea', icon: Monitor },
+  { name: 'Terapia de pareja', icon: Users },
 ];
+
+// =====================================================
+// COMPONENTE FOOTER
+// =====================================================
 
 export function Footer({
   variant = 'dark',
 }: FooterProps) {
- const { contact: contactMock } = useSiteData();
-const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-  'Hola, me gustaría recibir información para solicitar una cita.'
-)}`;
+  const { contact } = useSiteData();
 
   const isDark = variant === 'dark';
 
-  const footerBackground = isDark
+  const whatsappUrl = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
+    'Hola, me gustaría recibir información para solicitar una cita.'
+  )}`;
+
+  // =====================================================
+  // COLORES SEGÚN VARIANTE
+  // =====================================================
+
+  const background = isDark
     ? 'bg-[#0F3D4A] text-white'
-    : 'bg-[#F7F5EF] text-[#66787C] border-t border-[#A7B89A]/20';
+    : 'bg-[#F7F5EF] text-[#0F3D4A]';
 
   const headingColor = isDark
     ? 'text-[#D8BD66]'
     : 'text-[#9B7A1F]';
 
   const bodyColor = isDark
-    ? 'text-white/60'
-    : 'text-[#66787C]';
+    ? 'text-white/70'
+    : 'text-[#63777A]';
 
   const secondaryColor = isDark
-    ? 'text-white/35'
+    ? 'text-white/45'
     : 'text-[#82918B]';
 
   const strongColor = isDark
-    ? 'text-white/85'
-    : 'text-[#435D61]';
+    ? 'text-white/90'
+    : 'text-[#0F3D4A]';
 
   const borderColor = isDark
-    ? 'border-white/10'
+    ? 'border-white/15'
     : 'border-[#A7B89A]/25';
 
   const iconCircle = isDark
-    ? 'border-white/10 bg-white/[0.04] text-[#A7B89A]'
-    : 'border-[#A7B89A]/20 bg-[#A7B89A]/[0.10] text-[#597060]';
+    ? 'bg-white/[0.09] text-[#E3E9E6]'
+    : 'bg-[#A7B89A]/15 text-[#597060]';
 
   const hoverColor = isDark
-    ? 'hover:text-white'
-    : 'hover:text-[#0F4A55]';
+    ? 'hover:text-[#E2C66E]'
+    : 'hover:text-[#0F3D4A]';
+
+  // =====================================================
+  // RENDER
+  // =====================================================
 
   return (
     <footer
       className={`
         relative
+        isolate
         overflow-hidden
-        ${footerBackground}
+        ${background}
       `}
     >
       {/* =====================================================
-          DECORACIÓN
-      ====================================================== */}
+          DECORACIÓN DE FONDO
+      ===================================================== */}
 
       <div
         aria-hidden="true"
@@ -126,58 +120,56 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
           overflow-hidden
         "
       >
-        {/* Círculo inferior izquierdo */}
-        <div
-          className={`
-            absolute
-            -bottom-[280px]
-            -left-[230px]
-            h-[500px]
-            w-[500px]
-            rounded-full
-            border
-
-            ${
-              isDark
-                ? 'border-white/[0.04]'
-                : 'border-[#A7B89A]/10'
-            }
-          `}
-        />
-
         {/* Círculo superior derecho */}
         <div
           className={`
             absolute
-            -right-[170px]
-            -top-[220px]
-            h-[380px]
-            w-[380px]
+            -right-[180px]
+            -top-[230px]
+            h-[430px]
+            w-[430px]
             rounded-full
             border
-
             ${
               isDark
-                ? 'border-[#D4AF37]/[0.06]'
-                : 'border-[#D4AF37]/[0.08]'
+                ? 'border-[#D4AF37]/10'
+                : 'border-[#D4AF37]/15'
             }
           `}
         />
 
-        {/* Punto dorado */}
-        <span
+        {/* Segundo arco */}
+        <div
           className={`
             absolute
-            right-[12%]
-            top-[28%]
-            h-1.5
-            w-1.5
+            -right-[105px]
+            -top-[175px]
+            h-[350px]
+            w-[350px]
             rounded-full
-
+            border
             ${
               isDark
-                ? 'bg-[#D4AF37]/35'
-                : 'bg-[#D4AF37]/45'
+                ? 'border-white/[0.05]'
+                : 'border-[#71856D]/10'
+            }
+          `}
+        />
+
+        {/* Círculo inferior izquierdo */}
+        <div
+          className={`
+            absolute
+            -bottom-[320px]
+            -left-[240px]
+            h-[520px]
+            w-[520px]
+            rounded-full
+            border
+            ${
+              isDark
+                ? 'border-white/[0.05]'
+                : 'border-[#71856D]/10'
             }
           `}
         />
@@ -188,22 +180,18 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
           fill="none"
           className={`
             absolute
-            -bottom-28
-            -left-10
-            h-auto
-            w-[260px]
-            rotate-[16deg]
-
-            sm:w-[320px]
-
+            -bottom-24
+            -left-16
+            w-[250px]
+            rotate-[12deg]
+            sm:w-[300px]
             lg:-bottom-36
-            lg:-left-8
-            lg:w-[390px]
-
+            lg:-left-12
+            lg:w-[360px]
             ${
               isDark
-                ? 'text-[#A7B89A] opacity-[0.07]'
-                : 'text-[#71856D] opacity-[0.08]'
+                ? 'text-[#A7B89A] opacity-[0.12]'
+                : 'text-[#71856D] opacity-[0.10]'
             }
           `}
         >
@@ -214,108 +202,115 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
             strokeLinejoin="round"
           >
             <path d="M51 344C72 299 94 254 103 202C113 151 115 96 110 28" />
-
             <path d="M111 80C91 65 91 40 110 18C121 39 122 61 111 80Z" />
-
             <path d="M113 125C132 111 148 87 144 64C124 75 111 101 113 125Z" />
-
             <path d="M110 151C87 140 66 120 65 96C89 103 107 126 110 151Z" />
-
             <path d="M103 197C126 190 150 170 153 147C127 153 110 172 103 197Z" />
-
             <path d="M96 222C72 211 52 193 48 168C73 174 91 198 96 222Z" />
-
             <path d="M81 267C105 264 131 249 137 226C111 228 91 245 81 267Z" />
           </g>
         </svg>
+
+        {/* Puntos dorados */}
+        <span
+          className="
+            absolute
+            right-[5%]
+            top-[24%]
+            h-2
+            w-2
+            rounded-full
+            bg-[#D4AF37]/70
+          "
+        />
+
+        <span
+          className="
+            absolute
+            bottom-[27%]
+            left-[2%]
+            h-1.5
+            w-1.5
+            rounded-full
+            bg-[#D4AF37]/55
+          "
+        />
       </div>
 
       {/* =====================================================
           CONTENIDO PRINCIPAL
-      ====================================================== */}
+      ===================================================== */}
 
       <div
         className="
           relative
           z-10
           mx-auto
-          max-w-[1240px]
-          px-5
-          pb-10
-          pt-14
-
-          sm:px-6
-
-          lg:px-8
-          lg:pb-10
-          lg:pt-16
+          max-w-[1320px]
+          px-6
+          py-12
+          sm:px-8
+          lg:px-10
+          lg:py-12
         "
       >
         <div
           className="
             grid
-            gap-12
-
-            md:grid-cols-2
-
-            lg:grid-cols-[1.25fr_0.65fr_0.85fr_1.05fr]
-            lg:gap-12
+            gap-x-10
+            gap-y-10
+            sm:grid-cols-2
+            lg:grid-cols-[1.4fr_0.7fr_0.9fr_1.2fr]
+            lg:gap-x-12
           "
         >
           {/* =================================================
               IDENTIDAD
-          ================================================== */}
+          ================================================= */}
 
           <div>
             <Link
               href="/"
               aria-label="Ir a la página de inicio"
-              className={`
-                inline-flex
-
-                ${
-                  isDark
-                    ? 'rounded-[16px] bg-white px-4 py-3'
-                    : ''
-                }
-              `}
+              className="inline-flex max-w-full"
             >
               <Image
-                src="/logo.png"
+                src={
+                  isDark
+                    ? '/Logotipo.png'
+                    : '/logo.png'
+                }
                 alt="Erika Pilar - Psicóloga Clínica"
-                width={260}
-                height={90}
-                className={`
-                  w-auto
+                width={290}
+                height={100}
+                className="
+                  h-auto
+                  w-full
+                  max-w-[280px]
                   object-contain
-
-                  ${
-                    isDark
-                      ? 'h-[60px]'
-                      : 'h-[68px]'
-                  }
-                `}
+                "
               />
             </Link>
 
             <p
               className={`
-                mt-6
-                max-w-[360px]
+                mt-5
+                max-w-[345px]
                 text-[13px]
-                leading-7
-
+                leading-[1.75]
                 ${bodyColor}
               `}
             >
-              Atención psicológica profesional desde un enfoque
-              cognitivo-conductual, en un espacio confidencial, humano y libre
-              de juicios.
+              Atención psicológica presencial y en línea,
+              con enfoque cognitivo-conductual y
+              acompañamiento profesional para distintas
+              etapas de la vida.
             </p>
 
+            {/* Frase de marca */}
             <div
               className="
-                mt-7
+                mt-5
                 flex
                 items-start
                 gap-3
@@ -324,7 +319,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
               <span
                 aria-hidden="true"
                 className="
-                  mt-[10px]
+                  mt-[12px]
                   h-px
                   w-7
                   shrink-0
@@ -334,58 +329,52 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
 
               <p
                 className={`
-                  max-w-[300px]
+                  max-w-[320px]
                   font-serif
-                  text-[16px]
+                  text-[17px]
                   italic
-                  leading-6
-
-                  ${
-                    isDark
-                      ? 'text-white/90'
-                      : 'text-[#0F4A55]'
-                  }
+                  leading-[1.45]
+                  sm:text-[18px]
+                  ${strongColor}
                 `}
               >
-                Salud mental basada en evidencia. Atención humana y
-                profesional.
+                Salud mental basada en evidencia.
+                Atención humana y profesional.
               </p>
             </div>
           </div>
 
           {/* =================================================
               EXPLORAR
-          ================================================== */}
+          ================================================= */}
 
           <div>
-            <p
+            <h2
               className={`
-                text-[10px]
+                text-[11px]
                 font-semibold
                 uppercase
-                tracking-[0.22em]
-
+                tracking-[0.24em]
                 ${headingColor}
               `}
             >
               Explorar
-            </p>
+            </h2>
 
             <nav
               aria-label="Navegación del pie de página"
               className="mt-6"
             >
-              <ul className="space-y-3.5">
+              <ul className="space-y-3">
                 {footerLinks.map((link) => (
-                  <li key={link.name}>
+                  <li key={link.href}>
                     <Link
                       href={link.href}
                       className={`
-                        inline-flex
+                        inline-block
                         text-[13px]
                         transition-colors
                         duration-300
-
                         ${bodyColor}
                         ${hoverColor}
                       `}
@@ -400,57 +389,59 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
 
           {/* =================================================
               ATENCIÓN
-          ================================================== */}
+          ================================================= */}
 
           <div>
-            <p
+            <h2
               className={`
-                text-[10px]
+                text-[11px]
                 font-semibold
                 uppercase
-                tracking-[0.22em]
-
+                tracking-[0.24em]
                 ${headingColor}
               `}
             >
               Atención
-            </p>
+            </h2>
 
-            <ul className="mt-6 space-y-5">
+            <ul className="mt-6 space-y-4">
               {modalities.map(({ name, icon: Icon }) => (
                 <li
                   key={name}
-                  className={`
+                  className="
                     flex
                     items-center
                     gap-3
-                    text-[13px]
-
-                    ${bodyColor}
-                  `}
+                  "
                 >
                   <span
                     className={`
                       flex
-                      h-8
-                      w-8
+                      h-9
+                      w-9
                       shrink-0
                       items-center
                       justify-center
                       rounded-full
-                      border
-
                       ${iconCircle}
                     `}
                   >
                     <Icon
                       aria-hidden="true"
-                      className="h-[15px] w-[15px]"
+                      className="h-[17px] w-[17px]"
                       strokeWidth={1.5}
                     />
                   </span>
 
-                  {name}
+                  <span
+                    className={`
+                      text-[13px]
+                      leading-5
+                      ${bodyColor}
+                    `}
+                  >
+                    {name}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -458,34 +449,33 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
 
           {/* =================================================
               CONTACTO
-          ================================================== */}
+          ================================================= */}
 
           <div>
-            <p
+            <h2
               className={`
-                text-[10px]
+                text-[11px]
                 font-semibold
                 uppercase
-                tracking-[0.22em]
-
+                tracking-[0.24em]
                 ${headingColor}
               `}
             >
               Contacto
-            </p>
+            </h2>
 
             <p
               className={`
                 mt-6
-                max-w-[290px]
+                max-w-[320px]
                 text-[13px]
-                leading-6
-
+                leading-[1.7]
                 ${bodyColor}
               `}
             >
-              Para solicitar información o conocer disponibilidad, puedes
-              comunicarte directamente por WhatsApp.
+              Para solicitar información o conocer
+              disponibilidad, puedes comunicarte
+              directamente por WhatsApp.
             </p>
 
             <div className="mt-5 space-y-3">
@@ -501,8 +491,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                   items-center
                   gap-3
                   border-b
-                  pb-4
-
+                  pb-3
                   ${borderColor}
                 `}
               >
@@ -512,19 +501,18 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                     h-[18px]
                     w-[18px]
                     shrink-0
-                    text-[#D4AF37]
+                    text-[#D8BD66]
                   "
                   strokeWidth={1.5}
                 />
 
-                <span>
+                <span className="min-w-0 flex-1">
                   <span
                     className={`
                       block
                       text-[9px]
                       uppercase
                       tracking-[0.14em]
-
                       ${secondaryColor}
                     `}
                   >
@@ -538,65 +526,53 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                       text-[13px]
                       font-medium
                       transition-colors
-                      duration-300
-
                       ${strongColor}
                       ${hoverColor}
                     `}
                   >
-                    {contactMock.phone}
+                    {contact.phone}
                   </span>
                 </span>
 
                 <ArrowUpRight
                   aria-hidden="true"
-                  className={`
-                    ml-auto
+                  className="
                     h-4
                     w-4
-                    transition-all
+                    shrink-0
+                    text-[#A7B89A]/70
+                    transition-transform
                     duration-300
-
-                    ${
-                      isDark
-                        ? 'text-white/25'
-                        : 'text-[#A7B89A]'
-                    }
-
-                    group-hover:-translate-y-0.5
-                    group-hover:translate-x-0.5
-                    group-hover:text-[#D4AF37]
-                  `}
-                  strokeWidth={1.5}
+                    group-hover:-translate-y-1
+                    group-hover:translate-x-1
+                  "
                 />
               </a>
 
-              {/* Ubicación */}
+              {/* Dirección */}
               <a
-                href={contactMock.mapsUrl}
+                href={contact.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Ver ubicación del consultorio en Google Maps"
+                aria-label="Ver ubicación del consultorio"
                 className={`
                   group
                   flex
                   items-start
                   gap-3
                   border-b
-                  pb-4
-                  pt-1
-
+                  pb-3
                   ${borderColor}
                 `}
               >
                 <MapPin
                   aria-hidden="true"
                   className="
-                    mt-0.5
+                    mt-1
                     h-[18px]
                     w-[18px]
                     shrink-0
-                    text-[#D4AF37]
+                    text-[#D8BD66]
                   "
                   strokeWidth={1.5}
                 />
@@ -608,7 +584,6 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                       text-[9px]
                       uppercase
                       tracking-[0.14em]
-
                       ${secondaryColor}
                     `}
                   >
@@ -619,51 +594,36 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                     className={`
                       mt-1
                       block
-                      max-w-[230px]
                       text-[12px]
-                      leading-5
+                      leading-[1.65]
                       transition-colors
-                      duration-300
-
-                      ${
-                        isDark
-                          ? 'text-white/55 group-hover:text-white/85'
-                          : 'text-[#718083] group-hover:text-[#0F4A55]'
-                      }
+                      ${bodyColor}
+                      ${hoverColor}
                     `}
                   >
-                    {contactMock.address}
+                    {contact.address}
                   </span>
                 </span>
 
                 <ArrowUpRight
                   aria-hidden="true"
-                  className={`
-                    ml-auto
+                  className="
                     mt-1
                     h-4
                     w-4
                     shrink-0
-                    transition-all
+                    text-[#A7B89A]/70
+                    transition-transform
                     duration-300
-
-                    ${
-                      isDark
-                        ? 'text-white/25'
-                        : 'text-[#A7B89A]'
-                    }
-
-                    group-hover:-translate-y-0.5
-                    group-hover:translate-x-0.5
-                    group-hover:text-[#D4AF37]
-                  `}
-                  strokeWidth={1.5}
+                    group-hover:-translate-y-1
+                    group-hover:translate-x-1
+                  "
                 />
               </a>
 
               {/* Cómo llegar */}
               <a
-                href={contactMock.mapsUrl}
+                href={contact.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Cómo llegar al consultorio"
@@ -671,22 +631,29 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                   inline-flex
                   items-center
                   gap-2
-                  pt-1
                   text-[12px]
-                  font-semibold
+                  font-medium
                   transition-colors
-
                   ${bodyColor}
                   ${hoverColor}
                 `}
               >
                 <Navigation
                   aria-hidden="true"
-                  className="h-4 w-4 text-[#D4AF37]"
+                  className="
+                    h-4
+                    w-4
+                    text-[#D8BD66]
+                  "
                   strokeWidth={1.5}
                 />
 
                 Cómo llegar
+
+                <ArrowUpRight
+                  aria-hidden="true"
+                  className="h-4 w-4 opacity-60"
+                />
               </a>
             </div>
           </div>
@@ -695,96 +662,47 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
 
       {/* =====================================================
           BARRA INFERIOR
-      ====================================================== */}
+      ===================================================== */}
 
       <div
         className={`
           relative
           z-10
           border-t
-
+          ${borderColor}
           ${
             isDark
-              ? 'border-white/[0.08] bg-black/[0.035]'
-              : 'border-[#A7B89A]/20 bg-white/20'
+              ? 'bg-black/[0.04]'
+              : 'bg-white/20'
           }
         `}
       >
         <div
-          className={`
+          className="
             mx-auto
             flex
-            max-w-[1240px]
+            max-w-[1320px]
             flex-col
             items-center
-            justify-between
-            gap-4
-            px-5
-            py-5
-            text-center
-            text-[10px]
-
-            ${
-              isDark
-                ? 'text-white/35'
-                : 'text-[#82918B]'
-            }
-
-            sm:px-6
-
-            md:flex-row
-            md:text-left
-
-            lg:px-8
-          `}
+            justify-center
+            gap-3
+            px-6
+            py-4
+            sm:px-8
+            lg:px-10
+          "
         >
-          <p>
-            © {new Date().getFullYear()} Erika Pilar. Todos los derechos
-            reservados.
-          </p>
-
-          <div
-            className="
-              flex
-              flex-wrap
-              items-center
-              justify-center
-              gap-x-6
-              gap-y-2
-            "
+          <p
+            className={`
+              text-center
+              text-[11px]
+              leading-5
+              ${secondaryColor}
+            `}
           >
-            <Link
-              href="/privacidad"
-              className={`
-                transition-colors
-                duration-300
-
-                ${
-                  isDark
-                    ? 'hover:text-white/75'
-                    : 'hover:text-[#0F4A55]'
-                }
-              `}
-            >
-              Aviso de privacidad
-            </Link>
-
-            <Link
-              href="/terminos"
-              className={`
-                transition-colors
-                duration-300
-
-                ${
-                  isDark
-                    ? 'hover:text-white/75'
-                    : 'hover:text-[#0F4A55]'
-                }
-              `}
-            >
-              Términos y condiciones
-            </Link>
-          </div>
+            © {new Date().getFullYear()} Erika Pilar.
+            Todos los derechos reservados.
+          </p>
         </div>
       </div>
     </footer>
