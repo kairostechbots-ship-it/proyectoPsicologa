@@ -52,16 +52,20 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen">
+    <div className="min-h-screen">
       <Navbar />
+
+      <main id="contenido-principal" tabIndex={-1} className="scroll-mt-28 focus:outline-none">
 
       <LiveAbout />
 
       <FinalCTA />
 
+      </main>
+
       <Footer variant="light" />
 
       <WhatsAppButton />
-    </main>
+    </div>
   );
 }

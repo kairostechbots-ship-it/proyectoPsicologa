@@ -189,7 +189,7 @@ export function ConsultationRecommendations() {
               max-w-[610px]
               text-[14px]
               leading-7
-              text-[#718083]
+              text-[#526368]
             "
           >
             Conoce algunas recomendaciones y condiciones de atención para que tu experiencia durante la consulta sea clara, cómoda y organizada.
@@ -309,7 +309,7 @@ export function ConsultationRecommendations() {
                     col-start-2
                     text-[12px]
                     leading-6
-                    text-[#718083]
+                    text-[#526368]
 
                     sm:col-start-auto
                     sm:text-[13px]
@@ -331,7 +331,7 @@ export function ConsultationRecommendations() {
             text-center
             text-[11px]
             leading-5
-            text-[#82918B]
+            text-[#53665C]
           "
         >
           Si tienes alguna duda antes de asistir, puedes comunicarte

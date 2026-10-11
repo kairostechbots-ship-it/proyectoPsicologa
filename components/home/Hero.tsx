@@ -3,6 +3,7 @@ import { useSiteData } from '@/components/SiteDataProvider';
 
 import { motion, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   ArrowRight,
   Clock3,
@@ -567,9 +568,13 @@ className="
     />
 
     {/* Ilustración principal */}
-    <img
+    <Image
       src="/images/Perfil botánico en acuarela y oro.png"
-      alt="Ilustración de dos personas que representa la escucha, la confianza y el acompañamiento psicológico."
+      width={1254}
+      height={1254}
+      sizes="(max-width: 1023px) 100vw, 50vw"
+      priority
+      alt="Ilustración de un perfil humano rodeado de hojas y curvas doradas."
       className="
   relative
   z-10

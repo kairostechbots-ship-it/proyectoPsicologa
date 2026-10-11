@@ -695,7 +695,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 font-semibold
                 uppercase
                 tracking-[0.2em]
-                text-[#B08B28]
+                text-[#80651D]
               "
             >
               ¿Tienes otra pregunta?

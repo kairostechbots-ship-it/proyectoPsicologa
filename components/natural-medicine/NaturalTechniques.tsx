@@ -1,7 +1,6 @@
 'use client';
 import { useSiteData } from '@/components/SiteDataProvider';
 
-import { useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import {
   Activity,
@@ -11,7 +10,6 @@ import {
   Footprints,
   Leaf,
   MessageCircle,
-  RotateCcw,
   Sparkles,
 } from 'lucide-react';
 
@@ -34,7 +32,6 @@ interface TechniqueCardProps {
   technique: NaturalTechnique;
   index: number;
   consultation: NaturalMedicineConsultation;
-  reduceMotion: boolean;
 }
 
 /* =========================================================
@@ -84,625 +81,58 @@ function TechniqueCard({
   technique,
   index,
   consultation,
-  reduceMotion,
 }: TechniqueCardProps) {
- const { contact: contactMock } = useSiteData();
-
-
-  const [showDetails, setShowDetails] = useState(false);
-
+  const { contact } = useSiteData();
   const Icon = iconMap[technique.slug] ?? Leaf;
 
-  const transitionDuration = reduceMotion
-    ? 'duration-0'
-    : 'duration-500';
-
   return (
-    <div
-      className="
-        group
-        relative
-        h-[390px]
-        w-full
-        overflow-hidden
-        rounded-[26px]
-
-        sm:h-[400px]
-      "
-      onMouseEnter={() => setShowDetails(true)}
-      onMouseLeave={() => setShowDetails(false)}
-    >
-      {/* =====================================================
-          VISTA PRINCIPAL
-      ====================================================== */}
-
-      <article
-        aria-hidden={showDetails}
-        className={`
-          absolute
-          inset-0
-          flex
-          h-full
-          w-full
-          flex-col
-          overflow-hidden
-          rounded-[26px]
-          border
-          border-[#A7B89A]/25
-          bg-[#FBFAF7]
-          p-6
-          shadow-[0_12px_40px_rgba(15,61,74,0.035)]
-
-          transition-all
-          ${transitionDuration}
-          ease-out
-
-          sm:p-7
-
-          ${
-            showDetails
-              ? `
-                  pointer-events-none
-                  translate-y-2
-                  scale-[0.985]
-                  opacity-0
-                `
-              : `
-                  translate-y-0
-                  scale-100
-                  opacity-100
-                `
-          }
-        `}
-      >
-        {/* Decoración */}
-
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            -right-16
-            -top-16
-            h-40
-            w-40
-            rounded-full
-            bg-[#A7B89A]/[0.08]
-          "
-        />
-
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            right-8
-            top-8
-            h-16
-            w-16
-            rounded-full
-            border
-            border-[#D4AF37]/15
-          "
-        />
-
-        {/* Número + botón */}
-
-        <div
-          className="
-            relative
-            z-10
-            flex
-            items-center
-            justify-between
-          "
-        >
-          <span
-            className="
-              text-[10px]
-              font-semibold
-              tracking-[0.2em]
-              text-[#B08B28]
-            "
-          >
+    <details className="group rounded-[26px] border border-[#A7B89A]/25 bg-[#FBFAF7] shadow-[0_12px_40px_rgba(15,61,74,0.035)] open:bg-[#0F3D4A] open:text-white">
+      <summary className="relative cursor-pointer list-none rounded-[26px] p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F3D4A] focus-visible:ring-offset-4 sm:p-7 [&::-webkit-details-marker]:hidden">
+        <span className="flex items-center justify-between">
+          <span className="text-[11px] font-semibold tracking-[0.2em] text-[#80651D] group-open:text-[#E5CF80]">
             {String(index + 1).padStart(2, '0')}
           </span>
+          <ArrowRight aria-hidden="true" className="h-5 w-5 text-[#52665A] transition-transform group-open:rotate-90 group-open:text-white motion-reduce:transition-none" />
+        </span>
+        <span className="mt-7 flex h-14 w-14 items-center justify-center rounded-full bg-[#A7B89A]/10 text-[#52665A] group-open:text-[#E5CF80]">
+          <Icon aria-hidden="true" className="h-6 w-6" strokeWidth={1.35} />
+        </span>
+        <span className="mt-8 block font-serif text-[27px] leading-tight text-[#0F3D4A] group-open:text-white">
+          {technique.name}
+        </span>
+        <span className="mt-3 block text-sm leading-6 text-[#526368] group-open:text-white/85">
+          {technique.shortDescription}
+        </span>
+        <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#52665A] group-open:text-[#E5CF80]">
+          <span className="group-open:hidden">Ver información sobre {technique.name}</span>
+          <span className="hidden group-open:inline">Cerrar información sobre {technique.name}</span>
+        </span>
+      </summary>
 
-          <button
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation();
-              setShowDetails(true);
-            }}
-            aria-label={`Ver información sobre ${technique.name}`}
-            className="
-              relative
-              z-20
-              flex
-              h-9
-              w-9
-              items-center
-              justify-center
-              rounded-full
-              border
-              border-[#A7B89A]/25
-              bg-white/70
-              text-[#52665A]
-
-              transition-all
-              duration-200
-
-              hover:border-[#D4AF37]/40
-              hover:bg-white
-              hover:text-[#0F3D4A]
-
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-[#0F3D4A]
-              focus-visible:ring-offset-2
-            "
-          >
-            <ArrowRight
-              aria-hidden="true"
-              className="h-4 w-4"
-              strokeWidth={1.5}
-            />
-          </button>
-        </div>
-
-        {/* Icono */}
-
-        <div
-          className="
-            relative
-            z-10
-            mt-7
-            flex
-            h-14
-            w-14
-            shrink-0
-            items-center
-            justify-center
-            rounded-full
-            bg-[#A7B89A]/10
-            text-[#52665A]
-          "
-        >
-          <Icon
-            aria-hidden="true"
-            className="h-6 w-6"
-            strokeWidth={1.35}
-          />
-        </div>
-
-        {/* Contenido */}
-
-        <div
-          className="
-            relative
-            z-10
-            mt-9
-
-            sm:mt-10
-          "
-        >
-          <h3
-            className="
-              font-serif
-              text-[27px]
-              font-medium
-              leading-tight
-              tracking-[-0.025em]
-              text-[#0F3D4A]
-
-              sm:text-[28px]
-            "
-          >
-            {technique.name}
-          </h3>
-
-          <p
-            className="
-              mt-3
-              line-clamp-3
-              text-sm
-              leading-6
-              text-[#657175]
-            "
-          >
-            {technique.shortDescription}
-          </p>
-
-          <button
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation();
-              setShowDetails(true);
-            }}
-            className="
-              mt-5
-              inline-flex
-              items-center
-              gap-2
-              text-xs
-              font-semibold
-              text-[#52665A]
-
-              transition-colors
-              duration-200
-
-              hover:text-[#0F3D4A]
-
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-[#0F3D4A]
-              focus-visible:ring-offset-2
-            "
-          >
-            <span
-              aria-hidden="true"
-              className="h-px w-7 bg-[#D4AF37]"
-            />
-
-            Ver información
-          </button>
-        </div>
-
-        {/* Detalle inferior decorativo */}
-
-        <div
-          aria-hidden="true"
-          className="
-            relative
-            z-10
-            mt-auto
-            h-px
-            w-12
-            bg-[#A7B89A]/20
-          "
-        />
-      </article>
-
-      {/* =====================================================
-          VISTA DETALLE
-      ====================================================== */}
-
-      <article
-        aria-hidden={!showDetails}
-        className={`
-          absolute
-          inset-0
-          flex
-          h-full
-          w-full
-          flex-col
-          overflow-hidden
-          rounded-[26px]
-          bg-[#0F3D4A]
-          p-6
-          text-white
-          shadow-[0_16px_45px_rgba(15,61,74,0.14)]
-
-          transition-all
-          ${transitionDuration}
-          ease-out
-
-          sm:p-7
-
-          ${
-            showDetails
-              ? `
-                  translate-y-0
-                  scale-100
-                  opacity-100
-                `
-              : `
-                  pointer-events-none
-                  translate-y-3
-                  scale-[0.985]
-                  opacity-0
-                `
-          }
-        `}
-      >
-        {/* Decoración */}
-
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            -right-20
-            -top-20
-            h-52
-            w-52
-            rounded-full
-            border
-            border-white/[0.07]
-          "
-        />
-
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            -bottom-24
-            -left-16
-            h-48
-            w-48
-            rounded-full
-            bg-[#A7B89A]/[0.08]
-          "
-        />
-
-        {/* Cabecera */}
-
-        <div
-          className="
-            relative
-            z-10
-            flex
-            shrink-0
-            items-start
-            justify-between
-            gap-4
-          "
-        >
-          <div>
-            <p
-              className="
-                text-[9px]
-                font-semibold
-                uppercase
-                tracking-[0.2em]
-                text-[#D8BD66]
-              "
-            >
-              Medicina Natural
-            </p>
-
-            <h3
-              className="
-                mt-2
-                font-serif
-                text-[25px]
-                font-medium
-                leading-tight
-                tracking-[-0.02em]
-                text-white
-
-                sm:text-[27px]
-              "
-            >
-              {technique.name}
-            </h3>
-          </div>
-
-          <button
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation();
-              setShowDetails(false);
-            }}
-            aria-label={`Volver a ${technique.name}`}
-            className="
-              flex
-              h-9
-              w-9
-              shrink-0
-              items-center
-              justify-center
-              rounded-full
-              border
-              border-white/15
-              text-white/70
-
-              transition-colors
-              duration-200
-
-              hover:bg-white/10
-              hover:text-white
-
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-white/60
-            "
-          >
-            <RotateCcw
-              aria-hidden="true"
-              className="h-4 w-4"
-              strokeWidth={1.5}
-            />
-          </button>
-        </div>
-
-        {/* =====================================================
-            DESCRIPCIÓN + BENEFICIOS
-        ====================================================== */}
-
-        <div
-          className="
-            relative
-            z-10
-            mt-4
-            min-h-0
-            flex-1
-            overflow-y-auto
-            pr-2
-
-            [scrollbar-color:rgba(255,255,255,0.18)_transparent]
-            [scrollbar-width:thin]
-          "
-        >
-          <p
-            className="
-              text-[12px]
-              leading-[1.65]
-              text-white/70
-
-              sm:text-[13px]
-            "
-          >
-            {technique.description}
-          </p>
-
-          {technique.benefits &&
-            technique.benefits.length > 0 && (
-              <ul className="mt-4 space-y-2">
-                {technique.benefits.map((benefit) => (
-                  <li
-                    key={benefit}
-                    className="
-                      flex
-                      items-start
-                      gap-2.5
-                      text-[11px]
-                      leading-[1.55]
-                      text-white/75
-
-                      sm:text-[12px]
-                    "
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="
-                        mt-[7px]
-                        h-1
-                        w-1
-                        shrink-0
-                        rounded-full
-                        bg-[#D8BD66]
-                      "
-                    />
-
-                    <span>{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-        </div>
-
-        {/* =====================================================
-            PRECIO
-        ====================================================== */}
-
-        <div
-          className="
-            relative
-            z-10
-            mt-4
-            shrink-0
-            border-t
-            border-white/10
-            pt-4
-          "
-        >
-          <div
-            className="
-              flex
-              items-end
-              justify-between
-              gap-4
-            "
-          >
-            <div>
-              <p
-                className="
-                  text-[8px]
-                  font-semibold
-                  uppercase
-                  tracking-[0.18em]
-                  text-white/45
-
-                  sm:text-[9px]
-                "
-              >
-                Consulta de Medicina Natural
-              </p>
-
-              <p
-                className="
-                  mt-1
-                  font-serif
-                  text-[25px]
-                  text-white
-                "
-              >
-                ${consultation.price}
-
-                <span
-                  className="
-                    ml-1
-                    font-sans
-                    text-[9px]
-                    font-medium
-                    tracking-wide
-                    text-white/50
-                  "
-                >
-                  MXN
-                </span>
-              </p>
-            </div>
-
-            {consultation.appointmentRequired && (
-              <span
-                className="
-                  shrink-0
-                  rounded-full
-                  border
-                  border-white/10
-                  bg-white/[0.06]
-                  px-3
-                  py-1.5
-                  text-[9px]
-                  font-medium
-                  text-white/65
-                "
-              >
-                Previa cita
-              </span>
-            )}
-          </div>
-
-          {/* CTA */}
-
+      <div className="px-6 pb-7 sm:px-7">
+        <h3 className="sr-only">Información sobre {technique.name}</h3>
+        <p className="text-sm leading-7 text-white/85">{technique.description}</p>
+        {technique.benefits && technique.benefits.length > 0 && (
+          <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-white/85 marker:text-[#E5CF80]">
+            {technique.benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
+          </ul>
+        )}
+        <div className="mt-6 border-t border-white/20 pt-5">
+          <p className="text-xs font-semibold uppercase tracking-wide text-white/85">Consulta de Medicina Natural</p>
+          <p className="mt-2 font-serif text-3xl">${consultation.price} <span className="font-sans text-sm">MXN</span></p>
+          {consultation.appointmentRequired && <p className="mt-2 text-sm text-white/85">Previa cita</p>}
           <a
-            href={getTechniqueWhatsappUrl(technique.name, contactMock.whatsapp)}
+            href={getTechniqueWhatsappUrl(technique.name, contact.whatsapp)}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={(event) => event.stopPropagation()}
-            className="
-              mt-4
-              inline-flex
-              items-center
-              gap-2
-              text-[11px]
-              font-semibold
-              text-[#E5CF80]
-
-              transition-colors
-              duration-200
-
-              hover:text-white
-
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-white/60
-            "
+            className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-lg text-sm font-semibold text-[#E5CF80] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#0F3D4A]"
           >
             Consultar por esta técnica
-
-            <ArrowRight
-              aria-hidden="true"
-              className="h-3.5 w-3.5"
-              strokeWidth={1.6}
-            />
+            <ArrowRight aria-hidden="true" className="h-4 w-4" />
           </a>
         </div>
-      </article>
-    </div>
+      </div>
+    </details>
   );
 }
 
@@ -853,7 +283,7 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
             />
           </div>
 
-          <h2
+          <h1
   id="natural-techniques-title"
   className="
     mt-6
@@ -871,7 +301,7 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
   <span className="font-normal italic">
     Medicina Natural.
   </span>
-</h2>
+</h1>
 
 <p
   className="
@@ -880,7 +310,7 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
     max-w-[680px]
     text-[14px]
     leading-7
-    text-[#718083]
+    text-[#526368]
   "
 >
   Conoce las distintas técnicas disponibles dentro de la consulta de
@@ -899,6 +329,7 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
           className="
             mt-14
             grid
+            items-start
             grid-cols-1
             gap-5
 
@@ -937,7 +368,6 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
                 technique={technique}
                 index={index}
                 consultation={consultation}
-                reduceMotion={Boolean(reduceMotion)}
               />
             </motion.div>
           ))}
@@ -1009,7 +439,7 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
                 font-semibold
                 uppercase
                 tracking-[0.18em]
-                text-[#B08B28]
+                text-[#80651D]
               "
             >
               Consulta de Medicina Natural
