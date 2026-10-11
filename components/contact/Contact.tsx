@@ -341,7 +341,7 @@ export function Contact({
       max-w-[680px]
       text-[14px]
       leading-7
-      text-[#718083]
+      text-[#526368]
     "
   >
     Consulta la ubicación del consultorio, horarios de atención y
@@ -431,7 +431,7 @@ export function Contact({
                   font-semibold
                   uppercase
                   tracking-[0.18em]
-                  text-[#B08B28]
+                  text-[#80651D]
                 "
               >
                 Atención directa
@@ -458,7 +458,7 @@ export function Contact({
                   max-w-md
                   text-sm
                   leading-7
-                  text-[#718083]
+                  text-[#526368]
                 "
               >
                 La atención se realiza con
@@ -532,7 +532,7 @@ export function Contact({
                         font-semibold
                         uppercase
                         tracking-[0.14em]
-                        text-[#82918B]
+                        text-[#53665C]
                       "
                     >
                       WhatsApp
@@ -553,7 +553,7 @@ export function Contact({
                       className="
                         mt-1
                         text-xs
-                        text-[#82918B]
+                        text-[#53665C]
                       "
                     >
                       Escríbeme para
@@ -617,7 +617,7 @@ export function Contact({
                         font-semibold
                         uppercase
                         tracking-[0.14em]
-                        text-[#82918B]
+                        text-[#53665C]
                       "
                     >
                       Consultorio
@@ -644,7 +644,7 @@ export function Contact({
                         gap-1.5
                         text-[11px]
                         font-semibold
-                        text-[#B08B28]
+                        text-[#80651D]
                       "
                     >
                       <Navigation
@@ -701,7 +701,7 @@ export function Contact({
                         font-semibold
                         uppercase
                         tracking-[0.14em]
-                        text-[#82918B]
+                        text-[#53665C]
                       "
                     >
                       Horario
@@ -723,7 +723,7 @@ export function Contact({
                         mt-1
                         text-xs
                         leading-5
-                        text-[#82918B]
+                        text-[#53665C]
                       "
                     >
                       {businessHours.hours}
@@ -961,7 +961,7 @@ export function Contact({
                       font-semibold
                       uppercase
                       tracking-[0.12em]
-                      text-[#82918B]
+                      text-[#53665C]
                     "
                   >
                     Consultorio

@@ -68,15 +68,15 @@ export function Footer({
 
   const headingColor = isDark
     ? 'text-[#D8BD66]'
-    : 'text-[#9B7A1F]';
+    : 'text-[#80651D]';
 
   const bodyColor = isDark
     ? 'text-white/70'
-    : 'text-[#63777A]';
+    : 'text-[#526368]';
 
   const secondaryColor = isDark
-    ? 'text-white/45'
-    : 'text-[#82918B]';
+    ? 'text-white/75'
+    : 'text-[#53665C]';
 
   const strongColor = isDark
     ? 'text-white/90'

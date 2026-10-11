@@ -466,7 +466,7 @@ export function About({ profile }: AboutProps) {
                   font-semibold
                   uppercase
                   tracking-[0.22em]
-                  text-[#82918B]
+                  text-[#53665C]
                 "
               >
                 {profile.professionalTitle}
@@ -711,7 +711,7 @@ export function About({ profile }: AboutProps) {
                 max-w-[570px]
                 text-[14px]
                 leading-7
-                text-[#718083]
+                text-[#526368]
 
                 lg:justify-self-end
               "
@@ -866,7 +866,7 @@ export function About({ profile }: AboutProps) {
                               mt-1
                               text-[11px]
                               leading-5
-                              text-[#82918B]
+                              text-[#53665C]
                             "
                           >
                             {institution}
@@ -1011,7 +1011,7 @@ export function About({ profile }: AboutProps) {
                               mt-1
                               text-[11px]
                               leading-5
-                              text-[#82918B]
+                              text-[#53665C]
                             "
                           >
                             {institution}
@@ -1054,7 +1054,7 @@ export function About({ profile }: AboutProps) {
                 max-w-[800px]
                 text-[11px]
                 leading-5
-                text-[#82918B]
+                text-[#53665C]
               "
             >
               La Medicina Natural se presenta como un área de atención
@@ -1152,7 +1152,7 @@ export function About({ profile }: AboutProps) {
                     max-w-[520px]
                     text-[14px]
                     leading-7
-                    text-[#718083]
+                    text-[#526368]
                   "
                 >
                  A lo largo de mi experiencia profesional he acompañado a personas que enfrentan diversas dificultades emocionales y psicológicas, ofreciendo una atención adaptada a sus necesidades, circunstancias y objetivos terapéuticos.
@@ -1183,7 +1183,7 @@ export function About({ profile }: AboutProps) {
                       mt-2
                       text-[12px]
                       leading-5
-                      text-[#82918B]
+                      text-[#53665C]
                     "
                   >
                     {profile.violenceDescription}

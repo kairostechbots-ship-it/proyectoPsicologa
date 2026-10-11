@@ -52,8 +52,10 @@ export const metadata: Metadata = {
 
 export default function NaturalMedicinePage() {
   return (
-    <main className="min-h-screen">
+    <div className="min-h-screen">
       <Navbar />
+
+      <main id="contenido-principal" tabIndex={-1} className="scroll-mt-28 focus:outline-none">
 
       <div className="pt-20" />
 
@@ -61,9 +63,11 @@ export default function NaturalMedicinePage() {
 
       <FinalCTA />
 
+      </main>
+
       <Footer variant="light" />
 
       <WhatsAppButton />
-    </main>
+    </div>
   );
 }
