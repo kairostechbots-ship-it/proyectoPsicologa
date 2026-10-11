@@ -684,12 +684,19 @@ export function Footer({
             </span>
             <span className="block sm:inline">{' '}Todos los derechos reservados.</span>
           </p>
+          <nav aria-label="Información legal" className="flex flex-wrap items-center justify-center gap-x-2 sm:justify-end">
           <Link
             href="/privacidad"
             className={`inline-flex min-h-11 shrink-0 items-center rounded-md px-3 text-xs font-medium underline decoration-current/35 underline-offset-[5px] transition-colors hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current motion-reduce:transition-none ${bodyColor} ${hoverColor}`}
           >
             Aviso de privacidad
+          </Link>          <Link
+            href="/cookies"
+            className={`inline-flex min-h-11 shrink-0 items-center rounded-md px-3 text-xs font-medium underline decoration-current/35 underline-offset-[5px] transition-colors hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current motion-reduce:transition-none ${bodyColor} ${hoverColor}`}
+          >
+            Cookies
           </Link>
+          </nav>
         </div>
       </div>
     </footer>

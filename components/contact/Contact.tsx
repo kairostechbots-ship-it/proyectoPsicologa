@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 
 import type { ContactInfo } from '@/types/contact';
+import { OptionalMap } from './OptionalMap';
 
 /* =========================================================
    PROPS
@@ -881,106 +882,12 @@ export function Contact({
               lg:min-h-full
             "
           >
-            <iframe
-              src={contact.mapEmbedUrl}
-              width="100%"
-              height="100%"
-              style={{
-                border: 0,
-              }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Ubicación del consultorio de Erika Pilar"
-              className="
-                absolute
-                inset-0
-                h-full
-                w-full
-              "
+            <OptionalMap
+              key={contact.mapEmbedUrl}
+              embedUrl={contact.mapEmbedUrl}
+              mapsUrl={contact.mapsUrl}
+              address={contact.address}
             />
-
-            {/* Etiqueta sobre mapa */}
-
-            <div
-              className="
-                pointer-events-none
-                absolute
-                bottom-4
-                left-4
-                right-4
-
-                sm:bottom-5
-                sm:left-5
-                sm:right-auto
-              "
-            >
-              <div
-                className="
-                  inline-flex
-                  max-w-[350px]
-                  items-center
-                  gap-3
-                  rounded-[16px]
-                  border
-                  border-white/60
-                  bg-white/90
-                  px-4
-                  py-3
-                  shadow-[0_10px_30px_rgba(15,61,74,0.10)]
-                  backdrop-blur-sm
-                "
-              >
-                <span
-                  className="
-                    flex
-                    h-9
-                    w-9
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-[#E9EFE9]
-                    text-[#52665A]
-                  "
-                >
-                  <MapPin
-                    aria-hidden="true"
-                    className="
-                      h-4
-                      w-4
-                    "
-                    strokeWidth={1.6}
-                  />
-                </span>
-
-                <div>
-                  <p
-                    className="
-                      text-[10px]
-                      font-semibold
-                      uppercase
-                      tracking-[0.12em]
-                      text-[#53665C]
-                    "
-                  >
-                    Consultorio
-                  </p>
-
-                  <p
-                    className="
-                      mt-0.5
-                      text-xs
-                      font-semibold
-                      leading-5
-                      text-[#0F4A55]
-                    "
-                  >
-                    {contact.address}
-                  </p>
-                </div>
-              </div>
-            </div>
           </motion.div>
         </div>
       </div>
