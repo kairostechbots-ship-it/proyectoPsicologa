@@ -246,28 +246,30 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
             ================================================== */}
 
             <motion.h1
-              variants={reduceMotion ? {} : item}
-              id="hero-title"
-              className="
-                font-serif
-                text-[43px]
-                font-medium
-                leading-[1.06]
-                tracking-[-0.035em]
-                text-[#0F3D4A]
+              
+              
+variants={reduceMotion ? {} : item}
+id="hero-title"
+className="
+  font-serif
+  text-[40px]
+  font-medium
+  leading-[1.10]
+  tracking-[-0.03em]
+  text-[#0F3D4A]
 
-                sm:text-[58px]
+  sm:text-[54px]
 
-                xl:text-[70px]
-              "
+  xl:text-[62px]
+"
+
             >
-              Psicoterapia con atención
-              <br />
+             Un espacio para comprender lo que sientes y encontrar nuevas
 
               <span className="whitespace-nowrap">
-                humana y{' '}
+               {' '}
                 <span className="relative inline-block font-normal italic">
-                  profesional
+                  formas de afrontarlo.
 
                   <svg
                     aria-hidden="true"
@@ -340,9 +342,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 sm:leading-8
               "
             >
-              Te acompaño a comprender lo que estás viviendo y a desarrollar
-              herramientas para tu bienestar, en un espacio confidencial,
-              profesional y libre de juicios.
+              Atención psicológica para niños, adolescentes, adultos y parejas, con un enfoque profesional, cercano y adaptado a las necesidades de cada persona.
             </motion.p>
 
             {/* =================================================
@@ -504,171 +504,123 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
             </motion.div>
           </motion.div>
 
-          {/* =====================================================
-              COLUMNA DERECHA
-          ====================================================== */}
+         
+{/* =====================================================
+    COLUMNA DERECHA — ILUSTRACIÓN EDITORIAL
+===================================================== */}
 
-          <motion.div
-            variants={reduceMotion ? {} : visual}
-            initial="hidden"
-            animate="show"
-            className="
-              relative
-              hidden
-              w-full
-              max-w-[590px]
+<motion.div
+  variants={reduceMotion ? {} : visual}
+  initial="hidden"
+  animate="show"
+  className="
+    relative
+    hidden
+    w-full
+    max-w-[590px]
 
-              lg:block
-              lg:-translate-x-4
+    lg:block
+    lg:-translate-x-4
 
-              xl:-translate-x-6
-            "
-          >
-            <div className="relative aspect-[1/0.92]">
-              <div
-                aria-hidden="true"
-                className="
-                  absolute
-                  left-[48%]
-                  top-[-22%]
-                  h-[125%]
-                  w-[125%]
-                  rounded-full
-                  bg-[#A7B89A]/[0.055]
-                "
-              />
+    xl:max-w-[640px]
+    xl:-translate-x-6
+  "
+>
+  <div
+    className="
+      relative
+      isolate
+      aspect-[1/1.03]
+      w-full
+    "
+  >
+    {/* Círculo grande de fondo */}
+    <div
+      aria-hidden="true"
+      className="
+        pointer-events-none
+        absolute
+        left-[15%]
+        top-[5%]
+        h-[90%]
+        w-[90%]
+        rounded-full
+        bg-[#A7B89A]/[0.055]
+      "
+    />
 
-              <div
-                aria-hidden="true"
-                className="
-                  absolute
-                  left-1/2
-                  top-1/2
-                  h-[78%]
-                  w-[68%]
-                  -translate-x-1/2
-                  -translate-y-1/2
-                  rotate-[6deg]
-                  rounded-[43%_57%_46%_54%/57%_44%_56%_43%]
-                  bg-[#A7B89A]/[0.13]
-                "
-              />
+    {/* Forma orgánica secundaria */}
+    <div
+      aria-hidden="true"
+      className="
+        pointer-events-none
+        absolute
+        right-[-5%]
+        top-[18%]
+        h-[68%]
+        w-[76%]
+        rotate-[12deg]
+        rounded-[48%_52%_46%_54%/55%_43%_57%_45%]
+        bg-[#A7B89A]/[0.055]
+        blur-[3px]
+      "
+    />
 
-              <div
-                aria-hidden="true"
-                className="
-                  absolute
-                  left-[24%]
-                  top-[18%]
-                  h-[62%]
-                  w-[58%]
-                  rotate-[-7deg]
-                  rounded-[55%_45%_52%_48%/45%_57%_43%_55%]
-                  border
-                  border-[#A7B89A]/15
-                "
-              />
+    {/* Ilustración principal */}
+    <img
+      src="/images/Perfil botánico en acuarela y oro.png"
+      alt="Ilustración de dos personas que representa la escucha, la confianza y el acompañamiento psicológico."
+      className="
+  relative
+  z-10
+  h-full
+  w-full
+  scale-[1.15]
+  -translate-x-[-15%]
+  -translate-y-[5%]
+  object-contain
+  mix-blend-multiply
+  opacity-[0.96]
+  select-none
 
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 400 500"
-                fill="none"
-                className="
-                  absolute
-                  left-1/2
-                  top-1/2
-                  h-[88%]
-                  w-[74%]
-                  -translate-x-1/2
-                  -translate-y-1/2
-                  text-[#D4AF37]
-                  opacity-[0.45]
-                "
-              >
-                <path
-                  d="M65 445C90 320 138 198 322 55"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                />
-              </svg>
+      "
+      draggable={false}
+    />
 
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 180 360"
-                fill="none"
-                className="
-                  absolute
-                  left-1/2
-                  top-1/2
-                  h-auto
-                  w-[42%]
-                  -translate-x-1/2
-                  -translate-y-1/2
-                  rotate-[-8deg]
-                  text-[#71856D]
-                  opacity-[0.72]
-                "
-              >
-                <g
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M51 344C72 299 94 254 103 202C113 151 115 96 110 28" />
-                  <path d="M111 80C91 65 91 40 110 18C121 39 122 61 111 80Z" />
-                  <path d="M113 125C132 111 148 87 144 64C124 75 111 101 113 125Z" />
-                  <path d="M110 151C87 140 66 120 65 96C89 103 107 126 110 151Z" />
-                  <path d="M103 197C126 190 150 170 153 147C127 153 110 172 103 197Z" />
-                  <path d="M96 222C72 211 52 193 48 168C73 174 91 198 96 222Z" />
-                  <path d="M81 267C105 264 131 249 137 226C111 228 91 245 81 267Z" />
-                </g>
-              </svg>
+    {/* Detalle decorativo dorado */}
+    <div
+      aria-hidden="true"
+      className="
+        pointer-events-none
+        absolute
+        right-[9%]
+        top-[12%]
+        z-20
+        h-[7px]
+        w-[7px]
+        rounded-full
+        bg-[#D4AF37]/60
+      "
+    />
 
-              <div
-                aria-hidden="true"
-                className="
-                  absolute
-                  right-[15%]
-                  top-[17%]
-                  h-[88px]
-                  w-[88px]
-                  rounded-full
-                  border
-                  border-[#D4AF37]/25
-                "
-              >
-                <span
-                  className="
-                    absolute
-                    left-1/2
-                    top-1/2
-                    h-2
-                    w-2
-                    -translate-x-1/2
-                    -translate-y-1/2
-                    rounded-full
-                    bg-[#D4AF37]/65
-                  "
-                />
-              </div>
-
-              <span
-                aria-hidden="true"
-                className="
-                  absolute
-                  bottom-[18%]
-                  left-[19%]
-                  h-1.5
-                  w-1.5
-                  rounded-full
-                  bg-[#D4AF37]/55
-                "
-              />
-            </div>
-          </motion.div>
-        </div>
+    {/* Punto decorativo inferior */}
+    <div
+      aria-hidden="true"
+      className="
+        pointer-events-none
+        absolute
+        bottom-[12%]
+        left-[10%]
+        z-20
+        h-[5px]
+        w-[5px]
+        rounded-full
+        bg-[#D4AF37]/50
+      "
+    />
+  </div>
+</motion.div>
+</div>
 
         {/* =====================================================
             HORARIO Y UBICACIÓN

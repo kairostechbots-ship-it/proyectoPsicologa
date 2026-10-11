@@ -16,37 +16,37 @@ const areas = [
   {
     title: 'Ansiedad',
     description:
-      'Acompañamiento para comprender pensamientos, emociones y respuestas que pueden estar afectando tu bienestar.',
+      'Atención para comprender las preocupaciones, los pensamientos recurrentes y las respuestas emocionales que afectan tu vida cotidiana.',
     icon: Brain,
   },
   {
     title: 'Depresión',
     description:
-      'Un espacio profesional para trabajar emociones, pensamientos y conductas que interfieren en tu vida cotidiana.',
+      'Acompañamiento psicológico para abordar cambios en el estado de ánimo, la motivación y las actividades del día a día.',
     icon: CloudRain,
   },
   {
     title: 'Duelo y pérdidas',
     description:
-      'Acompañamiento respetuoso para transitar procesos de pérdida, cambio y adaptación.',
+      'Un espacio para expresar y comprender las emociones que surgen ante una pérdida o un cambio significativo.',
     icon: HeartCrack,
   },
   {
     title: 'Adicciones',
     description:
-      'Prevención y acompañamiento psicológico ante problemáticas relacionadas con conductas adictivas.',
+      'Atención psicológica orientada a comprender conductas adictivas, identificar factores de riesgo y desarrollar estrategias de afrontamiento.',
     icon: Sparkles,
   },
   {
     title: 'Experiencias de violencia',
     description:
-      'Atención confidencial y profesional para personas que han vivido experiencias de violencia.',
+      'Acompañamiento respetuoso y sensible para personas que han vivido situaciones de violencia y buscan apoyo emocional.',
     icon: ShieldCheck,
   },
   {
     title: 'Pareja y relaciones',
     description:
-      'Un espacio para trabajar comunicación, conflictos y dinámicas que afectan la relación.',
+      'Espacio para trabajar dificultades de comunicación, conflictos y dinámicas que afectan las relaciones de pareja.',
     icon: UsersRound,
   },
 ];
@@ -349,8 +349,7 @@ export function ConsultationAreas() {
               text-[#657175]
             "
           >
-            Cada situación es diferente. El acompañamiento se adapta a tus
-            necesidades, objetivos y proceso personal.
+            ¿No encuentras aquí lo que estás viviendo? Puedes comunicarte para consultar si tu motivo de atención puede abordarse durante el proceso terapéutico.
           </p>
 
           <Link

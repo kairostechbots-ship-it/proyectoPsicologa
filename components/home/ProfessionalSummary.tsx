@@ -341,10 +341,9 @@ export function ProfessionalSummary() {
                 lg:text-[54px]
               "
             >
-              Experiencia profesional con un acompañamiento{' '}
+             La experiencia de escuchar cada historia  {' '}
               <span className="italic font-normal">
-                cercano y humano.
-              </span>
+con atención.           </span>
             </h2>
 
             {/* Presentación */}
@@ -359,10 +358,7 @@ export function ProfessionalSummary() {
                 sm:leading-8
               "
             >
-              Soy Erika Pilar, Psicóloga Clínica especializada en Terapia
-              Cognitivo-Conductual. A lo largo de mi trayectoria he
-              acompañado a personas en diferentes etapas de su vida,
-              brindando atención profesional y personalizada.
+              A lo largo de mi trayectoria he tenido la oportunidad de acompañar a personas con distintas historias, necesidades y circunstancias. Esta experiencia me ha enseñado la importancia de escuchar, comprender cada situación y adaptar el trabajo terapéutico a las características de cada persona.
             </p>
 
             <p
@@ -374,9 +370,7 @@ export function ProfessionalSummary() {
                 text-[#657175]
               "
             >
-              Mi propósito es ofrecer un espacio de escucha, respeto y
-              confianza, en el que podamos trabajar de manera colaborativa
-              de acuerdo con tus necesidades y objetivos personales.
+             Mi compromiso es brindar una atención profesional y respetuosa, donde podamos trabajar de manera colaborativa para identificar objetivos y desarrollar herramientas que resulten útiles en tu vida cotidiana.
             </p>
 
             {/* Credenciales */}

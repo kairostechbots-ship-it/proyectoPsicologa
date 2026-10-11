@@ -43,14 +43,14 @@ const recommendations: Recommendation[] = [
     id: 4,
     title: 'Cancelación y seguimiento',
     description:
-      'Si cancelas una cita, podrás comunicarte nuevamente cuando desees solicitar una nueva. Por protocolo profesional, no se realizará seguimiento para reagendarla.',
+      'Puedes cancelar o solicitar un cambio de cita con al menos 24 horas de anticipación, sujeto a disponibilidad. Si no asistes y no avisas, será necesario pagar por adelantado para reservar una nueva sesión.',
     icon: CalendarClock,
   },
   {
     id: 5,
     title: 'Pago por transferencia',
     description:
-      'Si eliges realizar tu pago mediante transferencia, deberá quedar cubierto antes de tu cita.',
+      'Si realizas tu pago por transferencia bancaria, te pedimos efectuarlo antes de tu cita para facilitar la confirmación de tu sesión.',
     icon: CreditCard,
   },
 ];
@@ -192,8 +192,7 @@ export function ConsultationRecommendations() {
               text-[#718083]
             "
           >
-            Ten en cuenta estas indicaciones para aprovechar mejor el
-            tiempo destinado a tu sesión.
+            Conoce algunas recomendaciones y condiciones de atención para que tu experiencia durante la consulta sea clara, cómoda y organizada.
           </p>
         </motion.div>
 

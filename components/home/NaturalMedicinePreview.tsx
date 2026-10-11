@@ -194,9 +194,9 @@ export function NaturalMedicinePreview({
                 xl:text-[62px]
               "
             >
-              Una alternativa para el{' '}
+             Prácticas complementarias {' '}
               <span className="font-normal italic">
-                bienestar integral.
+                para tu bienestar.
               </span>
             </h2>
 
@@ -211,9 +211,7 @@ export function NaturalMedicinePreview({
                 sm:text-[17px]
               "
             >
-              Erika también brinda atención en Medicina Natural mediante
-              distintas técnicas seleccionadas de acuerdo con las necesidades
-              de cada persona.
+              Además de la atención psicológica, también ofrezco distintas técnicas de Medicina Natural orientadas al autocuidado y el bienestar. Te invito a conocerlas y descubrir sus características.
             </p>
 
             {/* Precio y cita */}

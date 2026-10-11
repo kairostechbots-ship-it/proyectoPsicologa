@@ -1,10 +1,15 @@
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
+
 import {
   Inter,
   Playfair_Display,
 } from 'next/font/google';
 
-import { SiteDataProvider, type SiteData } from '@/components/SiteDataProvider';
+import {
+  SiteDataProvider,
+  type SiteData,
+} from '@/components/SiteDataProvider';
 
 import './globals.css';
 
@@ -18,32 +23,45 @@ const playfair = Playfair_Display({
   variable: '--font-serif',
 });
 
+function getMetadataBase(): URL | undefined {
+  const value = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+
+  if (!value) {
+    return undefined;
+  }
+
+  try {
+    const url = new URL(value);
+
+    if (
+      url.protocol !== 'https:' ||
+      url.hostname === 'localhost' ||
+      url.hostname === '127.0.0.1'
+    ) {
+      return undefined;
+    }
+
+    return new URL(url.origin);
+  } catch {
+    return undefined;
+  }
+}
+
+const siteTitle =
+  'Erika Pilar | Psicóloga en Tlajomulco';
+
+const siteDescription =
+  'Psicología clínica y psicoterapia con enfoque cognitivo-conductual en Tlajomulco, Jalisco. Atención presencial y en línea con cita previa.';
+
 export const metadata: Metadata = {
-  /* =========================================================
-     TÍTULO Y DESCRIPCIÓN GENERAL
-  ========================================================= */
+  metadataBase: getMetadataBase(),
 
   title: {
-    default: 'Erika Pilar | Psicología Clínica',
+    default: siteTitle,
     template: '%s | Erika Pilar',
   },
 
-  description:
-    'Psicología clínica y psicoterapia con enfoque cognitivo-conductual. Atención presencial y en línea para niños, adolescentes, adultos y parejas.',
-
-  /* =========================================================
-     ICONOS
-  ========================================================= */
-
-  icons: {
-    icon: '/04-favicon.png',
-    shortcut: '/04-favicon.png',
-    apple: '/04-favicon.png',
-  },
-
-  /* =========================================================
-     INFORMACIÓN GENERAL
-  ========================================================= */
+  description: siteDescription,
 
   applicationName: 'Erika Pilar',
 
@@ -55,26 +73,13 @@ export const metadata: Metadata = {
 
   creator: 'Erika Pilar',
 
-  keywords: [
-    'Erika Pilar',
-    'psicología clínica',
-    'psicoterapia',
-    'terapia psicológica',
-    'terapia cognitivo conductual',
-    'TCC',
-    'psicóloga',
-    'psicoterapia presencial',
-    'psicoterapia en línea',
-    'terapia para adultos',
-    'terapia para adolescentes',
-    'terapia para niños',
-    'terapia de pareja',
-    'Tlajomulco',
-    'Tlajomulco de Zúñiga',
-    'Jalisco',
-  ],
-
   category: 'health',
+
+  icons: {
+    icon: '/04-favicon.png',
+    shortcut: '/04-favicon.png',
+    apple: '/04-favicon.png',
+  },
 
   formatDetection: {
     email: false,
@@ -82,51 +87,30 @@ export const metadata: Metadata = {
     telephone: false,
   },
 
-  /* =========================================================
-     OPEN GRAPH
-     WhatsApp, Facebook, LinkedIn, etc.
-  ========================================================= */
-
   openGraph: {
     type: 'website',
-
     locale: 'es_MX',
-
-    siteName: 'Erika Pilar | Psicología Clínica',
-
-    title: 'Erika Pilar | Psicología Clínica',
-
-    description:
-      'Psicología clínica y psicoterapia con enfoque cognitivo-conductual. Atención presencial y en línea.',
+    siteName: 'Erika Pilar',
+    title: siteTitle,
+    description: siteDescription,
 
     images: [
       {
         url: '/og-erika-pilar.png',
         width: 1200,
         height: 630,
-        alt: 'Erika Pilar | Psicóloga Clínica y Psicoterapia TCC',
+        alt:
+          'Erika Pilar, psicóloga clínica en Tlajomulco. Psicoterapia presencial y en línea.',
       },
     ],
   },
 
-  /* =========================================================
-     TWITTER / X
-  ========================================================= */
-
   twitter: {
     card: 'summary_large_image',
-
-    title: 'Erika Pilar | Psicología Clínica',
-
-    description:
-      'Psicología clínica y psicoterapia con enfoque cognitivo-conductual. Atención presencial y en línea.',
-
+    title: siteTitle,
+    description: siteDescription,
     images: ['/og-erika-pilar.png'],
   },
-
-  /* =========================================================
-     ROBOTS
-  ========================================================= */
 
   robots: {
     index: true,
@@ -144,18 +128,35 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
 export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<RootLayoutProps>) {
   let initialData: SiteData | null = null;
+
   try {
     if (process.env.APP_URL) {
-      const response = await fetch(new URL('/api/site', process.env.APP_URL), { cache: 'no-store', signal: AbortSignal.timeout(5000) });
-      if (response.ok) initialData = (await response.json()).data;
+      const response = await fetch(
+        new URL('/api/site', process.env.APP_URL),
+        {
+          cache: 'no-store',
+          signal: AbortSignal.timeout(5000),
+        },
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+
+        initialData = result.data ?? null;
+      }
     }
-  } catch { /* The client retries if the public API is temporarily unavailable. */ }
+  } catch {
+    // El proveedor mantiene su recuperación desde el cliente.
+  }
+
   return (
     <html
       lang="es-MX"
@@ -176,16 +177,6 @@ export default async function RootLayout({
         "
         suppressHydrationWarning
       >
-        {/* =====================================================
-            DATOS ESTRUCTURADOS / JSON-LD
-        ====================================================== */}
-
-
-
-        {/* =====================================================
-            FONDO GLOBAL UNIFICADO
-        ====================================================== */}
-
         <div
           className="
             pointer-events-none
@@ -217,11 +208,9 @@ export default async function RootLayout({
           "
         />
 
-        {/* =====================================================
-            CONTENIDO DEL SITIO
-        ====================================================== */}
-
-        <SiteDataProvider initialData={initialData}>{children}</SiteDataProvider>
+        <SiteDataProvider initialData={initialData}>
+          {children}
+        </SiteDataProvider>
       </body>
     </html>
   );

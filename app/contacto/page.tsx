@@ -5,28 +5,47 @@ import { LiveContact } from '@/components/LivePageSections';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 
+const title = 'Contacto y consultorio en Tlajomulco';
 
+const socialTitle = `${title} | Erika Pilar`;
+
+const description =
+  'Consulta la ubicación y los horarios del consultorio de Erika Pilar en Tlajomulco, Jalisco. Solicita información y disponibilidad por WhatsApp.';
 
 export const metadata: Metadata = {
-  title: 'Contacto y Consultorio en Tlajomulco',
+  // El layout agrega automáticamente: | Erika Pilar.
+  title,
 
-  description:
-    'Contacta a Erika Pilar para solicitar información sobre psicoterapia y consultas. Consulta ubicación, horarios de atención y contacto por WhatsApp en Tlajomulco.',
+  description,
+
+  alternates: {
+    canonical: '/contacto',
+  },
 
   openGraph: {
-    title:
-      'Contacto y Consultorio en Tlajomulco | Erika Pilar',
+    type: 'website',
+    locale: 'es_MX',
+    siteName: 'Erika Pilar',
+    url: '/contacto',
+    title: socialTitle,
+    description,
 
-    description:
-      'Consulta la ubicación, horarios de atención y medios de contacto de Erika Pilar en Tlajomulco.',
+    images: [
+      {
+        url: '/og-erika-pilar.png',
+        width: 1200,
+        height: 630,
+        alt:
+          'Contacto de Erika Pilar. Ubicación y horarios del consultorio en Tlajomulco.',
+      },
+    ],
   },
 
   twitter: {
-    title:
-      'Contacto y Consultorio en Tlajomulco | Erika Pilar',
-
-    description:
-      'Ubicación, horarios de atención y medios de contacto de Erika Pilar en Tlajomulco.',
+    card: 'summary_large_image',
+    title: socialTitle,
+    description,
+    images: ['/og-erika-pilar.png'],
   },
 };
 

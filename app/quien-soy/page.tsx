@@ -6,26 +6,47 @@ import { FinalCTA } from '@/components/home/FinalCTA';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 
+const title =
+  'Sobre Erika Pilar | Psicóloga Clínica en Tlajomulco';
 
+const description =
+  'Conoce la formación, trayectoria y enfoque de Erika Pilar, psicóloga clínica con atención en Tlajomulco y en línea mediante terapia cognitivo-conductual.';
 
 export const metadata: Metadata = {
-  title: 'Sobre Erika Pilar | Psicóloga Clínica',
+  title: {
+    absolute: title,
+  },
 
-  description:
-    'Conoce la trayectoria profesional de Erika Pilar, psicóloga clínica con enfoque cognitivo-conductual y más de 22 años de experiencia en atención psicológica.',
+  description,
+
+  alternates: {
+    canonical: '/quien-soy',
+  },
 
   openGraph: {
-    title: 'Sobre Erika Pilar | Psicóloga Clínica',
+    type: 'website',
+    locale: 'es_MX',
+    siteName: 'Erika Pilar',
+    url: '/quien-soy',
+    title,
+    description,
 
-    description:
-      'Conoce la trayectoria, formación y enfoque profesional de Erika Pilar en psicología clínica y terapia cognitivo-conductual.',
+    images: [
+      {
+        url: '/og-erika-pilar.png',
+        width: 1200,
+        height: 630,
+        alt:
+          'Erika Pilar, psicóloga clínica. Formación, trayectoria y enfoque cognitivo-conductual.',
+      },
+    ],
   },
 
   twitter: {
-    title: 'Sobre Erika Pilar | Psicóloga Clínica',
-
-    description:
-      'Conoce la trayectoria, formación y enfoque profesional de Erika Pilar en psicología clínica y terapia cognitivo-conductual.',
+    card: 'summary_large_image',
+    title,
+    description,
+    images: ['/og-erika-pilar.png'],
   },
 };
 

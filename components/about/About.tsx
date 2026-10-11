@@ -1155,9 +1155,7 @@ export function About({ profile }: AboutProps) {
                     text-[#718083]
                   "
                 >
-                  A lo largo de mi trayectoria he acompañado distintos
-                  procesos emocionales y psicológicos, adaptando la atención
-                  a las necesidades particulares de cada persona.
+                 A lo largo de mi experiencia profesional he acompañado a personas que enfrentan diversas dificultades emocionales y psicológicas, ofreciendo una atención adaptada a sus necesidades, circunstancias y objetivos terapéuticos.
                 </p>
 
                 {/* Violencia */}

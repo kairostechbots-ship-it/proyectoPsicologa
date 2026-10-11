@@ -18,21 +18,21 @@ const steps = [
     number: '01',
     title: 'Escríbeme por WhatsApp',
     description:
-      'Cuéntame que te gustaría recibir información para iniciar un proceso de terapia.',
+      'Envíame un mensaje para solicitar información sobre las sesiones o resolver tus dudas antes de agendar.',
     icon: MessageCircle,
   },
   {
     number: '02',
     title: 'Revisamos disponibilidad',
     description:
-      'Acordamos el día, horario y modalidad de atención que mejor se adapte a tus posibilidades.',
+      'Revisamos los horarios disponibles y acordamos la fecha y modalidad de atención que mejor se adapte a tus posibilidades.',
     icon: CalendarCheck,
   },
   {
     number: '03',
     title: 'Comenzamos tu proceso',
     description:
-      'Una vez acordada tu cita, recibirás las indicaciones necesarias para tu primera sesión.',
+      'Una vez confirmada tu cita, recibirás la información y las indicaciones necesarias para prepararte para tu primera sesión.',
     icon: HeartHandshake,
   },
 ];
@@ -181,9 +181,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
               sm:leading-8
             "
           >
-            Si estás considerando iniciar terapia, puedes solicitar
-            información directamente por WhatsApp. El proceso comienza
-            con una conversación.
+            Si estás considerando iniciar terapia, puedes comunicarte directamente por WhatsApp para resolver tus dudas, conocer la disponibilidad y recibir orientación sobre cómo agendar.
           </p>
         </motion.div>
 
@@ -386,8 +384,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
               text-[#788184]
             "
           >
-            La cita queda confirmada una vez acordados el día y horario
-            directamente con Erika.
+           La disponibilidad y las condiciones para confirmar tu cita se acordarán directamente con Erika.
           </p>
         </motion.div>
       </div>

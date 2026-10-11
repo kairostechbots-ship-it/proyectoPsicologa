@@ -5,28 +5,47 @@ import { LiveFAQ } from '@/components/LivePageSections';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 
+const title = 'Preguntas frecuentes sobre psicoterapia';
 
+const socialTitle = `${title} | Erika Pilar`;
+
+const description =
+  'Resuelve tus dudas sobre psicoterapia, sesiones, atención presencial y en línea y cómo solicitar una cita con Erika Pilar en Tlajomulco.';
 
 export const metadata: Metadata = {
-  title: 'Preguntas Frecuentes sobre Psicoterapia',
+  // El layout agrega automáticamente: | Erika Pilar.
+  title,
 
-  description:
-    'Resuelve tus dudas sobre psicoterapia, modalidades de atención, duración de las sesiones, citas y servicios de Erika Pilar en Tlajomulco y en línea.',
+  description,
+
+  alternates: {
+    canonical: '/faq',
+  },
 
   openGraph: {
-    title:
-      'Preguntas Frecuentes | Psicoterapia con Erika Pilar',
+    type: 'website',
+    locale: 'es_MX',
+    siteName: 'Erika Pilar',
+    url: '/faq',
+    title: socialTitle,
+    description,
 
-    description:
-      'Encuentra respuestas a las dudas más frecuentes sobre psicoterapia, citas, modalidades de atención y servicios disponibles.',
+    images: [
+      {
+        url: '/og-erika-pilar.png',
+        width: 1200,
+        height: 630,
+        alt:
+          'Preguntas frecuentes sobre psicoterapia y citas con Erika Pilar.',
+      },
+    ],
   },
 
   twitter: {
-    title:
-      'Preguntas Frecuentes | Psicoterapia con Erika Pilar',
-
-    description:
-      'Respuestas a preguntas frecuentes sobre psicoterapia, citas y modalidades de atención con Erika Pilar.',
+    card: 'summary_large_image',
+    title: socialTitle,
+    description,
+    images: ['/og-erika-pilar.png'],
   },
 };
 
