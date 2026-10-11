@@ -96,5 +96,11 @@ export function requestIdentifier(request: Request) {
     );
   }
 
+  // Cloudflare sets this header for requests reaching the Worker.
+  // Trust it only when this deployment is explicitly configured for Cloudflare.
+  if (process.env.DEPLOY_PLATFORM === "cloudflare") {
+    return request.headers.get("cf-connecting-ip")?.trim() || "unknown";
+  }
+
   return "local";
 }

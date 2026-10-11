@@ -5,3 +5,10 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Cloudflare local state and generated Worker output
+.open-next/
+.wrangler/
+.dev.vars
+.dev.vars.*
+cloudflare-env.d.ts
