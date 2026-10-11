@@ -703,6 +703,9 @@ export function Footer({
             © {new Date().getFullYear()} Erika Pilar.
             Todos los derechos reservados.
           </p>
+          <Link href="/privacidad" className={`rounded px-2 py-2 text-sm underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current ${bodyColor} ${hoverColor}`}>
+            Aviso de privacidad
+          </Link>
         </div>
       </div>
     </footer>
