@@ -1,4 +1,5 @@
 'use client';
+import { useEffect, useId, useRef, useState } from 'react';
 import { useSiteData } from '@/components/SiteDataProvider';
 
 import { motion, useReducedMotion } from 'motion/react';
@@ -11,6 +12,7 @@ import {
   Leaf,
   MessageCircle,
   Sparkles,
+  X,
 } from 'lucide-react';
 
 
@@ -84,55 +86,114 @@ function TechniqueCard({
 }: TechniqueCardProps) {
   const { contact } = useSiteData();
   const Icon = iconMap[technique.slug] ?? Leaf;
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const titleId = useId();
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
+
+  function openInformation() {
+    dialogRef.current?.showModal();
+    setIsOpen(true);
+  }
+
+  function closeInformation() {
+    dialogRef.current?.close();
+  }
 
   return (
-    <details className="group rounded-[26px] border border-[#A7B89A]/25 bg-[#FBFAF7] shadow-[0_12px_40px_rgba(15,61,74,0.035)] open:bg-[#0F3D4A] open:text-white">
-      <summary className="relative cursor-pointer list-none rounded-[26px] p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F3D4A] focus-visible:ring-offset-4 sm:p-7 [&::-webkit-details-marker]:hidden">
-        <span className="flex items-center justify-between">
-          <span className="text-[11px] font-semibold tracking-[0.2em] text-[#80651D] group-open:text-[#E5CF80]">
-            {String(index + 1).padStart(2, '0')}
-          </span>
-          <ArrowRight aria-hidden="true" className="h-5 w-5 text-[#52665A] transition-transform group-open:rotate-90 group-open:text-white motion-reduce:transition-none" />
+    <>
+      <article className="flex h-full min-h-[390px] flex-col rounded-[26px] border border-[#A7B89A]/25 bg-[#FBFAF7] p-6 shadow-[0_12px_40px_rgba(15,61,74,0.035)] sm:p-7">
+        <span className="text-[11px] font-semibold tracking-[0.2em] text-[#80651D]">
+          {String(index + 1).padStart(2, '0')}
         </span>
-        <span className="mt-7 flex h-14 w-14 items-center justify-center rounded-full bg-[#A7B89A]/10 text-[#52665A] group-open:text-[#E5CF80]">
+        <span className="mt-7 flex h-14 w-14 items-center justify-center rounded-full bg-[#A7B89A]/10 text-[#52665A]">
           <Icon aria-hidden="true" className="h-6 w-6" strokeWidth={1.35} />
         </span>
-        <span className="mt-8 block font-serif text-[27px] leading-tight text-[#0F3D4A] group-open:text-white">
+        <h2 className="mt-8 font-serif text-[27px] leading-tight text-[#0F3D4A]">
           {technique.name}
-        </span>
-        <span className="mt-3 block text-sm leading-6 text-[#526368] group-open:text-white/85">
+        </h2>
+        <p className="mt-3 text-sm leading-6 text-[#526368]">
           {technique.shortDescription}
-        </span>
-        <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#52665A] group-open:text-[#E5CF80]">
-          <span className="group-open:hidden">Ver información sobre {technique.name}</span>
-          <span className="hidden group-open:inline">Cerrar información sobre {technique.name}</span>
-        </span>
-      </summary>
-
-      <div className="px-6 pb-7 sm:px-7">
-        <h3 className="sr-only">Información sobre {technique.name}</h3>
-        <p className="text-sm leading-7 text-white/85">{technique.description}</p>
-        {technique.benefits && technique.benefits.length > 0 && (
-          <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-white/85 marker:text-[#E5CF80]">
-            {technique.benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
-          </ul>
-        )}
-        <div className="mt-6 border-t border-white/20 pt-5">
-          <p className="text-xs font-semibold uppercase tracking-wide text-white/85">Consulta de Medicina Natural</p>
-          <p className="mt-2 font-serif text-3xl">${consultation.price} <span className="font-sans text-sm">MXN</span></p>
-          {consultation.appointmentRequired && <p className="mt-2 text-sm text-white/85">Previa cita</p>}
-          <a
-            href={getTechniqueWhatsappUrl(technique.name, contact.whatsapp)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-lg text-sm font-semibold text-[#E5CF80] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#0F3D4A]"
+        </p>
+        <div className="mt-auto pt-5">
+          <button
+            ref={triggerRef}
+            type="button"
+            aria-haspopup="dialog"
+            aria-label={`Ver información sobre ${technique.name}`}
+            onClick={openInformation}
+            className="inline-flex min-h-11 items-center gap-3 rounded-lg text-sm font-semibold text-[#52665A] hover:text-[#0F3D4A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F3D4A] focus-visible:ring-offset-4 focus-visible:ring-offset-[#FBFAF7]"
           >
-            Consultar por esta técnica
+            Ver información
             <ArrowRight aria-hidden="true" className="h-4 w-4" />
-          </a>
+          </button>
         </div>
-      </div>
-    </details>
+      </article>
+
+      <dialog
+        ref={dialogRef}
+        aria-labelledby={titleId}
+        onClose={() => {
+          setIsOpen(false);
+          triggerRef.current?.focus({ preventScroll: true });
+        }}
+        onClick={(event) => {
+          if (event.target !== event.currentTarget) return;
+          const bounds = event.currentTarget.getBoundingClientRect();
+          if (event.clientX < bounds.left || event.clientX > bounds.right ||
+              event.clientY < bounds.top || event.clientY > bounds.bottom) {
+            closeInformation();
+          }
+        }}
+        className="fixed inset-0 m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto overscroll-contain rounded-[26px] border border-white/20 bg-[#0F3D4A] p-0 text-white shadow-2xl backdrop:bg-[#09242D]/65 backdrop:backdrop-blur-sm"
+      >
+        <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-white/15 bg-[#0F3D4A] px-6 py-5 sm:px-8">
+          <h2 id={titleId} className="self-center font-serif text-2xl sm:text-3xl">
+            {technique.name}
+          </h2>
+          <button
+            type="button"
+            autoFocus
+            onClick={closeInformation}
+            aria-label={`Cerrar información sobre ${technique.name}`}
+            className="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-white/25 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5CF80]"
+          >
+            <X aria-hidden="true" className="h-5 w-5" />
+          </button>
+        </div>
+        <div className="px-6 py-6 sm:px-8 sm:py-8">
+          <p className="whitespace-pre-line text-sm leading-7 text-white/85">{technique.description}</p>
+          {technique.benefits && technique.benefits.length > 0 && (
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-white/85 marker:text-[#E5CF80]">
+              {technique.benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
+            </ul>
+          )}
+          <div className="mt-6 border-t border-white/20 pt-5">
+            <p className="text-xs font-semibold uppercase tracking-wide text-white/85">Consulta de Medicina Natural</p>
+            <p className="mt-2 font-serif text-3xl">${consultation.price} <span className="font-sans text-sm">MXN</span></p>
+            {consultation.appointmentRequired && <p className="mt-2 text-sm text-white/85">Previa cita</p>}
+            <a
+              href={getTechniqueWhatsappUrl(technique.name, contact.whatsapp)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-lg text-sm font-semibold text-[#E5CF80] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#0F3D4A]"
+            >
+              Consultar por esta técnica en WhatsApp
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      </dialog>
+    </>
   );
 }
 
