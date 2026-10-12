@@ -6,7 +6,7 @@ Esta rama prepara una prueba independiente del proyecto de Erika Pilar. No cambi
 
 - Next.js 15.5.27, actualización de mantenimiento requerida por OpenNext 1.20.10.
 - Adaptador OpenNext y Wrangler como dependencias de desarrollo.
-- Worker `erika-pilar-preview`, recursos estáticos y vínculo de servicio al propio Worker.
+- Worker `proyectopsicologa`, recursos estáticos y vínculo de servicio al propio Worker.
 - Compatibilidad Node.js y configuración de imágenes mediante el binding IMAGES.
 - Comandos `cf:build`, `cf:preview`, `cf:check` y `cf:deploy`. Los comandos habituales de Next.js se conservan.
 - Identificación por IP de Cloudflare para el limitador de solicitudes solo cuando DEPLOY_PLATFORM vale cloudflare. Vercel conserva prioridad cuando VERCEL está configurada.
@@ -35,7 +35,7 @@ npm run cf:check
 1. En Cloudflare, abrir Workers & Pages y crear una aplicación conectada a GitHub.
 2. Elegir `kairostechbots-ship-it/proyectoPsicologa` y la rama `feat/cloudflare-workers` para la prueba. No cambiar primero la rama principal.
 3. Directorio raíz: el directorio del repositorio. Comando de compilación: `npm run cf:build`. Comando de despliegue: `npx opennextjs-cloudflare deploy -- --keep-vars`. Mantener instaladas las dependencias de desarrollo durante la compilación.
-4. El nombre del Worker debe coincidir con `erika-pilar-preview` en wrangler.jsonc y en WORKER_SELF_REFERENCE. Si se cambia, actualizar ambos valores.
+4. El nombre del Worker debe coincidir con `proyectopsicologa` en wrangler.jsonc y en WORKER_SELF_REFERENCE. Si se cambia, actualizar ambos valores.
 5. Configurar variables de compilación y ejecución separadamente. No definir VERCEL en Cloudflare.
 6. Desplegar en la URL temporal que Cloudflare proporcione. No inventar el subdominio antes de crear el Worker.
 
@@ -43,6 +43,7 @@ npm run cf:check
 
 | Nombre | Dónde | Valor o propósito |
 | --- | --- | --- |
+| NODE_OPTIONS | Compilación | `--max-old-space-size=4096`; la comprobación de tipos superó el límite predeterminado de memoria de Node en Workers Builds. |
 | NEXT_PUBLIC_SITE_URL | Compilación y ejecución | Origen HTTPS exacto del Worker de prueba; al finalizar, dominio definitivo. Se incorpora al JavaScript al compilar, por lo que requiere volver a compilar cuando cambia. |
 | APP_URL | Ejecución | Mismo origen HTTPS. El layout lo usa para cargar `/api/site` y se debe comprobar que la carga del servidor funciona en Workers. |
 | DATABASE_URL | Secreto de ejecución | Conexión a la base de pruebas. No incluye un valor en el repositorio. |
