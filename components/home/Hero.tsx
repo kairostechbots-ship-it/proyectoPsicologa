@@ -198,8 +198,12 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
         <div
           className="
             grid
+            min-w-0
+            grid-cols-1
             items-center
-            gap-14
+            gap-8
+
+            sm:gap-10
 
             lg:grid-cols-[1.05fr_0.95fr]
             lg:gap-14
@@ -215,11 +219,11 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
             variants={reduceMotion ? {} : container}
             initial="hidden"
             animate="show"
-            className="max-w-2xl"
+            className="min-w-0 w-full max-w-2xl"
           >
             <motion.div
               variants={reduceMotion ? {} : item}
-              className="mb-6 flex items-center gap-3"
+              className="mb-5 flex min-w-0 items-center gap-3 sm:mb-6"
             >
               <span
                 aria-hidden="true"
@@ -253,7 +257,7 @@ variants={reduceMotion ? {} : item}
 id="hero-title"
 className="
   font-serif
-  text-[40px]
+  text-[clamp(2rem,8.5vw,2.5rem)]
   font-medium
   leading-[1.10]
   tracking-[-0.03em]
@@ -267,9 +271,9 @@ className="
             >
              Un espacio para comprender lo que sientes y encontrar nuevas
 
-              <span className="whitespace-nowrap">
+              <span className="whitespace-normal lg:whitespace-nowrap">
                {' '}
-                <span className="relative inline-block font-normal italic">
+                <span className="relative font-normal italic underline decoration-[#D4AF37]/45 decoration-[3px] underline-offset-[6px] lg:inline-block lg:no-underline">
                   formas de afrontarlo.
 
                   <svg
@@ -277,6 +281,8 @@ className="
                     viewBox="0 0 300 14"
                     preserveAspectRatio="none"
                     className="
+                      hidden
+                      lg:block
                       absolute
                       -bottom-2
                       left-0
@@ -517,10 +523,15 @@ className="
   className="
     relative
     hidden
+    mx-auto
+    min-w-0
     w-full
-    max-w-[590px]
+    max-w-[360px]
+
+    sm:max-w-[460px]
 
     lg:block
+    lg:max-w-[590px]
     lg:-translate-x-4
 
     xl:max-w-[640px]
@@ -572,7 +583,7 @@ className="
       src="/images/Perfil botánico en acuarela y oro.png"
       width={1254}
       height={1254}
-      sizes="(max-width: 1023px) 100vw, 50vw"
+      sizes="(max-width: 639px) min(360px, 90vw), (max-width: 1023px) 460px, 50vw"
       priority
       alt="Ilustración de un perfil humano rodeado de hojas y curvas doradas."
       className="
@@ -580,9 +591,9 @@ className="
   z-10
   h-full
   w-full
-  scale-[1.15]
-  -translate-x-[-15%]
-  -translate-y-[5%]
+  lg:scale-[1.15]
+  lg:translate-x-[15%]
+  lg:-translate-y-[5%]
   object-contain
   mix-blend-multiply
   opacity-[0.96]
