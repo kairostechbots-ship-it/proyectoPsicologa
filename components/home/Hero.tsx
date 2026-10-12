@@ -273,7 +273,7 @@ className="
 
               <span className="whitespace-normal lg:whitespace-nowrap">
                {' '}
-                <span className="relative font-normal italic lg:inline-block">
+                <span className="relative font-normal italic underline decoration-[#D4AF37]/45 decoration-[3px] underline-offset-[6px] lg:inline-block lg:no-underline">
                   formas de afrontarlo.
 
                   <svg
@@ -281,6 +281,8 @@ className="
                     viewBox="0 0 300 14"
                     preserveAspectRatio="none"
                     className="
+                      hidden
+                      lg:block
                       absolute
                       -bottom-2
                       left-0
