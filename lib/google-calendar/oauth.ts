@@ -22,7 +22,11 @@ export function getGoogleOAuthClient() {
     redirectUri,
     // Read token and Calendar responses as JSON explicitly in Workers.
     // Automatic response detection can otherwise return a string.
-    transporterOptions: { responseType: "json" },
+    transporterOptions: {
+      responseType: "json",
+      // Use Workers' native HTTP handling instead of the Node fetch adapter.
+      fetchImplementation: fetch,
+    },
   });
 }
 
