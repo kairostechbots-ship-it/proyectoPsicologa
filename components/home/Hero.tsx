@@ -520,6 +520,7 @@ className="
   animate="show"
   className="
     relative
+    hidden
     mx-auto
     min-w-0
     w-full
