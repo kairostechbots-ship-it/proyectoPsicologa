@@ -16,11 +16,14 @@ export function getGoogleOAuthClient() {
     );
   }
 
-  return new google.auth.OAuth2(
+  return new google.auth.OAuth2({
     clientId,
     clientSecret,
     redirectUri,
-  );
+    // Read token and Calendar responses as JSON explicitly in Workers.
+    // Automatic response detection can otherwise return a string.
+    transporterOptions: { responseType: "json" },
+  });
 }
 
 export function getGoogleAuthorizationUrl(state: string) {
