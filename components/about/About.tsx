@@ -4,12 +4,10 @@
 import Image from 'next/image';
 import { motion, useReducedMotion } from 'motion/react';
 import {
-  ArrowUpRight,
   Brain,
   HeartHandshake,
   Leaf,
   ShieldCheck,
-  Sparkles,
   UserRound,
   UsersRound,
 } from 'lucide-react';
@@ -31,37 +29,6 @@ const patientIcons: Record<string, React.ElementType> = {
   Adultos: UserRound,
   Parejas: UsersRound,
 };
-
-// Ramita decorativa reutilizable
-function BotanicalBranch({
-  className = '',
-}: {
-  className?: string;
-}) {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 180 360"
-      fill="none"
-      className={className}
-    >
-      <g
-        stroke="currentColor"
-        strokeWidth="1.15"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M51 344C72 299 94 254 103 202C113 151 115 96 110 28" />
-        <path d="M111 80C91 65 91 40 110 18C121 39 122 61 111 80Z" />
-        <path d="M113 125C132 111 148 87 144 64C124 75 111 101 113 125Z" />
-        <path d="M110 151C87 140 66 120 65 96C89 103 107 126 110 151Z" />
-        <path d="M103 197C126 190 150 170 153 147C127 153 110 172 103 197Z" />
-        <path d="M96 222C72 211 52 193 48 168C73 174 91 198 96 222Z" />
-        <path d="M81 267C105 264 131 249 137 226C111 228 91 245 81 267Z" />
-      </g>
-    </svg>
-  );
-}
 
 export function About({ profile }: AboutProps) {
   const reduceMotion = useReducedMotion();
@@ -87,9 +54,6 @@ export function About({ profile }: AboutProps) {
     .filter((item) => item.active)
     .sort((a, b) => a.displayOrder - b.displayOrder);
 
-  const introductoryBiography = profile.biography[0];
-  const remainingBiography = profile.biography.slice(1);
-
   const animation = (direction: 'up' | 'left' | 'right' = 'up', delay = 0) => {
     const initialPosition =
       direction === 'left'
@@ -112,17 +76,13 @@ export function About({ profile }: AboutProps) {
 
   return (
     <>
-      {/* ==========================================
-          SECCIÓN 1: PRESENTACIÓN EDITORIAL
-      ========================================== */}
-    
 {/* =====================================================
     PRESENTACIÓN: FOTOGRAFÍA + BIOGRAFÍA
 ====================================================== */}
 <section
   id="about"
   aria-labelledby="about-title"
-  className="] py-20 sm:py-24 lg:py-28"
+  className="relative isolate overflow-hidden bg-[#FBFAF7] py-20 sm:py-24 lg:py-28"
 >
   {/* DECORACIÓN GENERAL */}
   <div
@@ -476,10 +436,6 @@ export function About({ profile }: AboutProps) {
 
      
 
-      {/* ==========================================
-          SECCIÓN 3: FORMACIÓN + EXPERIENCIA
-      ========================================== */}
-      
 {/* ==========================================
     FORMACIÓN + EXPERIENCIA CLÍNICA
 ========================================== */}
@@ -526,7 +482,7 @@ export function About({ profile }: AboutProps) {
       </h2>
       </div>
 
-      <p className="-met-10 max-w-[560px] text-[14px] leading-7 text-[#657678] lg:justify-self-end">
+      <p className="max-w-[560px] text-[14px] leading-7 text-[#657678] lg:justify-self-end">
         Mi preparación profesional se ha enriquecido con formación
         en distintas áreas relacionadas con la salud mental,
         el acompañamiento y el bienestar.
@@ -547,7 +503,7 @@ export function About({ profile }: AboutProps) {
         <div className="absolute left-9 top-0 h-[3px] w-16 rounded-b-full bg-[#9BAF97]" />
 
         <div className="flex items-start gap-4">
-          <span className="flex h-13 w-13 shrink-0 items-center justify-center rounded-[17px] bg-[#EDF3EA] text-[#66846D]">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[17px] bg-[#EDF3EA] text-[#66846D]">
             <Brain
               aria-hidden="true"
               className="h-6 w-6"
@@ -613,7 +569,7 @@ export function About({ profile }: AboutProps) {
         <div className="absolute left-9 top-0 h-[3px] w-16 rounded-b-full bg-[#C8AD69]" />
 
         <div className="relative flex items-start gap-4">
-          <span className="flex h-13 w-13 shrink-0 items-center justify-center rounded-[17px] bg-white/75 text-[#708B70]">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[17px] bg-white/75 text-[#708B70]">
             <Leaf
               aria-hidden="true"
               className="h-6 w-6"
@@ -669,6 +625,12 @@ export function About({ profile }: AboutProps) {
     {/* ======================================
         NOTA DE MEDICINA NATURAL
     ====================================== */}
+    <div className="mt-8 flex items-start gap-3 rounded-[18px] border border-[#E9E6D9] bg-[#F6F3EB] px-5 py-4">
+      <Leaf aria-hidden="true" className="mt-1 h-4 w-4 shrink-0 text-[#A89154]" strokeWidth={1.5} />
+      <p className="max-w-[900px] text-[12px] leading-6 text-[#66766E]">
+        La Medicina Natural se presenta como un área de atención independiente de la psicoterapia y no sustituye la valoración, diagnóstico o tratamiento médico.
+      </p>
+    </div>
    
 
     {/* ======================================
