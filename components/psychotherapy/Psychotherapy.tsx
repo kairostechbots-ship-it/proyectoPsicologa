@@ -247,7 +247,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
       max-w-[680px]
       text-[14px]
       leading-7
-      text-[#718083]
+      text-[#526368]
     "
   >
     Atención psicológica con enfoque
@@ -392,7 +392,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                       max-w-[620px]
                       text-[12px]
                       leading-6
-                      text-[#718083]
+                      text-[#526368]
                     "
                   >
                     Puedes comunicarte directamente
@@ -406,7 +406,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                       mt-2
                       text-[10px]
                       font-medium
-                      text-[#82918B]
+                      text-[#53665C]
                     "
                   >
                     {contactMock.appointmentRequired &&
@@ -607,7 +607,7 @@ function ServiceCard({
             flex-1
             text-[13px]
             leading-6
-            text-[#718083]
+            text-[#526368]
           "
         >
           {service.descripcion}
@@ -675,7 +675,7 @@ function ServiceCard({
                     font-semibold
                     uppercase
                     tracking-[0.14em]
-                    text-[#82918B]
+                    text-[#53665C]
                   "
                 >
                   Consulta
@@ -704,7 +704,7 @@ function ServiceCard({
                       font-semibold
                       uppercase
                       tracking-[0.08em]
-                      text-[#82918B]
+                      text-[#53665C]
                     "
                   >
                     MXN
@@ -746,7 +746,7 @@ function ServiceCard({
                       font-semibold
                       uppercase
                       tracking-[0.14em]
-                      text-[#82918B]
+                      text-[#53665C]
                     "
                   >
                     Duración
@@ -849,7 +849,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
           mt-2
           text-[12px]
           leading-6
-          text-[#718083]
+          text-[#526368]
         "
       >
         Puedes comunicarte directamente

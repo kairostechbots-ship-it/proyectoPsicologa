@@ -38,6 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/medicina-natural',
     '/faq',
     '/contacto',
+    '/privacidad',
   ];
 
   return routes.map((path) => ({

@@ -68,15 +68,15 @@ export function Footer({
 
   const headingColor = isDark
     ? 'text-[#D8BD66]'
-    : 'text-[#9B7A1F]';
+    : 'text-[#80651D]';
 
   const bodyColor = isDark
     ? 'text-white/70'
-    : 'text-[#63777A]';
+    : 'text-[#526368]';
 
   const secondaryColor = isDark
-    ? 'text-white/45'
-    : 'text-[#82918B]';
+    ? 'text-white/75'
+    : 'text-[#53665C]';
 
   const strongColor = isDark
     ? 'text-white/90'
@@ -677,32 +677,19 @@ export function Footer({
           }
         `}
       >
-        <div
-          className="
-            mx-auto
-            flex
-            max-w-[1320px]
-            flex-col
-            items-center
-            justify-center
-            gap-3
-            px-6
-            py-4
-            sm:px-8
-            lg:px-10
-          "
-        >
-          <p
-            className={`
-              text-center
-              text-[11px]
-              leading-5
-              ${secondaryColor}
-            `}
-          >
-            © {new Date().getFullYear()} Erika Pilar.
-            Todos los derechos reservados.
+        <div className="mx-auto flex max-w-[1320px] flex-col items-center justify-between gap-1 px-6 py-4 sm:flex-row sm:gap-8 sm:px-8 lg:px-10">
+          <p className={`text-center text-xs leading-6 sm:text-left ${secondaryColor}`}>
+            <span className={`font-medium ${bodyColor}`}>
+              © {new Date().getFullYear()} Erika Pilar.
+            </span>
+            <span className="block sm:inline">{' '}Todos los derechos reservados.</span>
           </p>
+          <Link
+            href="/privacidad"
+            className={`inline-flex min-h-11 shrink-0 items-center rounded-md px-3 text-xs font-medium underline decoration-current/35 underline-offset-[5px] transition-colors hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current motion-reduce:transition-none ${bodyColor} ${hoverColor}`}
+          >
+            Aviso de privacidad
+          </Link>
         </div>
       </div>
     </footer>

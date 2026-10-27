@@ -234,7 +234,7 @@ export function NaturalMedicinePreview({
                     font-semibold
                     uppercase
                     tracking-[0.22em]
-                    text-[#82918B]
+                    text-[#53665C]
                   "
                 >
                   Consulta
@@ -268,7 +268,7 @@ export function NaturalMedicinePreview({
                       font-semibold
                       uppercase
                       tracking-[0.22em]
-                      text-[#82918B]
+                      text-[#53665C]
                     "
                   >
                     Atención
@@ -577,7 +577,7 @@ export function NaturalMedicinePreview({
                   font-semibold
                   uppercase
                   tracking-[0.22em]
-                  text-[#82918B]
+                  text-[#53665C]
                 "
               >
                 También disponible

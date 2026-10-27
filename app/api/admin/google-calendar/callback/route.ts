@@ -53,9 +53,17 @@ export async function GET(request: NextRequest) {
 
     const oauth = getGoogleOAuthClient();
 
-    const { tokens } = await oauth.getToken(code);
+    const { tokens, res } = await oauth.getToken(code);
 
     if (!tokens.refresh_token) {
+      // Log only response structure, never credentials or token values.
+      console.warn("Google Calendar OAuth: missing refresh token", {
+        status: res?.status,
+        tokenResponseType: typeof tokens,
+        tokenFields: Object.keys(tokens).slice(0, 20),
+        hasAccessToken: Boolean(tokens.access_token),
+        hasRefreshToken: Boolean(tokens.refresh_token),
+      });
       return redirectToAgenda(request, "missing_refresh_token");
     }
 

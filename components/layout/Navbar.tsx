@@ -98,6 +98,9 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
+      <a href="#contenido-principal" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-[#0F3D4A] focus:px-5 focus:py-3 focus:text-white focus:ring-2 focus:ring-white">
+        Saltar al contenido principal
+      </a>
       <nav
         aria-label="Navegación principal"
         className="
@@ -161,7 +164,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                           ${
                             active
                               ? 'font-semibold text-[#0F3D4A]'
-                              : 'font-medium text-[#6E7A73] hover:text-[#0F3D4A]'
+                              : 'font-medium text-[#52665A] hover:text-[#0F3D4A]'
                           }
                         `}
                       >
@@ -350,7 +353,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                             ${
                               active
                                 ? 'bg-[#A7B89A]/15 font-semibold text-[#0F3D4A]'
-                                : 'font-medium text-[#6E7A73] hover:bg-[#F2F1EC] hover:text-[#0F3D4A]'
+                                : 'font-medium text-[#52665A] hover:bg-[#F2F1EC] hover:text-[#0F3D4A]'
                             }
                           `}
                         >
@@ -413,11 +416,11 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                   </a>
 
                   <div className="mt-4 text-center">
-                    <p className="text-xs leading-relaxed text-[#6E7A73]">
+                    <p className="text-xs leading-relaxed text-[#52665A]">
                       Atención presencial y en línea
                     </p>
 
-                    <p className="mt-1 text-xs leading-relaxed text-[#6E7A73]">
+                    <p className="mt-1 text-xs leading-relaxed text-[#52665A]">
                       Psicología Clínica · TCC
                     </p>
                   </div>

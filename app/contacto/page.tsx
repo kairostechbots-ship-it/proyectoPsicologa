@@ -51,16 +51,20 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="relative min-h-screen">
+    <div className="relative min-h-screen">
       <Navbar />
+
+      <main id="contenido-principal" tabIndex={-1} className="scroll-mt-28 focus:outline-none">
 
       <div className="pt-20">
         <LiveContact />
       </div>
 
+      </main>
+
       <Footer />
 
       <WhatsAppButton />
-    </main>
+    </div>
   );
 }

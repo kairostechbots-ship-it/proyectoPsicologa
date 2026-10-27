@@ -58,8 +58,10 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen">
+    <div className="relative min-h-screen">
       <Navbar />
+
+      <main id="contenido-principal" tabIndex={-1} className="scroll-mt-28 focus:outline-none">
 
       <Hero />
 
@@ -77,9 +79,11 @@ export default function Home() {
 
       <FinalCTA />
 
+      </main>
+
       <Footer variant="light" />
 
       <WhatsAppButton />
-    </main>
+    </div>
   );
 }
