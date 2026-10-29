@@ -97,7 +97,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
   }, [isOpen]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+   <header className="sticky top-0 z-50 w-full">
       <a href="#contenido-principal" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-[#0F3D4A] focus:px-5 focus:py-3 focus:text-white focus:ring-2 focus:ring-white">
         Saltar al contenido principal
       </a>
