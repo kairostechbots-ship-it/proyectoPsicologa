@@ -18,21 +18,21 @@ const steps = [
     number: '01',
     title: 'Escríbeme por WhatsApp',
     description:
-      'Envíame un mensaje para solicitar información sobre las sesiones o resolver tus dudas antes de agendar.',
+      'Consulta el costo, la duración y las modalidades de las sesiones antes de agendar.',
     icon: MessageCircle,
   },
   {
     number: '02',
     title: 'Revisamos disponibilidad',
     description:
-      'Revisamos los horarios disponibles y acordamos la fecha y modalidad de atención que mejor se adapte a tus posibilidades.',
+      'Acordamos la fecha y la modalidad de tu cita según los horarios disponibles.',
     icon: CalendarCheck,
   },
   {
     number: '03',
     title: 'Comenzamos tu proceso',
     description:
-      'Una vez confirmada tu cita, recibirás la información y las indicaciones necesarias para prepararte para tu primera sesión.',
+      'Al confirmar tu cita, recibirás las indicaciones para asistir a tu primera sesión.',
     icon: HeartHandshake,
   },
 ];
@@ -40,10 +40,10 @@ const steps = [
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function AppointmentSteps() {
- const { contact: contactMock } = useSiteData();
-const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-  'Hola, me gustaría recibir información para solicitar una cita.'
-)}`;
+  const { contact } = useSiteData();
+  const whatsappUrl = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
+    'Hola, me gustaría recibir información para solicitar una cita.',
+  )}`;
 
   const reduceMotion = useReducedMotion();
 
@@ -56,14 +56,14 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
         overflow-hidden
         bg-white
 
-        pt-20
-        pb-8
+        pt-14
+        pb-6
 
-        sm:pt-24
-        sm:pb-10
+        sm:pt-16
+        sm:pb-8
 
-        lg:pt-28
-        lg:pb-12
+        lg:pt-20
+        lg:pb-8
       "
     >
       {/* Decoración ambiental */}
@@ -103,7 +103,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
         </svg>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Encabezado */}
         <motion.div
           initial={
@@ -156,18 +156,18 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
             id="appointment-steps-title"
             className="
               font-serif
-              text-[38px]
+              text-[34px]
               font-medium
               leading-[1.08]
               tracking-[-0.025em]
               text-[#0F3D4A]
-              sm:text-[48px]
-              lg:text-[54px]
+              sm:text-[42px]
+              lg:text-[46px]
             "
           >
-            Comenzar puede ser{' '}
+            Así puedes{' '}
             <span className="italic font-normal">
-              más sencillo de lo que parece.
+              solicitar tu cita.
             </span>
           </h2>
 
@@ -181,12 +181,13 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
               sm:leading-8
             "
           >
-            Si estás considerando iniciar terapia, puedes comunicarte directamente por WhatsApp para resolver tus dudas, conocer la disponibilidad y recibir orientación sobre cómo agendar.
+            Escríbeme para resolver tus dudas sobre la atención y consultar
+            los horarios disponibles antes de agendar.
           </p>
         </motion.div>
 
         {/* Pasos */}
-        <div className="relative mx-auto mt-16 max-w-5xl">
+        <div className="relative mx-auto mt-10 max-w-5xl sm:mt-12">
           {/* Línea de conexión */}
           <div
             aria-hidden="true"
@@ -204,7 +205,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
           <div
             className="
               relative z-10
-              grid gap-10
+              grid gap-8
               md:grid-cols-3
               md:gap-8
             "
@@ -323,10 +324,10 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
             ease,
           }}
           className="
-            mt-14
+            mt-9
             flex flex-col
             items-center
-            lg:mt-16
+            lg:mt-10
           "
         >
           <a
@@ -350,7 +351,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
               shadow-[0_8px_22px_rgba(15,61,74,0.12)]
               transition-all
               duration-300
-              hover:-translate-y-0.5
+              hover:-translate-y-0.5 motion-reduce:transform-none
               hover:bg-[#174F5D]
               focus-visible:outline-none
               focus-visible:ring-2
@@ -368,7 +369,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 h-4 w-4
                 transition-transform
                 duration-200
-                group-hover:translate-x-1
+                group-hover:translate-x-1 motion-reduce:transform-none
               "
               strokeWidth={1.8}
             />
@@ -381,7 +382,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
               text-center
               text-xs
               leading-5
-              text-[#788184]
+              text-[#657175]
             "
           >
            La disponibilidad y las condiciones para confirmar tu cita se acordarán directamente con Erika.

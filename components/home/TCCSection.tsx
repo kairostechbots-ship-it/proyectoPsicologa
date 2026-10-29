@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import {
   ArrowRight,
   Brain,
@@ -87,8 +88,8 @@ export function TCCSection() {
         overflow-hidden
         bg-[#F1F4EE]
         py-14
-        sm:py-18
-        lg:py-28
+        sm:py-16
+        lg:py-20
       "
     >
       {/* =====================================================
@@ -157,7 +158,7 @@ export function TCCSection() {
           z-10
           mx-auto
           max-w-7xl
-          px-5
+          px-4
           sm:px-6
           lg:px-8
         "
@@ -171,9 +172,9 @@ export function TCCSection() {
 
             lg:grid-cols-[0.9fr_1.1fr]
             lg:items-center
-            lg:gap-20
+            lg:gap-14
 
-            xl:gap-28
+            xl:gap-20
           "
         >
           {/* =================================================
@@ -182,7 +183,7 @@ export function TCCSection() {
 
           <motion.div
             variants={reduceMotion ? {} : container}
-            initial="hidden"
+            initial={reduceMotion ? false : 'hidden'}
             whileInView="show"
             viewport={{
               once: true,
@@ -191,7 +192,7 @@ export function TCCSection() {
           >
             {/* Eyebrow */}
             <motion.div
-              variants={item}
+              variants={reduceMotion ? {} : item}
               className="flex items-center gap-3"
             >
               <span
@@ -217,7 +218,7 @@ export function TCCSection() {
 
             {/* Título */}
             <motion.h2
-              variants={item}
+              variants={reduceMotion ? {} : item}
               id="tcc-title"
               className="
                 mt-5
@@ -229,9 +230,9 @@ export function TCCSection() {
                 tracking-[-0.025em]
                 text-[#0F3D4A]
 
-                sm:text-[44px]
+                sm:text-[42px]
 
-                lg:text-[54px]
+                lg:text-[46px]
               "
             >
               Comprender también es{' '}
@@ -242,7 +243,7 @@ export function TCCSection() {
 
             {/* Texto */}
             <motion.p
-              variants={item}
+              variants={reduceMotion ? {} : item}
               className="
                 mt-5
                 max-w-xl
@@ -255,49 +256,34 @@ export function TCCSection() {
                 sm:leading-8
               "
             >
-              La Terapia Cognitivo-Conductual (TCC) es un enfoque psicológico basado en evidencia que ayuda a comprender cómo se relacionan nuestros pensamientos, emociones y conductas.
-
-Durante el proceso terapéutico se trabajan estrategias prácticas para afrontar dificultades, desarrollar nuevas habilidades y avanzar hacia objetivos personales.
+              La Terapia Cognitivo-Conductual (TCC) es un enfoque psicológico
+              basado en evidencia que permite explorar la relación entre
+              pensamientos, emociones y conductas. El trabajo se adapta a
+              lo que estás viviendo y a tus objetivos.
             </motion.p>
 
-            <motion.p
-              variants={item}
-              className="
-                mt-4
-                max-w-xl
-                text-[15px]
-                leading-7
-                text-[#657175]
-
-                sm:text-base
-              "
-            >
-              A partir de esta comprensión, el proceso terapéutico busca
-              desarrollar estrategias y herramientas que respondan a tus
-              necesidades y objetivos personales.
-            </motion.p>
 
             {/* Principios */}
             <motion.div
-              variants={item}
+              variants={reduceMotion ? {} : item}
               className="mt-6 space-y-3 sm:mt-7"
             >
               <Principle>
-               Identificación de pensamientos y conductas que influyen en tu bienestar.
+               Identificar pensamientos y conductas que influyen en tu bienestar.
               </Principle>
 
               <Principle>
-                Herramientas prácticas para aplicar en situaciones cotidianas.
+                Practicar herramientas para afrontar situaciones cotidianas.
               </Principle>
 
               <Principle>
-                Objetivos terapéuticos definidos y revisión de avances durante el proceso.
+                Definir objetivos y revisar los avances durante el proceso.
               </Principle>
             </motion.div>
 
             {/* CTA */}
             <motion.div
-              variants={item}
+              variants={reduceMotion ? {} : item}
               className="mt-7 sm:mt-8"
             >
               <Link
@@ -328,7 +314,7 @@ Durante el proceso terapéutico se trabajan estrategias prácticas para afrontar
                     shrink-0
                     transition-transform
                     duration-200
-                    group-hover:translate-x-1
+                    group-hover:translate-x-1 motion-reduce:transform-none
                   "
                   strokeWidth={1.8}
                 />
@@ -342,7 +328,7 @@ Durante el proceso terapéutico se trabajan estrategias prácticas para afrontar
 
           <motion.div
             variants={reduceMotion ? {} : visual}
-            initial="hidden"
+            initial={reduceMotion ? false : 'hidden'}
             whileInView="show"
             viewport={{
               once: true,
@@ -368,7 +354,7 @@ Durante el proceso terapéutico se trabajan estrategias prácticas para afrontar
                 mx-auto
                 hidden
                 w-full
-                max-w-[570px]
+                max-w-[500px]
                 lg:block
               "
             >
@@ -388,7 +374,7 @@ Durante el proceso terapéutico se trabajan estrategias prácticas para afrontar
 function Principle({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <div className="flex items-start gap-3">

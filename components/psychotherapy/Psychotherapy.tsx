@@ -61,29 +61,19 @@ const smoothEase = [0.22, 1, 0.36, 1] as const;
 ========================================================= */
 
 export function Services() {
- const { contact: contactMock, services: mockServices } = useSiteData();
-const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-  'Hola, me gustaría recibir información sobre los servicios de psicoterapia y solicitar una cita.',
-)}`;
+  const { contact, services: siteServices } = useSiteData();
+  const whatsappUrl = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
+    'Hola, me gustaría recibir información sobre los servicios de psicoterapia y solicitar una cita.',
+  )}`;
 
   const reduceMotion = useReducedMotion();
 
-  /*
-   * DATOS TEMPORALES
-   *
-   * Mientras el backend no esté disponible utilizamos
-   * mockServices.
-   *
-   * Cuando los endpoints estén listos, estos datos serán
-   * reemplazados por la información obtenida desde la API.
-   */
-
-  const services: Service[] = mockServices
-    .filter((service) => service.activo)
-    .sort((a, b) => a.orden - b.orden);
+  const services: Service[] = siteServices
+    .filter((service) => service.activo && service.tipo === 'psicoterapia')
+    .sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0));
 
   const businessHoursText = getBusinessHoursText(
-    contactMock.businessHours,
+    contact.businessHours,
   );
 
   return (
@@ -94,9 +84,9 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
         relative
         overflow-hidden
         bg-white
-        py-20
-        sm:py-24
-        lg:py-28
+        py-14
+        sm:py-16
+        lg:py-20
       "
     >
       {/* =====================================================
@@ -144,8 +134,8 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
           relative
           z-10
           mx-auto
-          max-w-[1240px]
-          px-5
+          max-w-7xl
+          px-4
           sm:px-6
           lg:px-8
         "
@@ -200,7 +190,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
 
     <p
       className="
-        text-[10px]
+        text-xs
         font-semibold
         uppercase
         tracking-[0.24em]
@@ -245,7 +235,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
       mx-auto
       mt-6
       max-w-[680px]
-      text-[14px]
+      text-base
       leading-7
       text-[#526368]
     "
@@ -276,7 +266,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
           <>
             <div
               className="
-                mt-14
+                mt-10
                 grid
                 gap-6
                 md:grid-cols-2
@@ -336,9 +326,9 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 px-6
                 py-6
 
-                sm:flex-row
-                sm:items-center
-                sm:justify-between
+                lg:flex-row
+                lg:items-center
+                lg:justify-between
                 sm:px-8
                 sm:py-7
               "
@@ -374,7 +364,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 </span>
 
                 <div>
-                  <h3
+                  <h2
                     className="
                       font-serif
                       text-[20px]
@@ -384,13 +374,13 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                   >
                     ¿Tienes dudas sobre el tipo
                     de atención?
-                  </h3>
+                  </h2>
 
                   <p
                     className="
                       mt-1.5
                       max-w-[620px]
-                      text-[12px]
+                      text-sm
                       leading-6
                       text-[#526368]
                     "
@@ -404,12 +394,12 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                   <p
                     className="
                       mt-2
-                      text-[10px]
+                      text-xs
                       font-medium
                       text-[#53665C]
                     "
                   >
-                    {contactMock.appointmentRequired &&
+                    {contact.appointmentRequired &&
                       'Atención con cita previa · '}
                     {businessHoursText}
                   </p>
@@ -420,7 +410,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="
+                className="min-h-12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F3D4A] focus-visible:ring-offset-4 
                   inline-flex
                   shrink-0
                   items-center
@@ -430,14 +420,14 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                   bg-[#0F3D4A]
                   px-6
                   py-3.5
-                  text-[12px]
+                  text-sm
                   font-semibold
                   text-white
                   shadow-[0_10px_30px_rgba(15,61,74,0.12)]
                   transition-all
                   duration-300
 
-                  hover:-translate-y-0.5
+                  hover:-translate-y-0.5 motion-reduce:transform-none
                   hover:bg-[#123540]
                 "
               >
@@ -472,9 +462,9 @@ function ServiceCard({
   index,
   reduceMotion,
 }: ServiceCardProps) {
-  const Icon =
-    iconMap[service.icono] ??
-    CircleHelp;
+  const Icon = iconMap[service.icono] ?? CircleHelp;
+  const hasPrice =
+    typeof service.precio === 'number' && Number.isFinite(service.precio);
 
   return (
     <motion.article
@@ -565,7 +555,7 @@ function ServiceCard({
           transition-all
           duration-300
 
-          group-hover:scale-[1.04]
+          group-hover:scale-[1.04] motion-reduce:transform-none
           group-hover:bg-[#0F4A55]
           group-hover:text-white
         "
@@ -589,7 +579,7 @@ function ServiceCard({
           flex-col
         "
       >
-        <h3
+        <h2
           className="
             font-serif
             text-[26px]
@@ -599,13 +589,13 @@ function ServiceCard({
           "
         >
           {service.nombre}
-        </h3>
+        </h2>
 
         <p
           className="
             mt-3
             flex-1
-            text-[13px]
+            text-sm
             leading-6
             text-[#526368]
           "
@@ -630,7 +620,7 @@ function ServiceCard({
                 bg-white/70
                 px-3
                 py-1.5
-                text-[10px]
+                text-xs
                 font-medium
                 text-[#596D65]
               "
@@ -653,13 +643,14 @@ function ServiceCard({
             PRECIO + DURACIÓN
         ================================================== */}
 
-        {(service.precio !== undefined ||
+        {(hasPrice ||
           service.duracion) && (
           <div
             className="
               mt-6
               grid
-              grid-cols-2
+              grid-cols-1 gap-y-4
+              min-[360px]:grid-cols-2
               border-t
               border-[#A7B89A]/20
               pt-5
@@ -667,7 +658,7 @@ function ServiceCard({
           >
             {/* PRECIO */}
 
-            {service.precio !== undefined && (
+            {hasPrice && (
               <div>
                 <p
                   className="
@@ -692,9 +683,9 @@ function ServiceCard({
                   "
                 >
                   $
-                  {service.precio.toLocaleString(
-                    'es-MX',
-                  )}
+                  {typeof service.precio === 'number'
+                    ? service.precio.toLocaleString('es-MX')
+                    : ''}
 
                   <span
                     className="
@@ -718,8 +709,8 @@ function ServiceCard({
             {service.duracion && (
               <div
                 className={
-                  service.precio !== undefined
-                    ? 'border-l border-[#A7B89A]/20 pl-5'
+                  hasPrice
+                    ? 'min-[360px]:border-l min-[360px]:border-[#A7B89A]/20 min-[360px]:pl-5'
                     : ''
                 }
               >
@@ -756,7 +747,7 @@ function ServiceCard({
                 <p
                   className="
                     mt-1.5
-                    text-[12px]
+                    text-sm
                     font-semibold
                     text-[#435D61]
                   "
@@ -783,10 +774,10 @@ interface EmptyServicesProps {
 function EmptyServices({
   reduceMotion,
 }: EmptyServicesProps) {
- const { contact: contactMock } = useSiteData();
-const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-  'Hola, me gustaría recibir información sobre los servicios de psicoterapia y solicitar una cita.',
-)}`;
+  const { contact } = useSiteData();
+  const whatsappUrl = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
+    'Hola, me gustaría recibir información sobre los servicios de psicoterapia y solicitar una cita.',
+  )}`;
 
   return (
     <motion.div
@@ -832,7 +823,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
         strokeWidth={1.5}
       />
 
-      <h3
+      <h2
         className="
           mt-4
           font-serif
@@ -842,12 +833,12 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
         "
       >
         Información en actualización
-      </h3>
+      </h2>
 
       <p
         className="
           mt-2
-          text-[12px]
+          text-sm
           leading-6
           text-[#526368]
         "
@@ -861,7 +852,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="
+        className="min-h-12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F3D4A] focus-visible:ring-offset-4 
           mt-6
           inline-flex
           items-center
@@ -870,13 +861,13 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
           bg-[#0F3D4A]
           px-5
           py-3
-          text-[12px]
+          text-sm
           font-semibold
           text-white
           transition-all
           duration-300
 
-          hover:-translate-y-0.5
+          hover:-translate-y-0.5 motion-reduce:transform-none
           hover:bg-[#123540]
         "
       >

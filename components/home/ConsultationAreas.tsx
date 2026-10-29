@@ -86,7 +86,7 @@ export function ConsultationAreas() {
   return (
     <section
       aria-labelledby="consultation-areas-title"
-      className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28"
+      className="relative overflow-hidden bg-white py-14 sm:py-16 lg:py-20"
     >
       {/* Decoración muy sutil */}
       <div
@@ -104,7 +104,7 @@ export function ConsultationAreas() {
         />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* =====================================================
             ENCABEZADO
         ====================================================== */}
@@ -140,13 +140,13 @@ export function ConsultationAreas() {
               className="
                 mt-5 max-w-xl
                 font-serif
-                text-[38px]
+                text-[34px]
                 font-medium
                 leading-[1.08]
                 tracking-[-0.025em]
                 text-[#0F3D4A]
-                sm:text-[48px]
-                lg:text-[54px]
+                sm:text-[42px]
+                lg:text-[46px]
               "
             >
               ¿En qué puedo{' '}
@@ -215,18 +215,18 @@ export function ConsultationAreas() {
         ====================================================== */}
         <motion.div
           variants={reduceMotion ? {} : container}
-          initial="hidden"
+          initial={reduceMotion ? false : 'hidden'}
           whileInView="show"
           viewport={{
             once: true,
             amount: 0.15,
           }}
           className="
-            mt-14
+            mt-9
             grid
             border-y border-[#A7B89A]/25
             sm:grid-cols-2
-            lg:mt-16
+            lg:mt-10
             lg:grid-cols-3
           "
         >
@@ -239,12 +239,12 @@ export function ConsultationAreas() {
                 variants={reduceMotion ? {} : item}
                 className={`
                   group relative
-                  min-h-[230px]
+                  min-h-[210px]
                   border-b border-[#A7B89A]/25
                   px-1 py-8
                   transition-colors duration-300
                   sm:px-7
-                  lg:px-8 lg:py-9
+                  lg:px-7 lg:py-7
                   lg:hover:bg-[#FBFAF7]
                   ${
                     !isLastColumn
@@ -335,7 +335,7 @@ export function ConsultationAreas() {
         ====================================================== */}
         <div
           className="
-            mt-9
+            mt-6
             flex flex-col gap-5
             sm:flex-row
             sm:items-center
@@ -377,7 +377,7 @@ export function ConsultationAreas() {
               className="
                 h-4 w-4
                 transition-transform duration-200
-                group-hover:translate-x-1
+                group-hover:translate-x-1 motion-reduce:transform-none
               "
               strokeWidth={1.8}
             />

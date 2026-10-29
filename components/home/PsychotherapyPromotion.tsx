@@ -15,21 +15,10 @@ import {
 const smoothEase = [0.22, 1, 0.36, 1] as const;
 
 export function PsychotherapyPromotion() {
- const { promotion: mockPromotion } = useSiteData();
+  const { promotion } = useSiteData();
 
 
   const reduceMotion = useReducedMotion();
-
-  /*
-   * DATOS TEMPORALES
-   *
-   * Mientras no exista el backend utilizamos
-   * mockPromotion como fuente de información.
-   *
-   * Posteriormente será sustituido por los datos
-   * obtenidos desde la API.
-   */
-  const promotion = mockPromotion;
 
   /* =========================================================
      PROMOCIÓN INACTIVA
@@ -46,16 +35,16 @@ export function PsychotherapyPromotion() {
         relative
         overflow-hidden
         bg-white
-        py-12
-        sm:py-16
-        lg:py-20
+        pt-8 pb-14
+        sm:pt-8 sm:pb-16
+        lg:pt-10 lg:pb-20
       "
     >
       <div
         className="
           mx-auto
-          max-w-[1240px]
-          px-5
+          max-w-7xl
+          px-4
           sm:px-6
           lg:px-8
         "
@@ -94,7 +83,7 @@ export function PsychotherapyPromotion() {
             sm:py-10
 
             lg:px-12
-            lg:py-11
+            lg:py-10
           "
         >
           {/* =========================================
@@ -163,14 +152,14 @@ export function PsychotherapyPromotion() {
               lg:flex-row
               lg:items-center
               lg:justify-between
-              lg:gap-12
+              lg:gap-10
             "
           >
             {/* =======================================
                 IZQUIERDA
             ======================================== */}
 
-            <div className="max-w-[690px]">
+            <div className="min-w-0 flex-1 lg:max-w-[690px]">
 
               {/* ETIQUETA */}
 
@@ -231,7 +220,7 @@ export function PsychotherapyPromotion() {
                   lg:text-[42px]
                 "
               >
-                Continúa tu proceso con un paquete de{' '}
+                Da continuidad a tu proceso con{' '}
                 <span
                   className="
                     font-normal
@@ -251,11 +240,11 @@ export function PsychotherapyPromotion() {
                 className="
                   mt-4
                   max-w-[610px]
-                  text-[12px]
+                  text-sm
                   leading-6
-                  text-white/65
+                  text-[#D0DAD6]
 
-                  sm:text-[13px]
+                  sm:text-sm
                 "
               >
                 {promotion.descripcion}
@@ -279,9 +268,9 @@ export function PsychotherapyPromotion() {
                     inline-flex
                     items-center
                     gap-2
-                    text-[10px]
+                    text-xs
                     font-medium
-                    text-white/75
+                    text-[#D8E1DF]
                   "
                 >
                   <CalendarDays
@@ -313,9 +302,9 @@ export function PsychotherapyPromotion() {
 
                     <span
                       className="
-                        text-[10px]
+                        text-xs
                         font-medium
-                        text-white/75
+                        text-[#D8E1DF]
                       "
                     >
                       Excepto terapia de pareja
@@ -335,7 +324,8 @@ export function PsychotherapyPromotion() {
                 border-white/10
                 pt-7
 
-                lg:min-w-[255px]
+                lg:w-[255px]
+                lg:shrink-0
                 lg:border-l
                 lg:border-t-0
                 lg:pl-10
@@ -348,7 +338,7 @@ export function PsychotherapyPromotion() {
                   font-semibold
                   uppercase
                   tracking-[0.17em]
-                  text-white/45
+                  text-[#C4D4D4]
                 "
               >
                 {promotion.nombre}
@@ -358,6 +348,7 @@ export function PsychotherapyPromotion() {
                 className="
                   mt-2
                   flex
+                  flex-wrap
                   items-end
                   gap-2
                 "
@@ -386,7 +377,7 @@ export function PsychotherapyPromotion() {
                     font-semibold
                     uppercase
                     tracking-[0.08em]
-                    text-white/45
+                    text-[#C4D4D4]
                   "
                 >
                   MXN
@@ -406,19 +397,25 @@ export function PsychotherapyPromotion() {
                   bg-white
                   px-5
                   py-3.5
-                  text-[11px]
+                  text-sm
                   font-semibold
                   text-[#0F4A55]
                   transition-all
                   duration-300
 
-                  hover:-translate-y-0.5
+                  hover:-translate-y-0.5 motion-reduce:transform-none
                   hover:bg-[#F7F5EF]
 
+                  min-h-12
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-[#E7D99B]
+                  focus-visible:ring-offset-4
+                  focus-visible:ring-offset-[#0F4A55]
                   lg:w-auto
                 "
               >
-                Conocer la promoción
+                Ver detalles y condiciones
 
                 <ArrowRight
                   aria-hidden="true"

@@ -1,436 +1,127 @@
 'use client';
+
 import { useSiteData } from '@/components/SiteDataProvider';
-
 import { motion, useReducedMotion } from 'motion/react';
-import {
-  MessageCircle,
-  PackageCheck,
-} from 'lucide-react';
-
-
-
+import { CalendarDays, MessageCircle, PackageCheck } from 'lucide-react';
 
 const smoothEase = [0.22, 1, 0.36, 1] as const;
 
 export function PsychotherapyPromotionDetail() {
- const { contact: contactMock, promotion: mockPromotion } = useSiteData();
-
-
+  const { contact, promotion } = useSiteData();
   const reduceMotion = useReducedMotion();
-
-  const promotion = mockPromotion;
 
   if (!promotion?.activo) {
     return null;
   }
 
-  const promotionWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-    `Hola, me gustaría recibir información sobre la promoción del paquete de ${promotion.sesiones} sesiones de psicoterapia.`,
+  const promotionWhatsappUrl = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
+    `Hola, me gustaría recibir información sobre el paquete de ${promotion.sesiones} sesiones de psicoterapia y sus condiciones.`,
   )}`;
 
   return (
-    <motion.div
+    <motion.section
       id="promocion"
-      initial={
-        reduceMotion
-          ? false
-          : {
-              opacity: 0,
-              y: 18,
-            }
-      }
-      whileInView={{
-        opacity: 1,
-        y: 0,
-      }}
-      viewport={{
-        once: true,
-        amount: 0.25,
-      }}
-      transition={{
-        duration: reduceMotion ? 0 : 0.65,
-        ease: smoothEase,
-      }}
-      className="
-        relative
-        mt-10
-        overflow-hidden
-        rounded-[28px]
-        bg-[#0F4A55]
-        px-6
-        py-8
-        shadow-[0_18px_50px_rgba(15,74,85,0.12)]
-
-        sm:px-8
-        sm:py-9
-
-        lg:px-10
-      "
+      aria-labelledby="promotion-detail-title"
+      initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: reduceMotion ? 0 : 0.55, ease: smoothEase }}
+      className="relative mt-10 scroll-mt-28 overflow-hidden rounded-[28px] bg-[#0F4A55] px-6 py-7 shadow-[0_18px_50px_rgba(15,74,85,0.12)] sm:px-8 sm:py-8 lg:px-10"
     >
-      {/* =====================================================
-          DECORACIÓN
-      ====================================================== */}
-
       <div
         aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          -right-24
-          -top-28
-          h-64
-          w-64
-          rounded-full
-          border
-          border-white/[0.08]
-        "
+        className="pointer-events-none absolute -right-24 -top-28 h-64 w-64 rounded-full border border-white/[0.08]"
       />
-
       <div
         aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          -bottom-32
-          right-[18%]
-          h-56
-          w-56
-          rounded-full
-          border
-          border-[#D4AF37]/10
-        "
+        className="pointer-events-none absolute -bottom-32 right-[18%] h-56 w-56 rounded-full border border-[#D4AF37]/10"
       />
 
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          right-8
-          top-7
-          h-2
-          w-2
-          rounded-full
-          bg-[#D4AF37]/70
-
-          sm:right-10
-          sm:top-9
-        "
-      />
-
-      {/* =====================================================
-          CONTENIDO
-      ====================================================== */}
-
-      <div
-        className="
-          relative
-          z-10
-          flex
-          flex-col
-          gap-8
-
-          lg:flex-row
-          lg:items-center
-          lg:justify-between
-        "
-      >
-        {/* ===================================================
-            INFORMACIÓN
-        ==================================================== */}
-
-        <div
-          className="
-            flex
-            max-w-[760px]
-            items-start
-            gap-4
-
-            sm:gap-5
-          "
-        >
-          <span
-            className="
-              flex
-              h-12
-              w-12
-              shrink-0
-              items-center
-              justify-center
-              rounded-full
-              bg-white/[0.09]
-              text-[#D8E1D5]
-            "
-          >
-            <PackageCheck
+      <div className="relative z-10 grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_260px] lg:gap-8">
+        <div className="min-w-0">
+          <div className="flex items-center gap-3">
+            <span
               aria-hidden="true"
-              className="h-5 w-5"
-              strokeWidth={1.5}
-            />
-          </span>
-
-          <div>
-            {/* Etiqueta */}
-
-            <div
-              className="
-                inline-flex
-                items-center
-                gap-2
-                rounded-full
-                border
-                border-[#D4AF37]/30
-                bg-[#D4AF37]/[0.08]
-                px-3
-                py-1.5
-              "
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-[#E7D99B]"
             >
-              <span
-                aria-hidden="true"
-                className="
-                  h-1.5
-                  w-1.5
-                  rounded-full
-                  bg-[#D4AF37]
-                "
-              />
-
-              <p
-                className="
-                  text-[9px]
-                  font-semibold
-                  uppercase
-                  tracking-[0.18em]
-                  text-[#E1C66D]
-                "
-              >
-                Promoción
-              </p>
-            </div>
-
-            {/* Título */}
-
-            <h3
-              className="
-                mt-4
-                font-serif
-                text-[26px]
-                font-medium
-                leading-tight
-                text-white
-
-                sm:text-[30px]
-              "
-            >
-              Paquete de{' '}
-              <span
-                className="
-                  font-normal
-                  italic
-                  text-[#E7D99B]
-                "
-              >
-                {promotion.sesiones} sesiones
-              </span>
-            </h3>
-
-            {/* Descripción */}
-
-            <p
-              className="
-                mt-3
-                max-w-[620px]
-                text-[12px]
-                leading-6
-                text-white/65
-
-                sm:text-[13px]
-              "
-            >
-              {promotion.descripcion}
+              <PackageCheck className="h-5 w-5" strokeWidth={1.5} />
+            </span>
+            <p className="text-[11px] font-semibold uppercase leading-5 tracking-[0.16em] text-[#E7D99B]">
+              Promoción de psicoterapia
             </p>
-
-            {/* Características */}
-
-            <div
-              className="
-                mt-5
-                flex
-                flex-wrap
-                gap-x-5
-                gap-y-3
-              "
-            >
-              <span
-                className="
-                  text-[10px]
-                  font-medium
-                  text-white/75
-                "
-              >
-                {promotion.sesiones} sesiones
-              </span>
-
-              <span
-                aria-hidden="true"
-                className="
-                  hidden
-                  h-4
-                  w-px
-                  bg-white/15
-
-                  sm:block
-                "
-              />
-
-              <span
-                className="
-                  text-[10px]
-                  font-medium
-                  text-white/75
-                "
-              >
-                {promotion.frecuencia}
-              </span>
-
-              {promotion.excluyeTerapiaPareja && (
-                <>
-                  <span
-                    aria-hidden="true"
-                    className="
-                      hidden
-                      h-4
-                      w-px
-                      bg-white/15
-
-                      sm:block
-                    "
-                  />
-
-                  <span
-                    className="
-                      text-[10px]
-                      font-medium
-                      text-white/75
-                    "
-                  >
-                    Excepto terapia de pareja
-                  </span>
-                </>
-              )}
-            </div>
-
-            {/* Condiciones */}
-
-            {promotion.condiciones && (
-              <p
-                className="
-                  mt-4
-                  text-[10px]
-                  leading-5
-                  text-white/45
-                "
-              >
-                {promotion.condiciones}
-              </p>
-            )}
           </div>
-        </div>
 
-        {/* ===================================================
-            PRECIO + CTA
-        ==================================================== */}
-
-        <div
-          className="
-            border-t
-            border-white/10
-            pt-7
-
-            lg:min-w-[240px]
-            lg:border-l
-            lg:border-t-0
-            lg:pl-10
-            lg:pt-0
-            lg:text-right
-          "
-        >
-          <p
-            className="
-              text-[9px]
-              font-semibold
-              uppercase
-              tracking-[0.17em]
-              text-white/45
-            "
+          <h2
+            id="promotion-detail-title"
+            className="mt-4 font-serif text-[28px] font-medium leading-tight text-white sm:text-[34px]"
           >
-            {promotion.nombre}
+            Paquete de{' '}
+            <span className="font-normal italic text-[#E7D99B]">
+              {promotion.sesiones} sesiones
+            </span>
+          </h2>
+
+          <p className="mt-3 max-w-[640px] text-sm leading-6 text-[#D8E3DF]">
+            {promotion.descripcion}
           </p>
 
-          <p
-            className="
-              mt-2
-              font-serif
-              text-[38px]
-              font-medium
-              leading-none
-              text-white
-            "
-          >
-            ${promotion.precio.toLocaleString('es-MX')}
+          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm leading-6 text-[#D8E3DF]">
+            <p className="inline-flex items-center gap-2">
+              <CalendarDays
+                aria-hidden="true"
+                className="h-4 w-4 shrink-0 text-[#E7D99B]"
+                strokeWidth={1.5}
+              />
+              {promotion.frecuencia}
+            </p>
+            {promotion.excluyeTerapiaPareja && (
+              <p>Excepto terapia de pareja</p>
+            )}
+          </div>
 
-            <span
-              className="
-                ml-1
-                font-sans
-                text-[9px]
-                font-semibold
-                uppercase
-                tracking-[0.08em]
-                text-white/45
-              "
-            >
-              MXN
+          {/* Se conservan las condiciones capturadas en el administrador. */}
+          {promotion.condiciones && (
+            <div className="mt-5 border-t border-white/20 pt-4">
+              <h3 className="text-sm font-semibold leading-6 text-white">
+                Condiciones del paquete
+              </h3>
+              <p className="mt-2 whitespace-pre-line break-words text-sm leading-6 text-[#D8E3DF]">
+                {promotion.condiciones}
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div className="min-w-0 border-t border-white/20 pt-5 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0">
+          <p className="text-sm leading-6 text-[#D8E3DF]">
+            {promotion.nombre}
+          </p>
+          <p className="mt-3 text-[11px] font-semibold uppercase leading-5 tracking-[0.12em] text-[#D8E3DF]">
+            Precio total del paquete
+          </p>
+          <p className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-white">
+            <span className="font-serif text-[40px] font-medium leading-tight">
+              ${promotion.precio.toLocaleString('es-MX')}
             </span>
+            <span className="text-xs font-medium text-[#D8E3DF]">MXN</span>
           </p>
 
           <a
             href={promotionWhatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="
-              mt-5
-              inline-flex
-              w-full
-              items-center
-              justify-center
-              gap-2
-              rounded-full
-              bg-white
-              px-5
-              py-3
-              text-[11px]
-              font-semibold
-              text-[#0F4A55]
-              transition-all
-              duration-300
-
-              hover:-translate-y-0.5
-              hover:bg-[#F7F5EF]
-
-              lg:w-auto
-            "
+            aria-label="Consultar paquete por WhatsApp, abre una pestaña nueva"
+            className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#0F4A55] transition-colors hover:bg-[#F7F5EF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E7D99B] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0F4A55]"
           >
             <MessageCircle
               aria-hidden="true"
-              className="h-4 w-4"
+              className="h-4 w-4 shrink-0"
               strokeWidth={1.6}
             />
-
-            Consultar promoción
+            Consultar paquete
           </a>
         </div>
       </div>
-    </motion.div>
+    </motion.section>
   );
 }

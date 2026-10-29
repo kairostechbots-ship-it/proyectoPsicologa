@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from 'next/image';
@@ -10,11 +9,19 @@ import {
   ShieldCheck,
   UserRound,
   UsersRound,
+  type LucideIcon,
 } from 'lucide-react';
 
 import type { ProfessionalProfile } from '@/types/profile';
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+// Datos publicados en el aviso de privacidad del sitio.
+// Respaldo para perfiles existentes que aún no tienen los nuevos campos.
+const fallbackProfessionalIdentity = {
+  fullName: 'Erika Pilar Jiménez Miramontes',
+  licenseNumber: '14414740',
+};
 
 interface AboutProps {
   profile: ProfessionalProfile;
@@ -22,7 +29,7 @@ interface AboutProps {
 
 const valueIcons = [HeartHandshake, ShieldCheck];
 
-const patientIcons: Record<string, React.ElementType> = {
+const patientIcons: Record<string, LucideIcon> = {
   Niños: UserRound,
   Adolescentes: UserRound,
   Jóvenes: UserRound,
@@ -32,27 +39,32 @@ const patientIcons: Record<string, React.ElementType> = {
 
 export function About({ profile }: AboutProps) {
   const reduceMotion = useReducedMotion();
+  const professionalIdentity = {
+    fullName: profile.fullName?.trim() || fallbackProfessionalIdentity.fullName,
+    licenseNumber:
+      profile.licenseNumber?.trim() || fallbackProfessionalIdentity.licenseNumber,
+  };
 
   // DATOS ACTIVOS
   const psychologyTraining = [...profile.psychologyTraining]
     .filter((item) => item.active)
-    .sort((a, b) => a.displayOrder - b.displayOrder);
+    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
 
   const complementaryTraining = [...profile.complementaryTraining]
     .filter((item) => item.active)
-    .sort((a, b) => a.displayOrder - b.displayOrder);
+    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
 
   const clinicalAreas = [...profile.clinicalAreas]
     .filter((item) => item.active)
-    .sort((a, b) => a.displayOrder - b.displayOrder);
+    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
 
   const patientGroups = [...profile.patientGroups]
     .filter((item) => item.active)
-    .sort((a, b) => a.displayOrder - b.displayOrder);
+    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
 
   const values = [...profile.values]
     .filter((item) => item.active)
-    .sort((a, b) => a.displayOrder - b.displayOrder);
+    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
 
   const animation = (direction: 'up' | 'left' | 'right' = 'up', delay = 0) => {
     const initialPosition =
@@ -82,7 +94,7 @@ export function About({ profile }: AboutProps) {
 <section
   id="about"
   aria-labelledby="about-title"
-  className="relative isolate overflow-hidden bg-[#FBFAF7] py-20 sm:py-24 lg:py-28"
+  className="relative isolate overflow-hidden bg-[#FBFAF7] py-14 sm:py-16 lg:py-20"
 >
   {/* DECORACIÓN GENERAL */}
   <div
@@ -119,8 +131,8 @@ export function About({ profile }: AboutProps) {
   </div>
 
   {/* CONTENEDOR PRINCIPAL */}
-  <div className="relative z-10 mx-auto max-w-[1240px] px-5 sm:px-6 lg:px-8">
-    <div className="grid items-center gap-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 xl:gap-20">
+  <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 xl:gap-16">
 
       {/* =================================================
           IZQUIERDA: FOTOGRAFÍA ORGÁNICA
@@ -137,7 +149,7 @@ export function About({ profile }: AboutProps) {
           duration: reduceMotion ? 0 : 0.75,
           ease,
         }}
-        className="relative mx-auto w-full max-w-[480px] py-10 lg:py-12"
+        className="relative mx-auto w-full max-w-[440px] py-8 lg:py-10"
       >
         {/* FONDO ORGÁNICO */}
         <div className="relative">
@@ -286,8 +298,8 @@ export function About({ profile }: AboutProps) {
           p-7
           shadow-[0_20px_60px_rgba(15,61,74,0.035)]
           backdrop-blur-sm
-          sm:p-10
-          lg:p-12
+          sm:p-8
+          lg:p-9
         "
       >
         {/* LÍNEA DORADA SUPERIOR */}
@@ -331,15 +343,25 @@ export function About({ profile }: AboutProps) {
         >
           Hola, soy{' '}
           <span className="font-normal italic">
-            {profile.name}.
+            {profile.name}
           </span>
         </h1>
+
+        {/* Identidad profesional publicada; no altera la biografía del perfil. */}
+        <div className="mt-5 border-l-2 border-[#C6AA65] pl-4">
+          <p className="text-sm font-medium leading-6 text-[#405C5E]">
+            {professionalIdentity.fullName}
+          </p>
+          <p className="mt-1 text-sm leading-6 text-[#52665A]">
+            Cédula profesional: {professionalIdentity.licenseNumber}
+          </p>
+        </div>
 
         {/* BIOGRAFÍA COMPLETA */}
         <div
           className="
-            mt-7
-            space-y-5
+            mt-6
+            space-y-4
             text-[15px]
             leading-7
             text-[#66787C]
@@ -358,12 +380,12 @@ export function About({ profile }: AboutProps) {
         {values.length > 0 && (
           <div
             className="
-              mt-9
+              mt-6
               grid
               gap-5
               border-t
               border-[#A7B89A]/20
-              pt-7
+              pt-5
               sm:grid-cols-2
             "
           >
@@ -415,9 +437,9 @@ export function About({ profile }: AboutProps) {
                     <p
                       className="
                         mt-1
-                        text-[11px]
-                        leading-5
-                        text-[#7A898B]
+                        text-sm
+                        leading-6
+                        text-[#60716D]
                       "
                     >
                       {value.description}
@@ -441,7 +463,7 @@ export function About({ profile }: AboutProps) {
 ========================================== */}
 <section
   aria-labelledby="training-title"
-  className="relative overflow-hidden bg-[#FAF9F6] py-20 sm:py-24 lg:py-28"
+  className="relative overflow-hidden bg-[#FAF9F6] py-14 sm:py-16 lg:py-20"
 >
   {/* Decoración de fondo */}
   <div
@@ -452,7 +474,7 @@ export function About({ profile }: AboutProps) {
     <div className="absolute -left-[260px] bottom-[5%] h-[500px] w-[500px] rounded-full border border-[#D4AF37]/10" />
   </div>
 
-  <div className="relative z-10 mx-auto max-w-[1240px] px-5 sm:px-6 lg:px-8">
+  <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
     {/* ======================================
         ENCABEZADO DE FORMACIÓN
@@ -473,11 +495,11 @@ export function About({ profile }: AboutProps) {
 
       <h2
         id="training-title"
-        className="mt-6 max-w-[530px] font-serif text-[39px] leading-[1.12] tracking-[-0.03em] text-[#0F4A55] sm:text-[47px]"
+        className="mt-6 max-w-[530px] font-serif text-[34px] leading-[1.12] tracking-[-0.03em] text-[#0F4A55] sm:text-[42px]"
       >
-        Preparación y experiencia{' '}
-        <span className="font-normal italic text-[#79957D]">
-          al servicio de tu bienestar.
+        Mi formación{' '}
+        <span className="font-normal italic text-[#52665A]">
+          profesional.
         </span>
       </h2>
       </div>
@@ -492,7 +514,7 @@ export function About({ profile }: AboutProps) {
     {/* ======================================
         TARJETAS DE FORMACIÓN
     ====================================== */}
-    <div className="mt-14 grid items-stretch gap-7 lg:grid-cols-2 lg:gap-8">
+    <div className="mt-9 grid items-stretch gap-6 lg:grid-cols-2 lg:gap-7">
 
       {/* FORMACIÓN EN PSICOLOGÍA */}
       <motion.article
@@ -523,12 +545,12 @@ export function About({ profile }: AboutProps) {
         </div>
 
         {/* Estudios */}
-        <div className="mt-9">
+        <div className="mt-5">
           {psychologyTraining.map(
             ({ id, title, institution }, index) => (
               <div
                 key={id}
-                className={`flex items-start gap-4 py-5 ${
+                className={`flex items-start gap-4 py-4 ${
                   index !== 0
                     ? 'border-t border-[#E9EDE7]'
                     : ''
@@ -544,7 +566,7 @@ export function About({ profile }: AboutProps) {
                   </p>
 
                   {institution && (
-                    <p className="mt-1.5 text-[12px] leading-5 text-[#7A8986]">
+                    <p className="mt-1.5 text-sm leading-6 text-[#60716D]">
                       {institution}
                     </p>
                   )}
@@ -589,12 +611,12 @@ export function About({ profile }: AboutProps) {
         </div>
 
         {/* Estudios */}
-        <div className="relative mt-9">
+        <div className="relative mt-5">
           {complementaryTraining.map(
             ({ id, title, institution }, index) => (
               <div
                 key={id}
-                className={`flex items-start gap-4 py-5 ${
+                className={`flex items-start gap-4 py-4 ${
                   index !== 0
                     ? 'border-t border-[#CEDDCD]/60'
                     : ''
@@ -610,7 +632,7 @@ export function About({ profile }: AboutProps) {
                   </p>
 
                   {institution && (
-                    <p className="mt-1.5 text-[12px] leading-5 text-[#718477]">
+                    <p className="mt-1.5 text-sm leading-6 text-[#52665A]">
                       {institution}
                     </p>
                   )}
@@ -627,7 +649,7 @@ export function About({ profile }: AboutProps) {
     ====================================== */}
     <div className="mt-8 flex items-start gap-3 rounded-[18px] border border-[#E9E6D9] bg-[#F6F3EB] px-5 py-4">
       <Leaf aria-hidden="true" className="mt-1 h-4 w-4 shrink-0 text-[#A89154]" strokeWidth={1.5} />
-      <p className="max-w-[900px] text-[12px] leading-6 text-[#66766E]">
+      <p className="max-w-[900px] text-sm leading-6 text-[#52665A]">
         La Medicina Natural se presenta como un área de atención independiente de la psicoterapia y no sustituye la valoración, diagnóstico o tratamiento médico.
       </p>
     </div>
@@ -636,7 +658,7 @@ export function About({ profile }: AboutProps) {
     {/* ======================================
         EXPERIENCIA CLÍNICA
     ====================================== */}
-    <div className="mt-24 border-t border-[#DDE5DA] pt-20 sm:mt-28">
+    <div className="mt-12 border-t border-[#DDE5DA] pt-10 sm:mt-14 sm:pt-12">
 
       {/* ENCABEZADO */}
       <motion.div
@@ -651,10 +673,10 @@ export function About({ profile }: AboutProps) {
             </p>
           </div>
 
-          <h2 className="mt-6 max-w-[530px] font-serif text-[39px] leading-[1.12] tracking-[-0.03em] text-[#0F4A55] sm:text-[47px]">
-            Acompañamiento en diferentes{' '}
-            <span className="italic text-[#79957D]">
-              etapas y situaciones.
+          <h2 className="mt-6 max-w-[530px] font-serif text-[34px] leading-[1.12] tracking-[-0.03em] text-[#0F4A55] sm:text-[42px]">
+            Experiencia en{' '}
+            <span className="italic text-[#52665A]">
+              atención psicológica.
             </span>
           </h2>
         </div>
@@ -674,12 +696,12 @@ export function About({ profile }: AboutProps) {
       {clinicalAreas.length > 0 && (
         <motion.div
           {...animation()}
-          className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
         >
           {clinicalAreas.map((area) => (
             <div
               key={area.id}
-              className="group flex min-h-[86px] items-center gap-4 rounded-[18px] border border-[#E3E9E1] bg-white px-5 py-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#A7BCA5] hover:shadow-[0_12px_30px_rgba(15,61,74,0.05)]"
+              className="group flex min-h-[86px] items-center gap-4 rounded-[18px] border border-[#E3E9E1] bg-white px-5 py-5 transition-all duration-300 hover:-translate-y-0.5 motion-reduce:transform-none hover:border-[#A7BCA5] hover:shadow-[0_12px_30px_rgba(15,61,74,0.05)]"
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#EDF3EA] text-[#6C8B72]">
                 <ShieldCheck
@@ -689,7 +711,7 @@ export function About({ profile }: AboutProps) {
                 />
               </span>
 
-              <p className="text-[13px] font-medium leading-5 text-[#435D61]">
+              <p className="text-sm font-medium leading-6 text-[#435D61]">
                 {area.name}
               </p>
             </div>
@@ -703,7 +725,7 @@ export function About({ profile }: AboutProps) {
       {(profile.violenceTitle || profile.violenceDescription) && (
         <motion.div
           {...animation()}
-          className="relative mt-12 overflow-hidden rounded-[25px] border border-[#DFE7DD] bg-[#EDF2EA] p-7 sm:p-9"
+          className="relative mt-8 overflow-hidden rounded-[25px] border border-[#DFE7DD] bg-[#EDF2EA] p-7 sm:p-9"
         >
           <div
             aria-hidden="true"
@@ -728,7 +750,7 @@ export function About({ profile }: AboutProps) {
                 {profile.violenceTitle}
               </h3>
 
-              <p className="mt-3 text-[13px] leading-7 text-[#617671]">
+              <p className="mt-3 text-sm leading-7 text-[#617671]">
                 {profile.violenceDescription}
               </p>
             </div>
@@ -742,7 +764,7 @@ export function About({ profile }: AboutProps) {
       {patientGroups.length > 0 && (
         <motion.div
           {...animation()}
-          className="mt-16 border-t border-[#DDE5DA] pt-12"
+          className="mt-10 border-t border-[#DDE5DA] pt-8"
         >
           <div className="grid gap-7 lg:grid-cols-[0.35fr_0.65fr] lg:items-center">
             <div>
@@ -771,7 +793,7 @@ export function About({ profile }: AboutProps) {
                       strokeWidth={1.5}
                     />
 
-                    <span className="text-[12px] font-medium text-[#526A65]">
+                    <span className="text-sm font-medium text-[#526A65]">
                       {patientGroup.name}
                     </span>
                   </div>
