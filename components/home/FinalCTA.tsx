@@ -1,11 +1,11 @@
 'use client';
 import { useSiteData } from '@/components/SiteDataProvider';
 
-import Link from 'next/link';
 import { motion, useReducedMotion } from 'motion/react';
 import {
   ArrowRight,
   Clock3,
+  Leaf,
   MapPin,
   Monitor,
 } from 'lucide-react';
@@ -17,16 +17,25 @@ import { getBusinessHoursText } from '@/lib/utils';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-export function FinalCTA() {
- const { contact: contactMock } = useSiteData();
-const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
-  'Hola, me gustaría recibir información para solicitar una cita.'
-)}`;
+interface FinalCTAProps {
+  service?: 'psychotherapy' | 'natural-medicine';
+}
+
+export function FinalCTA({ service = 'psychotherapy' }: FinalCTAProps) {
+  const { contact } = useSiteData();
+  const isNaturalMedicine = service === 'natural-medicine';
+  const ServiceIcon = isNaturalMedicine ? Leaf : Monitor;
+  const whatsappMessage = isNaturalMedicine
+    ? 'Hola, me gustaría recibir información sobre la consulta de Medicina Natural y consultar disponibilidad.'
+    : 'Hola, me gustaría recibir información para solicitar una cita.';
+  const whatsappUrl = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
+    whatsappMessage,
+  )}`;
 
   const reduceMotion = useReducedMotion();
 
   const businessHoursText = getBusinessHoursText(
-    contactMock.businessHours,
+    contact.businessHours,
   );
 
   return (
@@ -36,9 +45,9 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
         relative
         overflow-hidden
         bg-[#0F3D4A]
-        py-20
-        sm:py-24
-        lg:py-28
+        py-12
+        sm:py-14
+        lg:py-16
       "
     >
       {/* =====================================================
@@ -125,8 +134,8 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
           relative
           z-10
           mx-auto
-          max-w-[1180px]
-          px-5
+          max-w-7xl
+          px-4
           sm:px-6
           lg:px-8
         "
@@ -185,7 +194,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 sm:text-[11px]
               "
             >
-              Dar el primer paso
+              {isNaturalMedicine ? 'Medicina Natural' : 'Dar el primer paso'}
             </p>
 
             <span
@@ -202,29 +211,29 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
             id="final-cta-title"
             className="
               mx-auto
-              mt-8
+              mt-5
               max-w-[850px]
               font-serif
-              text-[42px]
+              text-[34px]
               font-medium
               leading-[1.08]
               tracking-[-0.035em]
               text-[#F7F4EC]
 
-              sm:text-[52px]
-              lg:text-[62px]
+              sm:text-[42px]
+              lg:text-[48px]
             "
           >
-            Tu proceso puede comenzar{' '}
+            {isNaturalMedicine ? 'Conoce la consulta de' : 'Tu proceso puede comenzar'}{' '}
             <span className="font-normal italic text-[#DCE4DC]">
-              con una conversación.
+              {isNaturalMedicine ? 'Medicina Natural.' : 'con una conversación.'}
             </span>
           </h2>
 
           <p
             className="
               mx-auto
-              mt-7
+              mt-5
               max-w-[680px]
               text-[15px]
               leading-7
@@ -232,9 +241,9 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
               sm:text-[16px]
             "
           >
-            Si deseas recibir información o conocer la disponibilidad para
-            iniciar un proceso de terapia, puedes comunicarte directamente
-            por WhatsApp.
+            {isNaturalMedicine
+              ? 'Consulta las técnicas disponibles y resuelve tus dudas antes de solicitar una cita.'
+              : 'Puedes resolver tus dudas y consultar los horarios disponibles directamente por WhatsApp.'}
           </p>
 
           {/* =================================================
@@ -243,25 +252,29 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
 
           <div
             className="
-              mt-9
+              mt-7
               flex
               justify-center
             "
           >
-            <Link
+            <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="
                 group
                 inline-flex
-                min-h-[58px]
+                min-h-[54px]
+                w-full
+                sm:w-auto
                 items-center
                 justify-center
-                gap-7
+                gap-3
+                sm:gap-5
                 rounded-[11px]
                 bg-[#F7F4EC]
-                px-8
+                px-5 py-3
+                sm:px-7
                 text-[14px]
                 font-semibold
                 text-[#0F3D4A]
@@ -269,7 +282,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 transition-all
                 duration-300
 
-                hover:-translate-y-0.5
+                hover:-translate-y-0.5 motion-reduce:transform-none
                 hover:bg-white
                 hover:shadow-[0_18px_40px_rgba(0,0,0,0.15)]
 
@@ -280,7 +293,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 focus-visible:ring-offset-[#0F3D4A]
               "
             >
-              Solicitar cita por WhatsApp
+              {isNaturalMedicine ? 'Consultar Medicina Natural' : 'Solicitar cita por WhatsApp'}
 
               <ArrowRight
                 aria-hidden="true"
@@ -289,11 +302,11 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                   w-[18px]
                   transition-transform
                   duration-300
-                  group-hover:translate-x-1
+                  group-hover:translate-x-1 motion-reduce:transform-none
                 "
                 strokeWidth={1.7}
               />
-            </Link>
+            </a>
           </div>
 
           {/* =================================================
@@ -303,13 +316,13 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
           <div
             className="
               mx-auto
-              mt-12
+              mt-8
               grid
               max-w-[780px]
               gap-5
               border-t
               border-white/[0.12]
-              pt-7
+              pt-5
 
               sm:grid-cols-3
               sm:gap-0
@@ -326,7 +339,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 px-5
               "
             >
-              <Monitor
+              <ServiceIcon
                 aria-hidden="true"
                 className="
                   h-[18px]
@@ -344,7 +357,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                   sm:text-[13px]
                 "
               >
-                Presencial y en línea
+                {isNaturalMedicine ? 'Medicina Natural' : 'Presencial y en línea'}
               </span>
             </div>
 
@@ -387,10 +400,10 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
             {/* Ubicación */}
 
             <a
-              href={contactMock.mapsUrl}
+              href={contact.mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Ver ubicación en Google Maps"
+              aria-label="Ver ubicación en Google Maps, abre una pestaña nueva"
               className="
                 flex
                 items-center
@@ -400,6 +413,12 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 transition-colors
                 duration-200
                 hover:text-white
+                rounded-sm
+                focus-visible:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-[#D4AF37]
+                focus-visible:ring-offset-4
+                focus-visible:ring-offset-[#0F3D4A]
               "
             >
               <MapPin
@@ -427,13 +446,13 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
 
           {/* Nota */}
 
-          {contactMock.appointmentRequired && (
+          {contact.appointmentRequired && (
             <p
               className="
                 mt-6
-                text-[10px]
+                text-xs
                 tracking-[0.04em]
-                text-white/40
+                text-[#C4D4CF]
               "
             >
               Atención con cita previa.

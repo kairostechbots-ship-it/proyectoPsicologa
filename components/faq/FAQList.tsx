@@ -49,8 +49,8 @@ const categoryLabels: Record<FAQCategory, string> = {
 
 
 export function FAQList({ faqs }: FAQListProps) {
- const { contact: contactMock } = useSiteData();
-const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
+  const { contact } = useSiteData();
+const whatsappUrl = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
   'Hola, estuve revisando las preguntas frecuentes de tu página y tengo una duda: ',
 )}`;
 
@@ -94,12 +94,12 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
         scroll-mt-24
         overflow-hidden
         bg-[#FBFAF7]
-        py-20
+        py-14
 
-        sm:py-24
+        sm:py-16
 
         lg:scroll-mt-28
-        lg:py-28
+        lg:py-20
       "
     >
       {/* =====================================================
@@ -146,8 +146,8 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
           relative
           z-10
           mx-auto
-          max-w-6xl
-          px-5
+          max-w-7xl
+          px-4
 
           sm:px-6
 
@@ -218,15 +218,15 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
             className="
               mt-5
               font-serif
-              text-[39px]
+              text-[34px]
               font-medium
               leading-[1.07]
               tracking-[-0.035em]
               text-[#0F3D4A]
 
-              sm:text-[48px]
+              sm:text-[42px]
 
-              lg:text-[56px]
+              lg:text-[48px]
             "
           >
             Resuelve tus dudas sobre{' '}
@@ -304,7 +304,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 }
                 aria-pressed={isActive}
                 className={`
-                  min-h-10
+                  min-h-11
                   rounded-full
                   border
                   px-4
@@ -350,7 +350,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
         <div
           className="
             mx-auto
-            mt-12
+            mt-8
             max-w-4xl
             overflow-hidden
             rounded-[26px]
@@ -358,7 +358,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
             border-[#A7B89A]/20
             bg-white
 
-            sm:mt-14
+            sm:mt-10
           "
         >
           <AnimatePresence mode="popLayout">
@@ -416,7 +416,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                       items-start
                       gap-4
                       px-5
-                      py-6
+                      py-5
                       text-left
 
                       transition-colors
@@ -431,7 +431,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
 
                       sm:gap-6
                       sm:px-7
-                      sm:py-7
+                      sm:py-6
                     "
                   >
                     {/* Número */}
@@ -443,7 +443,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                         shrink-0
                         font-serif
                         text-[17px]
-                        text-[#D4AF37]/75
+                        text-[#80651D]
                       "
                     >
                       {String(index + 1).padStart(2, '0')}
@@ -455,11 +455,11 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                       <span
                         className="
                           block
-                          text-[10px]
+                          text-[11px]
                           font-semibold
                           uppercase
                           tracking-[0.16em]
-                          text-[#8A968F]
+                          text-[#52665A]
                         "
                       >
                         {categoryLabels[faq.category]}
@@ -500,6 +500,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                         text-[#52665A]
                         transition-all
                         duration-300
+                        motion-reduce:transition-none
 
                         group-hover:border-[#D4AF37]/35
 
@@ -561,13 +562,13 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                       >
                         <div
                           className="
-                            pb-7
-                            pl-[61px]
-                            pr-6
+                            pb-5
+                            pl-5
+                            pr-5
 
-                            sm:pb-8
+                            sm:pb-6
                             sm:pl-[82px]
-                            sm:pr-16
+                            sm:pr-7
                           "
                         >
                           <div
@@ -582,6 +583,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                             <p
                               className="
                                 max-w-2xl
+                                whitespace-pre-line break-words
                                 text-sm
                                 leading-7
                                 text-[#657175]
@@ -640,7 +642,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
           className="
             relative
             mx-auto
-            mt-10
+            mt-8
             max-w-4xl
             overflow-hidden
             rounded-[26px]
@@ -652,9 +654,9 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
             text-center
             shadow-[0_10px_35px_rgba(15,61,74,0.035)]
 
-            sm:mt-12
+            sm:mt-9
             sm:px-10
-            sm:py-10
+            sm:py-8
           "
         >
           {/* Decoración */}
@@ -741,6 +743,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 mt-6
                 inline-flex
                 min-h-[50px]
+                w-full sm:w-auto
                 items-center
                 justify-center
                 gap-2.5
@@ -755,7 +758,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 transition-all
                 duration-200
 
-                hover:-translate-y-0.5
+                hover:-translate-y-0.5 motion-reduce:transform-none
                 hover:bg-[#174F5D]
 
                 focus-visible:outline-none

@@ -143,12 +143,12 @@ export function Contact({
         scroll-mt-24
         overflow-hidden
         bg-white
-        py-20
+        py-14
 
-        sm:py-24
+        sm:py-16
 
         lg:scroll-mt-28
-        lg:py-28
+        lg:py-20
       "
     >
       {/* =====================================================
@@ -236,8 +236,8 @@ export function Contact({
           relative
           z-10
           mx-auto
-          max-w-[1240px]
-          px-5
+          max-w-7xl
+          px-4
 
           sm:px-6
 
@@ -294,7 +294,7 @@ export function Contact({
 
     <p
       className="
-        text-[10px]
+        text-[11px]
         font-semibold
         uppercase
         tracking-[0.24em]
@@ -319,7 +319,7 @@ export function Contact({
     className="
       mt-6
       font-serif
-      text-[40px]
+      text-[36px]
       font-medium
       leading-[1.1]
       tracking-[-0.03em]
@@ -339,7 +339,7 @@ export function Contact({
       mx-auto
       mt-6
       max-w-[680px]
-      text-[14px]
+      text-base
       leading-7
       text-[#526368]
     "
@@ -356,13 +356,13 @@ export function Contact({
 
         <div
           className="
-            mt-14
+            mt-10
             grid
             gap-8
 
-            lg:grid-cols-[0.85fr_1.15fr]
+            lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]
             lg:items-stretch
-            lg:gap-10
+            lg:gap-8
           "
         >
           {/* =================================================
@@ -400,12 +400,12 @@ export function Contact({
               border
               border-[#A7B89A]/20
               bg-[#FBFAF7]
-              p-7
+              p-6
               shadow-[0_12px_40px_rgba(15,61,74,0.04)]
 
               sm:p-8
 
-              lg:p-10
+              lg:p-8
             "
           >
             {/* Decoración interna */}
@@ -427,7 +427,7 @@ export function Contact({
             <div className="relative z-10">
               <p
                 className="
-                  text-[10px]
+                  text-[11px]
                   font-semibold
                   uppercase
                   tracking-[0.18em]
@@ -437,20 +437,20 @@ export function Contact({
                 Atención directa
               </p>
 
-              <h3
+              <h2
                 className="
                   mt-3
                   font-serif
-                  text-[29px]
+                  text-[26px]
                   font-medium
                   leading-tight
                   text-[#0F4A55]
 
-                  sm:text-[32px]
+                  sm:text-[29px]
                 "
               >
                 Información de contacto
-              </h3>
+              </h2>
 
               <p
                 className="
@@ -475,7 +475,7 @@ export function Contact({
               <div
                 className="
                   mt-8
-                  space-y-7
+                  space-y-6
                 "
               >
                 {/* WhatsApp */}
@@ -493,6 +493,11 @@ export function Contact({
                   }
                   className="
                     group
+                    rounded-sm
+                    focus-visible:outline-none
+                    focus-visible:ring-2
+                    focus-visible:ring-[#0F4A55]
+                    focus-visible:ring-offset-4
                     flex
                     items-start
                     gap-4
@@ -525,10 +530,10 @@ export function Contact({
                     />
                   </span>
 
-                  <div>
+                  <div className="min-w-0 break-words">
                     <p
                       className="
-                        text-[10px]
+                        text-[11px]
                         font-semibold
                         uppercase
                         tracking-[0.14em]
@@ -578,6 +583,11 @@ export function Contact({
                   }
                   className="
                     group
+                    rounded-sm
+                    focus-visible:outline-none
+                    focus-visible:ring-2
+                    focus-visible:ring-[#0F4A55]
+                    focus-visible:ring-offset-4
                     flex
                     items-start
                     gap-4
@@ -610,10 +620,10 @@ export function Contact({
                     />
                   </span>
 
-                  <div>
+                  <div className="min-w-0 break-words">
                     <p
                       className="
-                        text-[10px]
+                        text-[11px]
                         font-semibold
                         uppercase
                         tracking-[0.14em]
@@ -642,7 +652,7 @@ export function Contact({
                         inline-flex
                         items-center
                         gap-1.5
-                        text-[11px]
+                        text-xs
                         font-semibold
                         text-[#80651D]
                       "
@@ -694,10 +704,10 @@ export function Contact({
                     />
                   </span>
 
-                  <div>
+                  <div className="min-w-0 break-words">
                     <p
                       className="
-                        text-[10px]
+                        text-[11px]
                         font-semibold
                         uppercase
                         tracking-[0.14em]
@@ -761,6 +771,10 @@ export function Contact({
                   rel="noopener noreferrer"
                   className="
                     inline-flex
+                    focus-visible:outline-none
+                    focus-visible:ring-2
+                    focus-visible:ring-[#0F4A55]
+                    focus-visible:ring-offset-4
                     min-h-[52px]
                     items-center
                     justify-center
@@ -776,7 +790,7 @@ export function Contact({
                     transition-all
                     duration-200
 
-                    hover:-translate-y-0.5
+                    hover:-translate-y-0.5 motion-reduce:transform-none
                     hover:bg-[#174F5D]
                   "
                 >
@@ -798,6 +812,10 @@ export function Contact({
                   rel="noopener noreferrer"
                   className="
                     inline-flex
+                    focus-visible:outline-none
+                    focus-visible:ring-2
+                    focus-visible:ring-[#0F4A55]
+                    focus-visible:ring-offset-4
                     min-h-[52px]
                     items-center
                     justify-center
@@ -868,7 +886,7 @@ export function Contact({
             }}
             className="
               relative
-              min-h-[390px]
+              min-h-[320px]
               overflow-hidden
               rounded-[28px]
               border
@@ -876,7 +894,7 @@ export function Contact({
               bg-[#FBFAF7]
               shadow-[0_12px_40px_rgba(15,61,74,0.05)]
 
-              sm:min-h-[470px]
+              sm:min-h-[380px]
 
               lg:min-h-full
             "
@@ -957,7 +975,7 @@ export function Contact({
                 <div>
                   <p
                     className="
-                      text-[10px]
+                      text-[11px]
                       font-semibold
                       uppercase
                       tracking-[0.12em]

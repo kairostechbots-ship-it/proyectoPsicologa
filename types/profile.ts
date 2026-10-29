@@ -38,6 +38,11 @@ export interface ProfessionalProfile {
   professionalTitle: string;
   name: string;
 
+  // Identidad profesional. Opcionales para admitir perfiles existentes.
+  fullName?: string;
+  // Texto para conservar ceros iniciales y evitar conversiones numéricas.
+  licenseNumber?: string;
+
   yearsExperience: number;
   therapeuticApproach: string;
 

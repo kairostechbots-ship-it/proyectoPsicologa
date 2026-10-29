@@ -11,7 +11,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 const credentials = [
   'Psicóloga Clínica',
-  'Especializada en Terapia Cognitivo-Conductual',
+  'Enfoque en Terapia Cognitivo-Conductual',
   'Atención presencial y en línea',
 ];
 
@@ -24,7 +24,7 @@ export function ProfessionalSummary() {
       className="
         relative overflow-hidden
         bg-[#FBFAF7]
-        py-20 sm:py-24 lg:py-28
+        py-14 sm:py-16 lg:py-20
       "
     >
       {/* Decoración */}
@@ -70,16 +70,16 @@ export function ProfessionalSummary() {
         className="
           relative z-10
           mx-auto max-w-7xl
-          px-5 sm:px-6 lg:px-8
+          px-4 sm:px-6 lg:px-8
         "
       >
         <div
           className="
             grid items-center
-            gap-14
+            gap-10
             lg:grid-cols-[0.95fr_1.05fr]
-            lg:gap-20
-            xl:gap-28
+            lg:gap-14
+            xl:gap-20
           "
         >
           {/* =====================================================
@@ -117,13 +117,13 @@ export function ProfessionalSummary() {
             <div
               className="
                 relative
-                min-h-[480px]
+                min-h-[380px]
                 overflow-hidden
                 rounded-[42px]
                 border border-[#A7B89A]/20
                 bg-[#EEF2EA]
                 px-8 py-10
-                sm:min-h-[540px]
+                sm:min-h-[420px]
                 sm:px-11 sm:py-12
               "
             >
@@ -155,12 +155,12 @@ export function ProfessionalSummary() {
                 <p
                   className="
                     font-serif
-                    text-[120px]
+                    text-[100px]
                     font-medium
                     leading-[0.85]
                     tracking-[-0.07em]
                     text-[#0F3D4A]
-                    sm:text-[155px]
+                    sm:text-[120px]
                   "
                 >
                   22
@@ -186,7 +186,7 @@ export function ProfessionalSummary() {
               <blockquote
                 className="
                   relative
-                  mt-16
+                  mt-8
                   max-w-[330px]
                   font-serif
                   text-[27px]
@@ -194,8 +194,8 @@ export function ProfessionalSummary() {
                   italic
                   leading-[1.35]
                   text-[#0F3D4A]
-                  sm:mt-20
-                  sm:text-[31px]
+                  sm:mt-10
+                  sm:text-[28px]
                 "
               >
                 “Un espacio seguro, confidencial y libre de juicios.”
@@ -332,18 +332,19 @@ export function ProfessionalSummary() {
                 mt-5
                 max-w-xl
                 font-serif
-                text-[38px]
+                text-[34px]
                 font-medium
                 leading-[1.08]
                 tracking-[-0.025em]
                 text-[#0F3D4A]
-                sm:text-[48px]
-                lg:text-[54px]
+                sm:text-[42px]
+                lg:text-[46px]
               "
             >
-             La experiencia de escuchar cada historia  {' '}
+             Escuchar tu historia{' '}
               <span className="italic font-normal">
-con atención.           </span>
+con atención.
+              </span>
             </h2>
 
             {/* Presentación */}
@@ -358,7 +359,9 @@ con atención.           </span>
                 sm:leading-8
               "
             >
-              A lo largo de mi trayectoria he tenido la oportunidad de acompañar a personas con distintas historias, necesidades y circunstancias. Esta experiencia me ha enseñado la importancia de escuchar, comprender cada situación y adaptar el trabajo terapéutico a las características de cada persona.
+              Soy Erika Pilar Jiménez Miramontes, licenciada en Psicología Clínica.
+              Mi trabajo comienza por escucharte y comprender tu historia,
+              tus necesidades y aquello que deseas trabajar.
             </p>
 
             <p
@@ -370,18 +373,24 @@ con atención.           </span>
                 text-[#657175]
               "
             >
-             Mi compromiso es brindar una atención profesional y respetuosa, donde podamos trabajar de manera colaborativa para identificar objetivos y desarrollar herramientas que resulten útiles en tu vida cotidiana.
+             Durante el proceso acordamos objetivos y trabajamos herramientas
+              que puedas aplicar en tu vida cotidiana, con una atención
+              respetuosa y adaptada a tu situación.
+            </p>
+
+            <p className="mt-4 text-sm leading-6 text-[#52665A]">
+              Cédula profesional: <span className="font-medium">14414740</span>
             </p>
 
             {/* Credenciales */}
             <div
               className="
-                mt-8
+                mt-6
                 border-y border-[#A7B89A]/25
-                py-6
+                py-5
               "
             >
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {credentials.map((credential) => (
                   <div
                     key={credential}
@@ -447,7 +456,7 @@ con atención.           </span>
                   h-4 w-4
                   transition-transform
                   duration-200
-                  group-hover:translate-x-1
+                  group-hover:translate-x-1 motion-reduce:transform-none
                 "
                 strokeWidth={1.8}
               />

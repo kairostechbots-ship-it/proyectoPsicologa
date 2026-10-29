@@ -17,6 +17,7 @@ interface Recommendation {
   icon: LucideIcon;
 }
 
+// Condiciones conservadas del componente proporcionado.
 const recommendations: Recommendation[] = [
   {
     id: 1,
@@ -63,258 +64,75 @@ export function ConsultationRecommendations() {
   return (
     <section
       aria-labelledby="recommendations-title"
-      className="
-        relative
-        overflow-hidden
-        bg-[#FBFAF7]
-        py-20
-        sm:py-24
-        lg:py-28
-      "
+      className="relative overflow-hidden bg-[#FBFAF7] py-14 sm:py-16 lg:py-20"
     >
-      {/* Decoración */}
       <div
         aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          -left-[230px]
-          top-[10%]
-          h-[430px]
-          w-[430px]
-          rounded-full
-          border
-          border-[#A7B89A]/10
-        "
+        className="pointer-events-none absolute -left-56 top-[10%] h-[430px] w-[430px] rounded-full border border-[#A7B89A]/10"
       />
-
       <div
         aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          -bottom-[250px]
-          -right-[220px]
-          h-[450px]
-          w-[450px]
-          rounded-full
-          border
-          border-[#D4AF37]/[0.08]
-        "
+        className="pointer-events-none absolute -bottom-60 -right-56 h-[450px] w-[450px] rounded-full border border-[#D4AF37]/[0.08]"
       />
 
-      <div
-        className="
-          relative
-          z-10
-          mx-auto
-          max-w-[1120px]
-          px-5
-          sm:px-6
-          lg:px-8
-        "
-      >
-        {/* Encabezado */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={
-            reduceMotion
-              ? false
-              : {
-                  opacity: 0,
-                  y: 20,
-                }
-          }
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.3,
-          }}
-          transition={{
-            duration: reduceMotion ? 0 : 0.65,
-            ease: smoothEase,
-          }}
+          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: reduceMotion ? 0 : 0.55, ease: smoothEase }}
           className="mx-auto max-w-[720px] text-center"
         >
-          <div className="flex items-center justify-center gap-4">
-            <span
-              aria-hidden="true"
-              className="h-px w-8 bg-[#D4AF37]"
-            />
-
-            <p
-              className="
-                text-[10px]
-                font-semibold
-                uppercase
-                tracking-[0.24em]
-                text-[#596D65]
-              "
-            >
+          <div className="flex items-center justify-center gap-3">
+            <span aria-hidden="true" className="h-px w-8 shrink-0 bg-[#D4AF37]" />
+            <p className="text-[10px] font-semibold uppercase leading-5 tracking-[0.18em] text-[#52665A] sm:text-[11px]">
               Antes de tu consulta
             </p>
-
-            <span
-              aria-hidden="true"
-              className="h-px w-8 bg-[#D4AF37]"
-            />
+            <span aria-hidden="true" className="h-px w-8 shrink-0 bg-[#D4AF37]" />
           </div>
 
           <h2
             id="recommendations-title"
-            className="
-              mt-6
-              font-serif
-              text-[38px]
-              font-medium
-              leading-[1.1]
-              tracking-[-0.03em]
-              text-[#0F4A55]
-
-              sm:text-[46px]
-            "
+            className="mt-5 font-serif text-[34px] font-medium leading-[1.1] tracking-[-0.025em] text-[#0F3D4A] sm:text-[42px] lg:text-[46px]"
           >
-            Algunas recomendaciones para{' '}
-            <span className="font-normal italic">
-              tu cita.
-            </span>
+            Prepárate para <span className="font-normal italic">tu cita.</span>
           </h2>
-
-          <p
-            className="
-              mx-auto
-              mt-5
-              max-w-[610px]
-              text-[14px]
-              leading-7
-              text-[#526368]
-            "
-          >
-            Conoce algunas recomendaciones y condiciones de atención para que tu experiencia durante la consulta sea clara, cómoda y organizada.
+          <p className="mx-auto mt-4 max-w-[610px] text-base leading-7 text-[#526368]">
+            Revisa las recomendaciones de llegada, cancelación y pago antes de asistir.
           </p>
         </motion.div>
 
-        {/* Recomendaciones */}
-        <div
-          className="
-            mx-auto
-            mt-14
-            max-w-[900px]
-            border-t
-            border-[#A7B89A]/25
-          "
-        >
+        <div className="mx-auto mt-9 max-w-[980px] border-t border-[#A7B89A]/30 sm:mt-10">
           {recommendations.map((item, index) => {
             const Icon = item.icon;
-
             return (
               <motion.article
                 key={item.id}
-                initial={
-                  reduceMotion
-                    ? false
-                    : {
-                        opacity: 0,
-                        y: 16,
-                      }
-                }
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: true,
-                  amount: 0.4,
-                }}
+                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
                 transition={{
-                  duration: reduceMotion ? 0 : 0.5,
-                  delay: reduceMotion
-                    ? 0
-                    : Math.min(index * 0.06, 0.24),
+                  duration: reduceMotion ? 0 : 0.45,
+                  delay: reduceMotion ? 0 : Math.min(index * 0.04, 0.16),
                   ease: smoothEase,
                 }}
-                className="
-                  group
-                  grid
-                  grid-cols-[auto_1fr]
-                  gap-4
-                  border-b
-                  border-[#A7B89A]/25
-                  py-6
-
-                  sm:grid-cols-[60px_210px_1fr]
-                  sm:items-center
-                  sm:gap-6
-                  sm:py-7
-                "
+                className="grid grid-cols-[44px_minmax(0,1fr)] gap-x-4 gap-y-2 border-b border-[#A7B89A]/30 py-5 md:grid-cols-[44px_210px_minmax(0,1fr)] md:items-center md:gap-5 md:py-6"
               >
-                {/* Número / icono */}
                 <div
-                  className="
-                    flex
-                    h-11
-                    w-11
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-[#E9EFE9]
-                    text-[#597060]
-                    transition-all
-                    duration-300
-
-                    group-hover:bg-[#0F4A55]
-                    group-hover:text-white
-                  "
+                  aria-hidden="true"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-[#E9EFE9] text-[#597060]"
                 >
-                  <Icon
-                    aria-hidden="true"
-                    className="h-[18px] w-[18px]"
-                    strokeWidth={1.5}
-                  />
+                  <Icon className="h-5 w-5" strokeWidth={1.5} />
                 </div>
-
-                {/* Título */}
-                <div>
-                  <span
-                    className="
-                      text-[9px]
-                      font-semibold
-                      uppercase
-                      tracking-[0.18em]
-                      text-[#B2943D]
-                    "
-                  >
+                <div className="min-w-0">
+                  <span aria-hidden="true" className="text-[10px] font-semibold tracking-[0.15em] text-[#80651C]">
                     {String(index + 1).padStart(2, '0')}
                   </span>
-
-                  <h3
-                    className="
-                      mt-1
-                      font-serif
-                      text-[19px]
-                      font-medium
-                      leading-snug
-                      text-[#0F4A55]
-                    "
-                  >
+                  <h3 className="mt-1 font-serif text-[20px] font-medium leading-snug text-[#0F3D4A]">
                     {item.title}
                   </h3>
                 </div>
-
-                {/* Descripción */}
-                <p
-                  className="
-                    col-start-2
-                    text-[12px]
-                    leading-6
-                    text-[#526368]
-
-                    sm:col-start-auto
-                    sm:text-[13px]
-                  "
-                >
+                <p className="col-start-2 min-w-0 text-sm leading-6 text-[#526368] md:col-start-auto">
                   {item.description}
                 </p>
               </motion.article>
@@ -322,20 +140,8 @@ export function ConsultationRecommendations() {
           })}
         </div>
 
-        {/* Nota final */}
-        <p
-          className="
-            mx-auto
-            mt-8
-            max-w-[620px]
-            text-center
-            text-[11px]
-            leading-5
-            text-[#53665C]
-          "
-        >
-          Si tienes alguna duda antes de asistir, puedes comunicarte
-          directamente para recibir información.
+        <p className="mx-auto mt-6 max-w-[620px] text-center text-sm leading-6 text-[#53665C]">
+          Si tienes alguna duda antes de asistir, puedes comunicarte directamente para recibir información.
         </p>
       </div>
     </section>

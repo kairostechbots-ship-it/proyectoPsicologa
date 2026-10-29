@@ -13,6 +13,7 @@ import {
   MessageCircle,
   Sparkles,
   ArrowLeft,
+  type LucideIcon,
 } from 'lucide-react';
 
 
@@ -40,7 +41,7 @@ interface TechniqueCardProps {
    ICONOS
 ========================================================= */
 
-const iconMap: Record<string, React.ElementType> = {
+const iconMap: Record<string, LucideIcon> = {
   biomagnetismo: CircleDot,
   acupuntura: Sparkles,
   fitoterapia: Leaf,
@@ -133,13 +134,13 @@ function TechniqueCard({
           <span className="text-[11px] font-semibold tracking-[0.2em] text-[#80651D]">
             {String(index + 1).padStart(2, '0')}
           </span>
-          <span className="mt-7 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#A7B89A]/10 text-[#52665A]">
+          <span className="mt-5 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#A7B89A]/10 text-[#52665A]">
             <Icon aria-hidden="true" className="h-6 w-6" strokeWidth={1.35} />
           </span>
-          <h2 className="mt-8 font-serif text-[27px] leading-tight text-[#0F3D4A]">
+          <h2 className="mt-5 font-serif text-[25px] leading-tight text-[#0F3D4A]">
             {technique.name}
           </h2>
-          <p className="mt-3 min-h-0 overflow-y-auto text-sm leading-6 text-[#526368]">
+          <p className="mt-3 min-h-0 overflow-y-auto whitespace-pre-line break-words text-sm leading-6 text-[#526368]">
             {technique.shortDescription}
           </p>
           <div className="mt-auto shrink-0 pt-5">
@@ -165,7 +166,7 @@ function TechniqueCard({
           className="absolute inset-0 flex flex-col rounded-[26px] border border-[#0F3D4A] bg-[#0F3D4A] p-6 text-white [backface-visibility:hidden] [transform:rotateY(180deg)] sm:p-7"
         >
           <div className="flex shrink-0 items-center justify-between gap-3 border-b border-white/20 pb-3">
-            <h2 id={titleId} className="font-serif text-2xl leading-tight">{technique.name}</h2>
+            <h2 id={titleId} className="min-w-0 break-words font-serif text-[22px] leading-tight">{technique.name}</h2>
             <button
               ref={backButtonRef}
               type="button"
@@ -184,7 +185,7 @@ function TechniqueCard({
             tabIndex={flipped ? 0 : -1}
             className="my-4 min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-md pr-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5CF80]"
           >
-            <p className="whitespace-pre-line text-sm leading-6 text-white/85">{technique.description}</p>
+            <p className="whitespace-pre-line break-words text-sm leading-6 text-white/85">{technique.description}</p>
             {technique.benefits && technique.benefits.length > 0 && (
               <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-white/85 marker:text-[#E5CF80]">
                 {technique.benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
@@ -217,8 +218,8 @@ function TechniqueCard({
 export function NaturalTechniques({
   consultation,
 }: NaturalTechniquesProps) {
- const { contact: contactMock } = useSiteData();
-const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURIComponent(
+  const { contact } = useSiteData();
+  const generalWhatsappUrl = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
   'Hola, me gustaría recibir información sobre la consulta de Medicina Natural.'
 )}`;
 
@@ -238,15 +239,12 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
         overflow-hidden
         bg-white
 
-        pb-20
-        pt-[104px]
+        py-14
 
-        sm:pb-24
-        sm:pt-[104px]
+        sm:py-16
 
         lg:scroll-mt-28
-        lg:pb-28
-        lg:pt-[104px]
+        lg:py-20
       "
     >
       {/* =====================================================
@@ -287,8 +285,8 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
           relative
           z-10
           mx-auto
-          max-w-[1240px]
-          px-5
+          max-w-7xl
+          px-4
 
           sm:px-6
 
@@ -362,7 +360,7 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
   className="
     mt-6
     font-serif
-    text-[40px]
+    text-[36px]
     font-medium
     leading-[1.1]
     tracking-[-0.03em]
@@ -382,7 +380,7 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
     mx-auto
     mt-6
     max-w-[680px]
-    text-[14px]
+    text-base
     leading-7
     text-[#526368]
   "
@@ -401,7 +399,7 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
 
         <div
           className="
-            mt-14
+            mt-10
             grid
             items-start
             grid-cols-1
@@ -474,21 +472,21 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
           }}
           className="
             relative
-            mt-14
+            mt-10
             overflow-hidden
             rounded-[28px]
             bg-[#F7F5EF]
             px-6
             py-8
 
-            sm:mt-16
+            sm:mt-12
             sm:px-10
-            sm:py-10
+            sm:py-8
 
             lg:flex
             lg:items-center
             lg:justify-between
-            lg:gap-12
+            lg:gap-8
           "
         >
           <div
@@ -519,7 +517,7 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
               Consulta de Medicina Natural
             </p>
 
-            <h3
+            <h2
               className="
                 mt-3
                 font-serif
@@ -532,7 +530,7 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
               "
             >
               ¿Te gustaría recibir más información?
-            </h3>
+            </h2>
 
             <p
               className="
@@ -620,7 +618,7 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
                 transition-all
                 duration-200
 
-                hover:-translate-y-0.5
+                hover:-translate-y-0.5 motion-reduce:transform-none
                 hover:bg-[#174F5D]
 
                 focus-visible:outline-none
@@ -652,14 +650,14 @@ const generalWhatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeU
             mt-6
             max-w-3xl
             text-center
-            text-[11px]
-            leading-5
-            text-[#7A8580]
-
-            sm:text-xs
+            text-sm
+            leading-6
+            text-[#52665A]
           "
         >
-          
+          La Medicina Natural se presenta como un área de atención independiente
+          de la psicoterapia y no sustituye la valoración, diagnóstico o
+          tratamiento médico.
         </p>
       </div>
     </section>

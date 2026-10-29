@@ -57,7 +57,7 @@ export default function NaturalMedicinePage() {
 
       <main id="contenido-principal" tabIndex={-1} className="scroll-mt-28 focus:outline-none">
 
-      <div className="pt-20" />
+
 
       <LiveNaturalMedicine />
 
