@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useSiteData } from '@/components/SiteDataProvider';
@@ -247,18 +246,21 @@ export function Footer({
           z-10
           mx-auto
           max-w-[1320px]
-          px-6
-          py-12
+          px-4
+          py-8
           sm:px-8
+          sm:py-12
           lg:px-10
           lg:py-12
         "
       >
         <div
           className="
-            grid
-            gap-x-10
-            gap-y-10
+            grid grid-cols-2
+            gap-x-5
+            gap-y-7
+            sm:gap-x-10
+            sm:gap-y-10
             sm:grid-cols-2
             lg:grid-cols-[1.4fr_0.7fr_0.9fr_1.2fr]
             lg:gap-x-12
@@ -268,7 +270,7 @@ export function Footer({
               IDENTIDAD
           ================================================= */}
 
-          <div>
+          <div className="col-span-2 sm:col-span-1">
             <Link
               href="/"
               aria-label="Ir a la página de inicio"
@@ -286,7 +288,7 @@ export function Footer({
                 className="
                   h-auto
                   w-full
-                  max-w-[280px]
+                  max-w-[180px] sm:max-w-[280px]
                   object-contain
                 "
               />
@@ -301,17 +303,18 @@ export function Footer({
                 ${bodyColor}
               `}
             >
-              Atención psicológica presencial y en línea,
+              <span className="sm:hidden">Atención psicológica presencial en Tlajomulco y en línea, con enfoque cognitivo-conductual.</span>
+              <span className="hidden sm:inline">Atención psicológica presencial y en línea,
               con enfoque cognitivo-conductual y
               acompañamiento profesional para distintas
-              etapas de la vida.
+              etapas de la vida.</span>
             </p>
 
             {/* Frase de marca */}
             <div
               className="
                 mt-5
-                flex
+                hidden sm:flex
                 items-start
                 gap-3
               "
@@ -363,16 +366,17 @@ export function Footer({
 
             <nav
               aria-label="Navegación del pie de página"
-              className="mt-6"
+              className="mt-3 sm:mt-6"
             >
-              <ul className="space-y-3">
+              <ul className="space-y-0 sm:space-y-3">
                 {footerLinks.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
                       className={`
-                        inline-block
+                        inline-flex min-h-11 items-center sm:min-h-0
                         text-[13px]
+                        rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2
                         transition-colors
                         duration-300
                         ${bodyColor}
@@ -404,7 +408,7 @@ export function Footer({
               Atención
             </h2>
 
-            <ul className="mt-6 space-y-4">
+            <ul className="mt-3 space-y-3 sm:mt-6 sm:space-y-4">
               {modalities.map(({ name, icon: Icon }) => (
                 <li
                   key={name}
@@ -451,7 +455,7 @@ export function Footer({
               CONTACTO
           ================================================= */}
 
-          <div>
+          <div className={`col-span-2 border-t pt-6 sm:col-span-1 sm:border-t-0 sm:pt-0 ${borderColor}`}>
             <h2
               className={`
                 text-[11px]
@@ -466,7 +470,7 @@ export function Footer({
 
             <p
               className={`
-                mt-6
+                mt-3 sm:mt-6
                 max-w-[320px]
                 text-[13px]
                 leading-[1.7]
@@ -478,7 +482,7 @@ export function Footer({
               directamente por WhatsApp.
             </p>
 
-            <div className="mt-5 space-y-3">
+            <div className="mt-4 space-y-3 sm:mt-5">
               {/* WhatsApp */}
               <a
                 href={whatsappUrl}
@@ -486,7 +490,7 @@ export function Footer({
                 rel="noopener noreferrer"
                 aria-label="Enviar mensaje por WhatsApp"
                 className={`
-                  group
+                  group rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2
                   flex
                   items-center
                   gap-3
@@ -556,7 +560,7 @@ export function Footer({
                 rel="noopener noreferrer"
                 aria-label="Ver ubicación del consultorio"
                 className={`
-                  group
+                  group rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2
                   flex
                   items-start
                   gap-3
@@ -628,7 +632,7 @@ export function Footer({
                 rel="noopener noreferrer"
                 aria-label="Cómo llegar al consultorio"
                 className={`
-                  inline-flex
+                  inline-flex min-h-11 sm:min-h-0
                   items-center
                   gap-2
                   text-[12px]

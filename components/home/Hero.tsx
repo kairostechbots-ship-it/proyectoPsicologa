@@ -25,11 +25,11 @@ const focusStyles =
   'focus-visible:ring-offset-[#FBFAF7]';
 
 const iconStyles =
-  'flex h-12 w-12 shrink-0 items-center justify-center ' +
+  'flex h-9 w-9 shrink-0 items-center justify-center lg:h-12 lg:w-12 ' +
   'rounded-full bg-[#A7B89A]/20 text-[#688371]';
 
 const infoStyles =
-  'flex min-w-0 items-center gap-4 ' +
+  'flex min-w-0 items-center gap-2.5 lg:gap-4 ' +
   'lg:border-l lg:border-[#A7B89A]/30 lg:pl-5 ' +
   'lg:first:border-l-0 lg:first:pl-0';
 
@@ -109,9 +109,9 @@ export function Hero() {
             transition={{ duration: reduceMotion ? 0 : 0.55 }}
             className="
   flex w-full flex-col items-start
-  py-12
+  py-7
 
-  sm:py-16
+  sm:py-10
 
   lg:min-h-[40vw]
   lg:w-[45%]
@@ -120,7 +120,7 @@ export function Hero() {
 "
           >
             {/* ETIQUETA */}
-            <div className="mb-6 flex items-center gap-3">
+            <div className="mb-4 flex items-center gap-3 lg:mb-6">
               <span
                 aria-hidden="true"
                 className="h-px w-8 shrink-0 bg-[#D9AF64]"
@@ -131,7 +131,7 @@ export function Hero() {
                   text-[11px]
                   font-semibold uppercase
                   leading-5 tracking-[0.13em]
-                  text-[#839788]
+                  text-[#596D65] lg:text-[#839788]
                   xl:text-xs
                 "
               >
@@ -145,7 +145,7 @@ export function Hero() {
               className="
                 max-w-[560px]
                 font-serif font-medium
-                text-[clamp(2.5rem,7vw,3.5rem)]
+                text-[clamp(2.125rem,8.8vw,3.5rem)]
                 leading-[1.09]
                 tracking-[-0.04em]
                 text-[#0F3D4A]
@@ -197,21 +197,27 @@ export function Hero() {
             {/* DESCRIPCIÓN */}
             <p
               className="
-                mt-8 max-w-[425px]
-                text-base leading-[1.65]
+                mt-5 max-w-[425px] lg:mt-8
+                text-[15px] leading-[1.65] lg:text-base
                 text-[#62716B]
                 xl:mt-9 xl:text-[17px]
               "
             >
-              Atención psicológica para niños, adolescentes,
-              adultos y parejas, con un enfoque profesional,
-              cercano y basado en evidencia.
+              <span className="lg:hidden">
+                Atención para niños, adolescentes, adultos y parejas.
+                Presencial en Tlajomulco y en línea.
+              </span>
+              <span className="hidden lg:inline">
+                Atención psicológica para niños, adolescentes,
+                adultos y parejas, con un enfoque profesional,
+                cercano y basado en evidencia.
+              </span>
             </p>
 
             {/* BOTONES */}
             <div
               className="
-                mt-8
+                mt-5 lg:mt-8
                 flex w-full flex-col
                 items-start gap-4
 
@@ -228,7 +234,7 @@ export function Hero() {
                   inline-flex min-h-[52px]
                   w-full items-center justify-center
                   gap-2
-                  rounded-[20px]
+                  rounded-xl lg:rounded-[20px]
                   bg-[#0F3D4A]
                   px-6 py-3.5
                   text-sm font-semibold text-white
@@ -250,7 +256,7 @@ export function Hero() {
               <Link
                 href="/psychotherapy"
                 className={`
-                  group inline-flex min-h-11
+                  group hidden min-h-11 lg:inline-flex
                   items-center gap-3
                   text-sm font-semibold
                   text-[#0F3D4A]
@@ -273,10 +279,30 @@ export function Hero() {
               </Link>
             </div>
 
+            {/* IMAGEN MÓVIL: conserva completa la composición editorial. */}
+            <figure className="mt-6 w-full max-w-[480px] lg:hidden">
+              <div className="relative aspect-[3/2]">
+                <Image
+                  src={HERO_IMAGE}
+                  alt="Erika Pilar, psicóloga clínica, en su consultorio"
+                  fill
+                  sizes="(min-width: 1024px) 1px, (min-width: 640px) 480px, calc(100vw - 32px)"
+                  className="object-contain object-center"
+                  draggable={false}
+                />
+              </div>
+              <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+                <span className="text-sm font-semibold text-[#0F3D4A]">Erika Pilar</span>
+                <Link href="/quien-soy" className={`inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-medium text-[#0F3D4A] ${focusStyles}`}>
+                  Conóceme <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                </Link>
+              </figcaption>
+            </figure>
+
             {/* CONFIANZA */}
             <div
               className="
-                mt-8 flex max-w-[395px]
+                mt-4 flex max-w-[395px] lg:mt-8
                 items-start gap-3
               "
             >
@@ -289,7 +315,7 @@ export function Hero() {
                 strokeWidth={1.5}
               />
 
-              <p className="text-sm leading-[1.55] text-[#718078]">
+              <p className="text-sm leading-[1.55] text-[#596D65] lg:text-[#718078]">
                 Un acompañamiento respetuoso, confidencial
                 y adaptado a tus necesidades.
               </p>
@@ -309,7 +335,7 @@ export function Hero() {
         <div
           className="
             mx-auto grid max-w-7xl
-            grid-cols-1 gap-6
+            grid-cols-2 gap-x-4 gap-y-5
             px-4 py-6
 
             sm:grid-cols-2 sm:px-6
@@ -322,12 +348,12 @@ export function Hero() {
           <div className={infoStyles}>
             <span aria-hidden="true" className={iconStyles}>
               <Sprout
-                className="h-6 w-6"
+                className="h-[18px] w-[18px] lg:h-6 lg:w-6"
                 strokeWidth={1.6}
               />
             </span>
 
-            <p className="text-sm leading-6 text-[#62716B]">
+            <p className="text-[13px] leading-5 text-[#52665A] lg:text-sm lg:leading-6 lg:text-[#62716B]">
               <strong className="block font-semibold text-[#0F3D4A]">
                 +22 años
               </strong>
@@ -340,12 +366,12 @@ export function Hero() {
           <div className={infoStyles}>
             <span aria-hidden="true" className={iconStyles}>
               <Monitor
-                className="h-6 w-6"
+                className="h-[18px] w-[18px] lg:h-6 lg:w-6"
                 strokeWidth={1.6}
               />
             </span>
 
-            <p className="text-sm leading-6 text-[#62716B]">
+            <p className="text-[13px] leading-5 text-[#52665A] lg:text-sm lg:leading-6 lg:text-[#62716B]">
               Atención presencial
               <span className="block">y en línea</span>
             </p>
@@ -358,7 +384,7 @@ export function Hero() {
             rel="noopener noreferrer"
             className={`
               ${infoStyles}
-              text-sm text-[#62716B]
+              text-[13px] leading-5 text-[#52665A] lg:text-sm lg:text-[#62716B]
               transition-colors
               hover:text-[#0F3D4A]
               ${focusStyles}
@@ -366,7 +392,7 @@ export function Hero() {
           >
             <span aria-hidden="true" className={iconStyles}>
               <MapPin
-                className="h-6 w-6"
+                className="h-[18px] w-[18px] lg:h-6 lg:w-6"
                 strokeWidth={1.6}
               />
             </span>
@@ -378,12 +404,12 @@ export function Hero() {
           <div className={infoStyles}>
             <span aria-hidden="true" className={iconStyles}>
               <Clock3
-                className="h-6 w-6"
+                className="h-[18px] w-[18px] lg:h-6 lg:w-6"
                 strokeWidth={1.6}
               />
             </span>
 
-            <div className="min-w-0 text-sm leading-6 text-[#62716B]">
+            <div className="min-w-0 text-[13px] leading-5 text-[#52665A] lg:text-sm lg:leading-6 lg:text-[#62716B]">
               <p>{businessHoursText}</p>
 
               {contact.appointmentRequired && (

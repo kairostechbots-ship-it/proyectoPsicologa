@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import { Navbar } from '@/components/layout/Navbar';
 import { LiveNaturalMedicine } from '@/components/LivePageSections';
-import { FinalCTA } from '@/components/home/FinalCTA';
+
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 
@@ -61,11 +61,11 @@ export default function NaturalMedicinePage() {
 
       <LiveNaturalMedicine />
 
-      <FinalCTA />
+  
 
       </main>
 
-      <Footer variant="light" />
+      <Footer />
 
       <WhatsAppButton />
     </div>
