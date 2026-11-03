@@ -94,7 +94,7 @@ export function About({ profile }: AboutProps) {
 <section
   id="about"
   aria-labelledby="about-title"
-  className="relative isolate overflow-hidden bg-[#FBFAF7] py-14 sm:py-16 lg:py-20"
+  className="relative isolate overflow-hidden bg-[#FBFAF7] py-8 sm:py-16 lg:py-20"
 >
   {/* DECORACIÓN GENERAL */}
   <div
@@ -132,7 +132,51 @@ export function About({ profile }: AboutProps) {
 
   {/* CONTENEDOR PRINCIPAL */}
   <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 xl:gap-16">
+    <div className="grid items-center gap-6 sm:gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 xl:gap-16">
+      <div className="min-w-0 lg:hidden">
+        {/* TÍTULO PROFESIONAL */}
+        <p
+          className="
+            text-[10px]
+            font-semibold
+            uppercase
+            tracking-[0.22em]
+            text-[#53665C]
+          "
+        >
+          {profile.professionalTitle}
+        </p>
+
+        {/* NOMBRE */}
+        <h1
+          id="about-title-mobile"
+          className="
+            mt-3
+            font-serif
+            text-[32px]
+            font-medium
+            leading-tight
+            text-[#0F4A55]
+            sm:text-[40px]
+          "
+        >
+          Hola, soy{' '}
+          <span className="font-normal italic">
+            {profile.name}
+          </span>
+        </h1>
+
+        {/* Identidad profesional publicada; no altera la biografía del perfil. */}
+        <div className="mt-3 border-l-2 border-[#C6AA65] pl-4">
+          <p className="text-sm font-medium leading-6 text-[#405C5E]">
+            {professionalIdentity.fullName}
+          </p>
+          <p className="mt-1 text-sm leading-6 text-[#52665A]">
+            Cédula profesional: {professionalIdentity.licenseNumber}
+          </p>
+        </div>
+
+      </div>
 
       {/* =================================================
           IZQUIERDA: FOTOGRAFÍA ORGÁNICA
@@ -149,7 +193,7 @@ export function About({ profile }: AboutProps) {
           duration: reduceMotion ? 0 : 0.75,
           ease,
         }}
-        className="relative mx-auto w-full max-w-[440px] py-8 lg:py-10"
+        className="relative mx-auto w-full max-w-[280px] pb-5 pt-2 sm:max-w-[360px] sm:py-8 lg:col-start-1 lg:row-start-1 lg:max-w-[440px] lg:py-10"
       >
         {/* FONDO ORGÁNICO */}
         <div className="relative">
@@ -201,7 +245,7 @@ export function About({ profile }: AboutProps) {
               alt={`Retrato profesional de ${profile.name}`}
               fill
               priority
-              sizes="(max-width: 1024px) 90vw, 40vw"
+              sizes="(min-width: 1024px) 440px, (min-width: 640px) 360px, 280px"
               className="object-cover object-top"
             />
           </div>
@@ -209,9 +253,9 @@ export function About({ profile }: AboutProps) {
           {/* ==================================
               TARJETA FLOTANTE: EXPERIENCIA
           ================================== */}
-          <div className="absolute -bottom-7 -left-2 z-30 rounded-[20px] border border-[#DDE6D9] bg-[#FFFDF9]/95 px-4 py-4 shadow-[0_16px_40px_rgba(48,65,50,0.12)] backdrop-blur-md sm:-left-7 sm:px-6">
+          <div className="absolute -bottom-7 -left-2 z-30 rounded-[20px] border border-[#DDE6D9] bg-[#FFFDF9]/95 px-3 py-3 shadow-[0_16px_40px_rgba(48,65,50,0.12)] backdrop-blur-md sm:-left-7 sm:px-6 sm:py-4">
             <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#E9F0E7] text-[#66876E]">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E9F0E7] sm:h-11 sm:w-11 text-[#66876E]">
                 <HeartHandshake
                   aria-hidden="true"
                   className="h-5 w-5"
@@ -220,7 +264,7 @@ export function About({ profile }: AboutProps) {
               </span>
 
               <div>
-                <p className="font-serif text-[29px] leading-none text-[#0F4A55]">
+                <p className="font-serif text-[24px] leading-none sm:text-[29px] text-[#0F4A55]">
                   +{profile.yearsExperience}
                 </p>
 
@@ -234,7 +278,7 @@ export function About({ profile }: AboutProps) {
           {/* ==================================
               TARJETA FLOTANTE: TCC
           ================================== */}
-          <div className="absolute -right-2 bottom-[17%] z-30 rounded-full border border-[#E0E5DC] bg-[#FFFDF9]/95 px-4 py-3 shadow-[0_12px_32px_rgba(48,65,50,0.10)] backdrop-blur-md sm:-right-6 sm:px-5">
+          <div className="absolute -right-2 bottom-[17%] z-30 max-w-[60%] rounded-full sm:max-w-none border border-[#E0E5DC] bg-[#FFFDF9]/95 px-4 py-3 shadow-[0_12px_32px_rgba(48,65,50,0.10)] backdrop-blur-md sm:-right-6 sm:px-5">
             <div className="flex items-center gap-3">
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E9F0E7] text-[#65866C]">
                 <Brain
@@ -245,7 +289,7 @@ export function About({ profile }: AboutProps) {
               </span>
 
               <div>
-                <p className="font-serif text-[18px] leading-none text-[#0F4A55]">
+                <p className="break-words font-serif text-[16px] leading-tight sm:text-[18px] sm:leading-none text-[#0F4A55]">
                   {profile.therapeuticApproach}
                 </p>
 
@@ -290,12 +334,12 @@ export function About({ profile }: AboutProps) {
           ease,
         }}
         className="
-          relative
+          relative min-w-0 lg:col-start-2 lg:row-start-1
           rounded-[30px]
           border
           border-[#A7B89A]/20
           bg-white/55
-          p-7
+          p-5 sm:p-8
           shadow-[0_20px_60px_rgba(15,61,74,0.035)]
           backdrop-blur-sm
           sm:p-8
@@ -315,6 +359,7 @@ export function About({ profile }: AboutProps) {
           "
         />
 
+        <div className="hidden lg:block">
         {/* TÍTULO PROFESIONAL */}
         <p
           className="
@@ -357,10 +402,12 @@ export function About({ profile }: AboutProps) {
           </p>
         </div>
 
+        </div>
+
         {/* BIOGRAFÍA COMPLETA */}
         <div
           className="
-            mt-6
+            mt-0 lg:mt-6
             space-y-4
             text-[15px]
             leading-7
@@ -463,7 +510,7 @@ export function About({ profile }: AboutProps) {
 ========================================== */}
 <section
   aria-labelledby="training-title"
-  className="relative overflow-hidden bg-[#FAF9F6] py-14 sm:py-16 lg:py-20"
+  className="relative overflow-hidden bg-[#FAF9F6] pb-10 pt-6 sm:py-16 lg:py-20"
 >
   {/* Decoración de fondo */}
   <div
@@ -481,7 +528,7 @@ export function About({ profile }: AboutProps) {
     ====================================== */}
     <motion.div
       {...animation()}
-      className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-16"
+      className="grid gap-4 sm:gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-16"
     >
       <div>
       <div className="flex items-center gap-4">
@@ -663,7 +710,7 @@ export function About({ profile }: AboutProps) {
       {/* ENCABEZADO */}
       <motion.div
         {...animation()}
-        className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-16"
+        className="grid gap-4 sm:gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-16"
       >
         <div>
           <div className="flex items-center gap-4">
@@ -696,12 +743,12 @@ export function About({ profile }: AboutProps) {
       {clinicalAreas.length > 0 && (
         <motion.div
           {...animation()}
-          className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-6 grid divide-y divide-[#E3E9E1] border-y border-[#E3E9E1] sm:mt-8 sm:gap-3 sm:divide-y-0 sm:border-0 sm:grid-cols-2 lg:grid-cols-3"
         >
           {clinicalAreas.map((area) => (
             <div
               key={area.id}
-              className="group flex min-h-[86px] items-center gap-4 rounded-[18px] border border-[#E3E9E1] bg-white px-5 py-5 transition-all duration-300 hover:-translate-y-0.5 motion-reduce:transform-none hover:border-[#A7BCA5] hover:shadow-[0_12px_30px_rgba(15,61,74,0.05)]"
+              className="group flex min-h-[60px] items-center gap-3 py-3 sm:min-h-[86px] sm:gap-4 sm:rounded-[18px] sm:border sm:border-[#E3E9E1] sm:bg-white sm:px-5 sm:py-5 transition-all duration-300 hover:-translate-y-0.5 motion-reduce:transform-none hover:border-[#A7BCA5] hover:shadow-[0_12px_30px_rgba(15,61,74,0.05)]"
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#EDF3EA] text-[#6C8B72]">
                 <ShieldCheck

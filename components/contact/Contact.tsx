@@ -130,6 +130,15 @@ export function Contact({
   const businessHours =
     getBusinessHoursText(contact);
 
+  // El enlace confirmado identifica la ficha exacta del consultorio.
+  // Su mapa usa las coordenadas de esa ficha, sin geocodificar la dirección.
+  // Si se configura otra ubicación, se conserva su mapa administrado.
+  const mapEmbedUrl = contact.mapsUrl.trim().replace(/\/$/, '') ===
+    'https://maps.app.goo.gl/RJdeFB5AXkLH7mPL7'
+    ? 'https://maps.google.com/maps?q=20.4595885,-103.4391654&z=17&output=embed'
+    : contact.mapEmbedUrl;
+
+
   const whatsappUrl = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
     'Hola, me gustaría recibir información sobre la atención psicológica y consultar disponibilidad.'
   )}`;
@@ -900,7 +909,7 @@ export function Contact({
             "
           >
             <iframe
-              src={contact.mapEmbedUrl}
+              src={mapEmbedUrl}
               width="100%"
               height="100%"
               style={{

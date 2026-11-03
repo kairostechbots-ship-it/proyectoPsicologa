@@ -111,7 +111,7 @@ function TechniqueCard({
 
   return (
     <article
-      className="relative h-[430px] [perspective:1200px] sm:h-[440px]"
+      className="relative min-w-0 [perspective:1200px] sm:h-[440px]"
       onKeyDown={(event) => {
         if (event.key === 'Escape' && flipped) {
           event.preventDefault();
@@ -120,7 +120,7 @@ function TechniqueCard({
       }}
     >
       <div
-        className="relative h-full w-full [transform-style:preserve-3d]"
+        className="relative w-full [transform-style:preserve-3d] sm:h-full"
         style={{
           transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
           transition: reduceMotion ? 'none' : 'transform 550ms cubic-bezier(0.22, 1, 0.36, 1)',
@@ -129,21 +129,23 @@ function TechniqueCard({
         <div
           inert={flipped}
           aria-hidden={flipped}
-          className="absolute inset-0 flex flex-col rounded-[26px] border border-[#A7B89A]/25 bg-[#FBFAF7] p-6 shadow-[0_12px_40px_rgba(15,61,74,0.035)] [backface-visibility:hidden] sm:p-7"
+          className={`${flipped ? 'absolute inset-0' : 'relative'} flex min-h-[240px] flex-col rounded-[22px] border border-[#A7B89A]/25 bg-[#FBFAF7] p-5 shadow-[0_12px_40px_rgba(15,61,74,0.035)] [backface-visibility:hidden] sm:absolute sm:inset-0 sm:min-h-0 sm:rounded-[26px] sm:p-7`}
         >
-          <span className="text-[11px] font-semibold tracking-[0.2em] text-[#80651D]">
-            {String(index + 1).padStart(2, '0')}
-          </span>
-          <span className="mt-5 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#A7B89A]/10 text-[#52665A]">
-            <Icon aria-hidden="true" className="h-6 w-6" strokeWidth={1.35} />
-          </span>
-          <h2 className="mt-5 font-serif text-[25px] leading-tight text-[#0F3D4A]">
+          <div className="flex items-center justify-between gap-3 sm:flex-col sm:items-start sm:gap-0">
+            <span className="order-2 text-[11px] font-semibold tracking-[0.2em] text-[#80651D] sm:order-1">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <span className="order-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#A7B89A]/10 text-[#52665A] sm:order-2 sm:mt-5 sm:h-12 sm:w-12">
+              <Icon aria-hidden="true" className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.35} />
+            </span>
+          </div>
+          <h2 className="mt-3 break-words font-serif text-[24px] leading-tight text-[#0F3D4A] sm:mt-5 sm:text-[25px]">
             {technique.name}
           </h2>
-          <p className="mt-3 min-h-0 overflow-y-auto whitespace-pre-line break-words text-sm leading-6 text-[#526368]">
+          <p className="mt-2 min-h-0 whitespace-pre-line break-words text-sm leading-6 text-[#526368] sm:mt-3 sm:overflow-y-auto">
             {technique.shortDescription}
           </p>
-          <div className="mt-auto shrink-0 pt-5">
+          <div className="mt-auto shrink-0 pt-3 sm:pt-5">
             <button
               ref={frontButtonRef}
               type="button"
@@ -163,7 +165,7 @@ function TechniqueCard({
           id={detailsId}
           inert={!flipped}
           aria-hidden={!flipped}
-          className="absolute inset-0 flex flex-col rounded-[26px] border border-[#0F3D4A] bg-[#0F3D4A] p-6 text-white [backface-visibility:hidden] [transform:rotateY(180deg)] sm:p-7"
+          className={`${flipped ? 'relative h-[clamp(420px,70svh,520px)]' : 'absolute inset-0'} flex min-w-0 flex-col rounded-[22px] border border-[#0F3D4A] bg-[#0F3D4A] p-5 text-white [backface-visibility:hidden] [transform:rotateY(180deg)] sm:absolute sm:inset-0 sm:h-full sm:rounded-[26px] sm:p-7`}
         >
           <div className="flex shrink-0 items-center justify-between gap-3 border-b border-white/20 pb-3">
             <h2 id={titleId} className="min-w-0 break-words font-serif text-[22px] leading-tight">{technique.name}</h2>
@@ -239,7 +241,7 @@ export function NaturalTechniques({
         overflow-hidden
         bg-white
 
-        py-14
+        py-8
 
         sm:py-16
 
@@ -358,9 +360,9 @@ export function NaturalTechniques({
           <h1
   id="natural-techniques-title"
   className="
-    mt-6
+    mt-4 sm:mt-6
     font-serif
-    text-[36px]
+    text-[32px]
     font-medium
     leading-[1.1]
     tracking-[-0.03em]
@@ -369,7 +371,8 @@ export function NaturalTechniques({
     sm:text-[48px]
   "
 >
-  Técnicas disponibles en la consulta de{' '}
+  <span className="sm:hidden">Consulta de </span>
+  <span className="hidden sm:inline">Técnicas disponibles en la consulta de </span>
   <span className="font-normal italic">
     Medicina Natural.
   </span>
@@ -378,16 +381,17 @@ export function NaturalTechniques({
 <p
   className="
     mx-auto
-    mt-6
+    mt-4 sm:mt-6
     max-w-[680px]
     text-base
     leading-7
     text-[#526368]
   "
 >
-  Conoce las distintas técnicas disponibles dentro de la consulta de
+  <span className="sm:hidden">Explora las técnicas disponibles. Abre cada tarjeta para conocer sus detalles antes de solicitar una cita.</span>
+  <span className="hidden sm:inline">Conoce las distintas técnicas disponibles dentro de la consulta de
   Medicina Natural y consulta la información general de cada una antes
-  de solicitar una cita.
+  de solicitar una cita.</span>
 </p>
 
          
@@ -399,11 +403,11 @@ export function NaturalTechniques({
 
         <div
           className="
-            mt-10
+            mt-7 sm:mt-10
             grid
             items-start
             grid-cols-1
-            gap-5
+            gap-4
 
             sm:grid-cols-2
             sm:gap-6
@@ -445,200 +449,111 @@ export function NaturalTechniques({
           ))}
         </div>
 
-        {/* =====================================================
-            CTA GENERAL
-        ====================================================== */}
+    {/* CTA GENERAL */}
+<motion.div
+  initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, amount: 0.3 }}
+  transition={{
+    duration: reduceMotion ? 0 : 0.6,
+    ease: smoothEase,
+  }}
+  className="
+    relative mt-10 overflow-hidden rounded-[28px]
+    bg-[#0F3D4A] px-6 py-8
+    sm:mt-12 sm:px-10
+    lg:flex lg:items-center lg:justify-between lg:gap-8
+  "
+>
+  <div
+    aria-hidden="true"
+    className="
+      pointer-events-none absolute -right-20 -top-24
+      h-64 w-64 rounded-full border border-white/10
+    "
+  />
 
-        <motion.div
-          initial={
-            reduceMotion
-              ? false
-              : {
-                  opacity: 0,
-                  y: 16,
-                }
-          }
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.3,
-          }}
-          transition={{
-            duration: reduceMotion ? 0 : 0.6,
-            ease: smoothEase,
-          }}
-          className="
-            relative
-            mt-10
-            overflow-hidden
-            rounded-[28px]
-            bg-[#F7F5EF]
-            px-6
-            py-8
+  <div className="relative z-10 max-w-2xl">
+    <p
+      className="
+        text-[10px] font-semibold uppercase
+        tracking-[0.18em] text-[#E5CF80]
+      "
+    >
+      Consulta de Medicina Natural
+    </p>
 
-            sm:mt-12
-            sm:px-10
-            sm:py-8
+    <h2
+      className="
+        mt-3 font-serif text-[29px] font-medium
+        leading-tight text-[#FBFAF7] sm:text-[34px]
+      "
+    >
+      ¿Te gustaría recibir más información?
+    </h2>
 
-            lg:flex
-            lg:items-center
-            lg:justify-between
-            lg:gap-8
-          "
-        >
-          <div
+    <p
+      className="
+        mt-3 max-w-xl text-sm leading-6
+        text-[#DCE5E2] sm:text-[15px] sm:leading-7
+      "
+    >
+      Puedes comunicarte directamente por WhatsApp para resolver tus
+      dudas y consultar disponibilidad.
+    </p>
+
+    <div
+      className="
+        mt-4 flex flex-wrap items-center
+        gap-x-4 gap-y-2 text-sm text-[#DCE5E2]
+      "
+    >
+      <span>
+        Consulta:{' '}
+        <strong className="font-semibold text-[#FBFAF7]">
+          ${consultation.price} MXN
+        </strong>
+      </span>
+
+      {consultation.appointmentRequired && (
+        <>
+          <span
             aria-hidden="true"
-            className="
-              pointer-events-none
-              absolute
-              -right-20
-              -top-24
-              h-64
-              w-64
-              rounded-full
-              border
-              border-[#A7B89A]/15
-            "
+            className="h-1 w-1 rounded-full bg-[#E5CF80]"
           />
+          <span>Previa cita</span>
+        </>
+      )}
+    </div>
+  </div>
 
-          <div className="relative z-10 max-w-2xl">
-            <p
-              className="
-                text-[10px]
-                font-semibold
-                uppercase
-                tracking-[0.18em]
-                text-[#80651D]
-              "
-            >
-              Consulta de Medicina Natural
-            </p>
-
-            <h2
-              className="
-                mt-3
-                font-serif
-                text-[29px]
-                font-medium
-                leading-tight
-                text-[#0F3D4A]
-
-                sm:text-[34px]
-              "
-            >
-              ¿Te gustaría recibir más información?
-            </h2>
-
-            <p
-              className="
-                mt-3
-                max-w-xl
-                text-sm
-                leading-6
-                text-[#657175]
-
-                sm:text-[15px]
-                sm:leading-7
-              "
-            >
-              Puedes comunicarte directamente por WhatsApp para resolver tus
-              dudas y consultar disponibilidad.
-            </p>
-
-            <div
-              className="
-                mt-4
-                flex
-                flex-wrap
-                items-center
-                gap-x-4
-                gap-y-2
-                text-sm
-                text-[#52665A]
-              "
-            >
-              <span>
-                Consulta:{' '}
-                <strong className="font-semibold text-[#0F3D4A]">
-                  ${consultation.price} MXN
-                </strong>
-              </span>
-
-              {consultation.appointmentRequired && (
-                <>
-                  <span
-                    aria-hidden="true"
-                    className="
-                      h-1
-                      w-1
-                      rounded-full
-                      bg-[#D4AF37]
-                    "
-                  />
-
-                  <span>Previa cita</span>
-                </>
-              )}
-            </div>
-          </div>
-
-          <div
-            className="
-              relative
-              z-10
-              mt-7
-              shrink-0
-
-              lg:mt-0
-            "
-          >
-            <a
-              href={generalWhatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="
-                inline-flex
-                min-h-14
-                w-full
-                items-center
-                justify-center
-                gap-2.5
-                rounded-xl
-                bg-[#0F3D4A]
-                px-6
-                py-3.5
-                text-sm
-                font-semibold
-                text-white
-                shadow-[0_8px_20px_rgba(15,61,74,0.10)]
-
-                transition-all
-                duration-200
-
-                hover:-translate-y-0.5 motion-reduce:transform-none
-                hover:bg-[#174F5D]
-
-                focus-visible:outline-none
-                focus-visible:ring-2
-                focus-visible:ring-[#0F3D4A]
-                focus-visible:ring-offset-4
-
-                sm:w-auto
-              "
-            >
-              <MessageCircle
-                aria-hidden="true"
-                className="h-5 w-5"
-                strokeWidth={1.7}
-              />
-
-              Solicitar información
-            </a>
-          </div>
-        </motion.div>
+  <div className="relative z-10 mt-7 shrink-0 lg:mt-0">
+    <a
+      href={generalWhatsappUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="
+        inline-flex min-h-14 w-full items-center justify-center
+        gap-2.5 rounded-xl bg-[#FBFAF7] px-6 py-3.5
+        text-sm font-semibold text-[#0F3D4A]
+        transition-colors duration-200
+        hover:bg-[#E9EFE9]
+        focus-visible:outline-none focus-visible:ring-2
+        focus-visible:ring-[#E5CF80] focus-visible:ring-offset-4
+        focus-visible:ring-offset-[#0F3D4A]
+        motion-reduce:transition-none
+        sm:w-auto
+      "
+    >
+      <MessageCircle
+        aria-hidden="true"
+        className="h-5 w-5"
+        strokeWidth={1.7}
+      />
+      Solicitar información
+    </a>
+  </div>
+</motion.div>
 
         {/* =====================================================
             ACLARACIÓN

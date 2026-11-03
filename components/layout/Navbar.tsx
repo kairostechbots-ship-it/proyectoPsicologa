@@ -112,7 +112,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
         "
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-[88px] items-center justify-between gap-6 xl:h-[96px]">
+          <div className="flex h-16 items-center justify-between gap-4 sm:h-[72px] lg:h-[88px] lg:gap-6 xl:h-[96px]">
             {/* Logo */}
 
             <Link
@@ -129,10 +129,11 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 priority
                 className="
                   h-auto
-                  w-[200px]
+                  w-[164px]
                   object-contain
                   object-left
-                  sm:w-[250px]
+                  sm:w-[200px]
+                  lg:w-[250px]
                   xl:w-[250px]
                 "
               />
@@ -308,7 +309,9 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
                 ease: [0.22, 1, 0.36, 1],
               }}
               className="
+                absolute inset-x-0 top-full
                 overflow-hidden
+                shadow-[0_12px_24px_rgba(15,61,74,0.08)]
                 border-t
                 border-[#A7B89A]/20
                 bg-[#FBFAF7]
@@ -317,7 +320,7 @@ const whatsappUrl = `https://wa.me/${contactMock.whatsapp}?text=${encodeURICompo
             >
               <div
                 className="
-                  max-h-[calc(100dvh-5.5rem)]
+                  max-h-[calc(100dvh-4rem)] sm:max-h-[calc(100dvh-4.5rem)] lg:max-h-[calc(100dvh-5.5rem)]
                   overflow-y-auto
                   overscroll-contain
                   px-4
