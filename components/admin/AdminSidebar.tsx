@@ -1,5 +1,10 @@
+
 'use client';
 
+import { useEffect, useRef, type ElementType } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   CalendarDays,
   ChevronLeft,
@@ -7,39 +12,29 @@ import {
   CircleHelp,
   ExternalLink,
   Gift,
-  LayoutDashboard,
+  House,
   Leaf,
   MapPin,
-  Stethoscope,
   ShieldCheck,
+  Stethoscope,
   UserRound,
   Users,
   X,
 } from 'lucide-react';
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-
-/* =========================================================
-   TIPOS
-========================================================= */
-
 interface AdminSidebarProps {
   mobileOpen: boolean;
   onClose: () => void;
-
   collapsed: boolean;
   onToggleCollapse: () => void;
-
   role: string | null;
 }
 
 interface MenuItem {
   label: string;
   href: string;
-  icon: React.ElementType;
-  roles?: string[];
+  icon: ElementType;
+  roles: string[];
 }
 
 interface MenuSection {
@@ -47,18 +42,14 @@ interface MenuSection {
   items: MenuItem[];
 }
 
-/* =========================================================
-   MENÚ
-========================================================= */
-
 const menuSections: MenuSection[] = [
   {
-    title: 'General',
+    title: 'MI ESPACIO',
     items: [
       {
-        label: 'Dashboard',
+        label: 'Inicio',
         href: '/admin',
-        icon: LayoutDashboard,
+        icon: House,
         roles: ['admin', 'editor', 'receptionist'],
       },
       {
@@ -76,7 +67,7 @@ const menuSections: MenuSection[] = [
     ],
   },
   {
-    title: 'Contenido',
+    title: 'MI PÁGINA WEB',
     items: [
       {
         label: 'Psicoterapia',
@@ -85,15 +76,15 @@ const menuSections: MenuSection[] = [
         roles: ['admin', 'editor'],
       },
       {
-        label: 'Promoción',
-        href: '/admin/promocion',
-        icon: Gift,
+        label: 'Medicina natural',
+        href: '/admin/medicina-natural',
+        icon: Leaf,
         roles: ['admin', 'editor'],
       },
       {
-        label: 'Medicina Natural',
-        href: '/admin/medicina-natural',
-        icon: Leaf,
+        label: 'Sobre mí',
+        href: '/admin/perfil',
+        icon: UserRound,
         roles: ['admin', 'editor'],
       },
       {
@@ -102,15 +93,10 @@ const menuSections: MenuSection[] = [
         icon: CircleHelp,
         roles: ['admin', 'editor'],
       },
-    ],
-  },
-  {
-    title: 'Información',
-    items: [
       {
-        label: 'Perfil profesional',
-        href: '/admin/perfil',
-        icon: UserRound,
+        label: 'Promoción',
+        href: '/admin/promocion',
+        icon: Gift,
         roles: ['admin', 'editor'],
       },
       {
@@ -122,21 +108,22 @@ const menuSections: MenuSection[] = [
     ],
   },
   {
-  title: 'Cuenta',
-  items: [
-    {
-      label: 'Cuenta y seguridad',
-      href: '/admin/cuenta',
-      icon: ShieldCheck,
-      roles: ['admin'],
-    },
-  ],
-},
+    title: 'CONFIGURACIÓN',
+    items: [
+      {
+        label: 'Cuenta y seguridad',
+        href: '/admin/cuenta',
+        icon: ShieldCheck,
+        roles: ['admin'],
+      },
+    ],
+  },
 ];
 
-/* =========================================================
-   COMPONENTE
-========================================================= */
+const focusClasses =
+  'focus-visible:outline-none focus-visible:ring-2 ' +
+  'focus-visible:ring-[#D8BD66] focus-visible:ring-offset-2 ' +
+  'focus-visible:ring-offset-[#0F3D4A]';
 
 export function AdminSidebar({
   mobileOpen,
@@ -147,37 +134,107 @@ export function AdminSidebar({
 }: AdminSidebarProps) {
   const pathname = usePathname();
 
-  /* =========================================================
-     ESTADO ACTIVO
-  ========================================================= */
+  const sidebarRef = useRef<HTMLElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  // Evitar que el menú móvil cerrado reciba foco.
+  useEffect(() => {
+    const media = window.matchMedia('(min-width: 1024px)');
+
+    const sync = () => {
+      if (sidebarRef.current) {
+        sidebarRef.current.inert =
+          !media.matches && !mobileOpen;
+      }
+    };
+
+    sync();
+    media.addEventListener('change', sync);
+
+    return () => {
+      media.removeEventListener('change', sync);
+    };
+  }, [mobileOpen]);
+
+  // Accesibilidad y control del menú móvil.
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const previous = document.activeElement as HTMLElement | null;
+    const oldOverflow = document.body.style.overflow;
+    const media = window.matchMedia('(min-width: 1024px)');
+
+    if (!media.matches) {
+      document.body.style.overflow = 'hidden';
+      closeRef.current?.focus();
+    }
+
+    const handleKey = (event: KeyboardEvent) => {
+      if (media.matches) return;
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onClose();
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+
+      const elements = Array.from(
+        sidebarRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled])'
+        ) ?? []
+      ).filter((element) => element.getClientRects().length > 0);
+
+      const first = elements[0];
+      const last = elements[elements.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (
+        !event.shiftKey &&
+        document.activeElement === last
+      ) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+
+    const handleResize = () => {
+      document.body.style.overflow = media.matches
+        ? oldOverflow
+        : 'hidden';
+    };
+
+    document.addEventListener('keydown', handleKey);
+    media.addEventListener('change', handleResize);
+
+    return () => {
+      document.body.style.overflow = oldOverflow;
+      document.removeEventListener('keydown', handleKey);
+      media.removeEventListener('change', handleResize);
+      previous?.focus();
+    };
+  }, [mobileOpen, onClose]);
 
   const isActive = (href: string) => {
     if (href === '/admin') {
       return pathname === '/admin';
     }
 
-    return pathname.startsWith(href);
+    return (
+      pathname === href ||
+      pathname.startsWith(`${href}/`)
+    );
   };
-
-  /* =========================================================
-     FILTRAR MENÚ POR ROL
-  ========================================================= */
 
   const visibleSections = menuSections
     .map((section) => ({
       ...section,
-
       items: section.items.filter((item) => {
-        /*
-         * Mientras el usuario todavía se está cargando,
-         * mostramos únicamente Dashboard.
-         */
         if (!role) {
           return item.href === '/admin';
-        }
-
-        if (!item.roles) {
-          return true;
         }
 
         return item.roles.includes(role);
@@ -187,55 +244,32 @@ export function AdminSidebar({
 
   return (
     <>
-      {/* =====================================================
-          OVERLAY MÓVIL
-      ====================================================== */}
-
+      {/* FONDO OSCURO EN MÓVIL */}
       {mobileOpen && (
         <button
           type="button"
           aria-label="Cerrar menú"
           onClick={onClose}
-          className="
-            fixed
-            inset-0
-            z-40
-            bg-[#071E24]/45
-            backdrop-blur-[2px]
-
-            lg:hidden
-          "
+          className="fixed inset-0 z-40 bg-[#071E24]/50 backdrop-blur-[2px] lg:hidden"
         />
       )}
 
-      {/* =====================================================
-          SIDEBAR
-      ====================================================== */}
-
+      {/* MENÚ LATERAL */}
       <aside
+        ref={sidebarRef}
+        id="admin-navigation"
+        aria-label="Menú de administración"
         className={`
-          fixed
-          inset-y-0
-          left-0
-          z-50
-          flex
-          w-[280px]
+          fixed inset-y-0 left-0 z-50
+          flex w-[280px] max-w-[calc(100vw-24px)]
           flex-col
-          bg-[#0F3D4A]
-          text-white
-          shadow-[10px_0_40px_rgba(15,61,74,0.08)]
-
-          transition-[width,transform]
-          duration-300
-          ease-in-out
-
-          ${
-            mobileOpen
-              ? 'translate-x-0'
-              : '-translate-x-full'
-          }
-
+          bg-[#0F3D4A] text-white
+          shadow-[10px_0_40px_rgba(15,61,74,0.12)]
+          transition-[width,transform] duration-300 ease-in-out
+          motion-reduce:transition-none
           lg:translate-x-0
+
+          ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
 
           ${
             collapsed
@@ -244,461 +278,223 @@ export function AdminSidebar({
           }
         `}
       >
-        {/* ===================================================
-            LOGO / PERFIL
-        ==================================================== */}
-
+        {/* LOGOTIPO */}
         <div
           className={`
-            relative
-            flex
-            min-h-[92px]
-            items-center
-            border-b
-            border-white/[0.07]
-
-            transition-all
-            duration-300
-
-            ${
-              collapsed
-                ? 'lg:justify-center lg:px-3'
-                : 'px-5'
-            }
+            relative flex min-h-[94px] shrink-0
+            items-center border-b border-white/10
+            px-5
+            ${collapsed ? 'lg:justify-center lg:px-3' : ''}
           `}
         >
-          {/* Logo + nombre */}
-
           <Link
             href="/admin"
             onClick={onClose}
+            title={collapsed ? 'Ir al inicio' : undefined}
             className={`
-              flex
-              min-w-0
-              items-center
-
-              ${
-                collapsed
-                  ? 'lg:justify-center'
-                  : 'gap-3'
-              }
+              flex min-w-0 items-center gap-3 rounded-xl
+              ${focusClasses}
             `}
           >
-            {/* Logo */}
-
             <div
               className="
-                flex
-                h-11
-                w-11
-                shrink-0
-                items-center
-                justify-center
-                overflow-hidden
-                rounded-full
-                border
-                border-white/10
-                bg-white
+                flex h-12 w-12 shrink-0
+                items-center justify-center
+                overflow-hidden rounded-2xl
+                bg-[#FBFAF7] p-1
               "
             >
               <Image
                 src="/03-isotipo.png"
                 alt="Erika Pilar"
-                width={44}
-                height={44}
-                className="
-                  h-full
-                  w-full
-                  object-contain
-                  p-1
-                "
+                width={48}
+                height={48}
+                className="h-full w-full object-contain"
                 priority
               />
             </div>
 
-            {/* Nombre */}
-
             <div
               className={`
                 min-w-0
-                transition-all
-                duration-200
-
-                ${
-                  collapsed
-                    ? `
-                        lg:pointer-events-none
-                        lg:absolute
-                        lg:opacity-0
-                      `
-                    : 'opacity-100'
-                }
+                ${collapsed ? 'lg:hidden' : ''}
               `}
             >
-              <p
-                className="
-                  truncate
-                  font-serif
-                  text-[18px]
-                  leading-tight
-                  text-white
-                "
-              >
+              <p className="truncate font-serif text-[21px] leading-tight text-white">
                 Erika Pilar
               </p>
 
-              <p
-                className="
-                  mt-1
-                  text-[9px]
-                  font-medium
-                  uppercase
-                  tracking-[0.14em]
-                  text-white/45
-                "
-              >
-                Administradora
+              <p className="mt-1 text-[11px] font-medium tracking-wide text-[#C5D4D2]">
+                Mi espacio de trabajo
               </p>
             </div>
           </Link>
 
-          {/* =================================================
-              FLECHA CONTRAER / EXPANDIR
-          ================================================== */}
-
+          {/* CONTRAER MENÚ */}
           <button
             type="button"
             onClick={onToggleCollapse}
             aria-label={
-              collapsed
-                ? 'Expandir menú'
-                : 'Contraer menú'
+              collapsed ? 'Expandir menú' : 'Contraer menú'
             }
             title={
-              collapsed
-                ? 'Expandir menú'
-                : 'Contraer menú'
+              collapsed ? 'Expandir menú' : 'Contraer menú'
             }
             className={`
-              absolute
-              top-1/2
-              hidden
-              h-8
-              w-8
-              -translate-y-1/2
-              items-center
-              justify-center
-              rounded-full
-              border
-              border-white/[0.09]
-              bg-[#0F3D4A]
-              text-white/50
-              shadow-[0_4px_14px_rgba(0,0,0,0.10)]
-
-              transition-all
-              duration-200
-
-              hover:border-white/[0.16]
-              hover:bg-[#174F5D]
-              hover:text-[#D8BD66]
-
+              absolute top-1/2 hidden h-8 w-8
+              -translate-y-1/2 items-center justify-center
+              rounded-full border border-white/20
+              bg-[#174F5D] text-white
+              transition-colors hover:bg-[#286476]
               lg:flex
-
-              ${
-                collapsed
-                  ? '-right-4'
-                  : 'right-3'
-              }
+              ${focusClasses}
+              ${collapsed ? '-right-4' : 'right-2'}
             `}
           >
             {collapsed ? (
-              <ChevronRight
-                className="h-4 w-4"
-                strokeWidth={1.5}
-              />
+              <ChevronRight className="h-4 w-4" />
             ) : (
-              <ChevronLeft
-                className="h-4 w-4"
-                strokeWidth={1.5}
-              />
+              <ChevronLeft className="h-4 w-4" />
             )}
           </button>
 
-          {/* =================================================
-              CERRAR MÓVIL
-          ================================================== */}
-
+          {/* CERRAR EN MÓVIL */}
           <button
+            ref={closeRef}
             type="button"
             onClick={onClose}
             aria-label="Cerrar menú"
-            className="
-              absolute
-              right-4
-              top-1/2
-              flex
-              h-9
-              w-9
-              -translate-y-1/2
-              items-center
-              justify-center
-              rounded-full
-              text-white/55
-
-              transition-colors
-
-              hover:bg-white/[0.07]
-              hover:text-white
-
+            className={`
+              absolute right-4 top-1/2 flex h-10 w-10
+              -translate-y-1/2 items-center justify-center
+              rounded-xl text-white
+              hover:bg-white/10
               lg:hidden
-            "
+              ${focusClasses}
+            `}
           >
-            <X
-              className="h-[18px] w-[18px]"
-              strokeWidth={1.5}
-            />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* ===================================================
-            NAVEGACIÓN
-        ==================================================== */}
-
+        {/* NAVEGACIÓN */}
         <nav
+          aria-label="Secciones del administrador"
           className={`
-            flex-1
-            overflow-x-hidden
-            overflow-y-auto
-            py-5
-
-            transition-all
-            duration-300
-
-            ${
-              collapsed
-                ? 'lg:px-3'
-                : 'px-4'
-            }
+            min-h-0 flex-1 overflow-x-hidden
+            overflow-y-auto py-6
+            ${collapsed ? 'px-3' : 'px-3'}
           `}
         >
-          <div className="space-y-6">
+          <div className="space-y-7">
             {visibleSections.map((section) => (
               <div key={section.title}>
-                {/* Título de sección */}
-
-                <div
+                {/* TÍTULO DEL GRUPO */}
+                <p
                   className={`
-                    mb-2
-                    h-[17px]
-                    overflow-hidden
-
-                    transition-all
-                    duration-200
-
-                    ${
-                      collapsed
-                        ? `
-                            lg:mb-1
-                            lg:h-0
-                            lg:opacity-0
-                          `
-                        : 'opacity-100'
-                    }
+                    mb-3 px-3 text-[11px] font-bold
+                    uppercase tracking-[0.15em]
+                    text-[#C5D4D2]
+                    ${collapsed ? 'lg:hidden' : ''}
                   `}
                 >
-                  <p
-                    className="
-                      px-3
-                      text-[8px]
-                      font-semibold
-                      uppercase
-                      tracking-[0.2em]
-                      text-white/30
-                    "
-                  >
-                    {section.title}
-                  </p>
-                </div>
+                  {section.title}
+                </p>
 
-                {/* Opciones */}
-
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   {section.items.map((item) => {
-                    const active = isActive(
-                      item.href,
-                    );
-
+                    const active = isActive(item.href);
                     const Icon = item.icon;
 
                     return (
-                      <div
+                      <Link
                         key={item.href}
-                        className="relative"
-                      >
-                        <Link
-                          href={item.href}
-                          onClick={onClose}
-                          aria-label={
+                        href={item.href}
+                        onClick={onClose}
+                        title={
+                          collapsed ? item.label : undefined
+                        }
+                        aria-label={
+                          collapsed ? item.label : undefined
+                        }
+                        aria-current={
+                          active ? 'page' : undefined
+                        }
+                        className={`
+                          group relative flex min-h-[48px]
+                          items-center gap-3 rounded-xl
+                          px-3 py-2.5
+                          text-[14px] font-medium
+                          transition-colors duration-200
+                          ${focusClasses}
+
+                          ${
                             collapsed
-                              ? item.label
-                              : undefined
+                              ? 'lg:justify-center lg:px-0'
+                              : ''
                           }
+
+                          ${
+                            active
+                              ? `
+                                bg-[#E9EEE7]
+                                !text-[#0F3D4A]
+                                shadow-sm
+                              `
+                              : `
+                                bg-transparent
+                                !text-[#E4EDEB]
+                                hover:bg-[#FBFAF7]
+                                hover:!text-[#0F3D4A]
+                                focus-visible:bg-[#FBFAF7]
+                                focus-visible:!text-[#0F3D4A]
+                              `
+                          }
+                        `}
+                      >
+                        {/* ICONO */}
+                        <Icon
+                          aria-hidden="true"
+                          strokeWidth={1.8}
                           className={`
-                            group
-                            relative
-                            flex
-                            min-h-[44px]
-                            items-center
-                            rounded-xl
-
-                            transition-all
-                            duration-200
-
-                            ${
-                              collapsed
-                                ? `
-                                    lg:justify-center
-                                    lg:px-0
-                                  `
-                                : 'gap-3 px-3'
-                            }
+                            h-[19px] w-[19px] shrink-0
+                            transition-colors duration-200
 
                             ${
                               active
-                                ? `
-                                    bg-white/[0.09]
-                                    text-white
-                                  `
+                                ? 'text-[#B08B28]'
                                 : `
-                                    text-white/58
-                                    hover:bg-white/[0.05]
-                                    hover:text-white
-                                  `
+                                  text-[#C5D4D2]
+                                  group-hover:text-[#0F3D4A]
+                                  group-focus-visible:text-[#0F3D4A]
+                                `
                             }
                           `}
+                        />
+
+                        {/* TEXTO */}
+                        <span
+                          className={`
+                            min-w-0 flex-1
+                            whitespace-nowrap
+                            ${collapsed ? 'lg:hidden' : ''}
+                          `}
                         >
-                          {/* Indicador activo */}
+                          {item.label}
+                        </span>
 
-                          {active && (
-                            <span
-                              className={`
-                                absolute
-                                top-1/2
-                                h-5
-                                w-[2px]
-                                -translate-y-1/2
-                                rounded-full
-                                bg-[#D8BD66]
-
-                                ${
-                                  collapsed
-                                    ? 'lg:-left-3'
-                                    : '-left-4'
-                                }
-                              `}
-                            />
-                          )}
-
-                          {/* Icono */}
-
-                          <Icon
-                            className={`
-                              h-[17px]
-                              w-[17px]
-                              shrink-0
-
-                              ${
-                                active
-                                  ? 'text-[#D8BD66]'
-                                  : `
-                                      text-white/48
-                                      group-hover:text-white/80
-                                    `
-                              }
-                            `}
-                            strokeWidth={1.5}
-                          />
-
-                          {/* Nombre */}
-
+                        {/* INDICADOR ACTIVO */}
+                        {active && (
                           <span
+                            aria-hidden="true"
                             className={`
-                              whitespace-nowrap
-                              text-[11px]
-                              font-medium
-
-                              transition-all
-                              duration-200
-
-                              ${
-                                collapsed
-                                  ? `
-                                      lg:pointer-events-none
-                                      lg:absolute
-                                      lg:opacity-0
-                                    `
-                                  : 'opacity-100'
-                              }
+                              h-1.5 w-1.5 shrink-0
+                              rounded-full bg-[#B08B28]
+                              ${collapsed ? 'lg:hidden' : ''}
                             `}
-                          >
-                            {item.label}
-                          </span>
-
-                          {/* =====================================
-                              TOOLTIP CUANDO ESTÁ COLAPSADO
-                          ====================================== */}
-
-                          {collapsed && (
-                            <span
-                              className="
-                                pointer-events-none
-                                absolute
-                                left-[58px]
-                                top-1/2
-                                z-[100]
-                                hidden
-                                -translate-y-1/2
-                                whitespace-nowrap
-                                rounded-lg
-                                border
-                                border-[#A7B89A]/15
-                                bg-white
-                                px-3
-                                py-2
-                                text-[10px]
-                                font-semibold
-                                text-[#435D61]
-                                opacity-0
-                                shadow-[0_10px_30px_rgba(15,61,74,0.14)]
-
-                                transition-opacity
-
-                                group-hover:opacity-100
-
-                                lg:block
-                              "
-                            >
-                              {item.label}
-
-                              <span
-                                className="
-                                  absolute
-                                  -left-1
-                                  top-1/2
-                                  h-2
-                                  w-2
-                                  -translate-y-1/2
-                                  rotate-45
-                                  border-b
-                                  border-l
-                                  border-[#A7B89A]/15
-                                  bg-white
-                                "
-                              />
-                            </span>
-                          )}
-                        </Link>
-                      </div>
+                          />
+                        )}
+                      </Link>
                     );
                   })}
                 </div>
@@ -707,128 +503,74 @@ export function AdminSidebar({
           </div>
         </nav>
 
-        {/* ===================================================
-            PARTE INFERIOR
-        ==================================================== */}
-
-        <div
-          className={`
-            border-t
-            border-white/[0.07]
-            p-4
-
-            ${
-              collapsed
-                ? 'lg:px-3'
-                : ''
-            }
-          `}
-        >
-          {/* Ver sitio web */}
-
+        {/* PARTE INFERIOR */}
+        <div className="shrink-0 space-y-3 border-t border-white/10 p-3">
           <Link
             href="/"
             target="_blank"
+            rel="noopener noreferrer"
+            title={
+              collapsed ? 'Ver mi página web' : undefined
+            }
             aria-label={
-              collapsed
-                ? 'Ver sitio web'
-                : undefined
+              collapsed ? 'Ver mi página web' : undefined
             }
             className={`
-              group
-              relative
-              flex
-              min-h-[42px]
-              items-center
-              rounded-xl
-              border
-              border-white/[0.07]
-              bg-white/[0.03]
-              text-white/55
-
-              transition-colors
-
-              hover:bg-white/[0.07]
-              hover:text-white
-
-              ${
-                collapsed
-                  ? `
-                      lg:justify-center
-                      lg:px-0
-                    `
-                  : 'gap-3 px-3'
-              }
+              group flex min-h-[48px] items-center
+              gap-3 rounded-xl border border-white/15
+              bg-white/10 px-3 py-2.5
+              text-sm font-semibold
+              !text-white
+              transition-colors duration-200
+              hover:bg-[#FBFAF7]
+              hover:!text-[#0F3D4A]
+              focus-visible:bg-[#FBFAF7]
+              focus-visible:!text-[#0F3D4A]
+              ${collapsed ? 'lg:justify-center lg:px-0' : ''}
+              ${focusClasses}
             `}
           >
             <ExternalLink
+              aria-hidden="true"
               className="
-                h-4
-                w-4
-                shrink-0
+                h-5 w-5 shrink-0 text-white
+                group-hover:text-[#0F3D4A]
+                group-focus-visible:text-[#0F3D4A]
               "
-              strokeWidth={1.5}
             />
 
             <span
               className={`
                 whitespace-nowrap
-                text-[10px]
-                font-medium
-
-                transition-all
-                duration-200
-
-                ${
-                  collapsed
-                    ? `
-                        lg:pointer-events-none
-                        lg:absolute
-                        lg:opacity-0
-                      `
-                    : 'opacity-100'
-                }
+                ${collapsed ? 'lg:hidden' : ''}
               `}
             >
-              Ver sitio web
+              Ver mi página web
             </span>
-
-            {/* Tooltip */}
-
-            {collapsed && (
-              <span
-                className="
-                  pointer-events-none
-                  absolute
-                  left-[58px]
-                  top-1/2
-                  z-[100]
-                  hidden
-                  -translate-y-1/2
-                  whitespace-nowrap
-                  rounded-lg
-                  border
-                  border-[#A7B89A]/15
-                  bg-white
-                  px-3
-                  py-2
-                  text-[10px]
-                  font-semibold
-                  text-[#435D61]
-                  opacity-0
-                  shadow-[0_10px_30px_rgba(15,61,74,0.14)]
-
-                  transition-opacity
-
-                  group-hover:opacity-100
-
-                  lg:block
-                "
-              >
-                Ver sitio web
-              </span>
-            )}
           </Link>
+
+          <button
+            type="button"
+            onClick={onToggleCollapse}
+            className={`
+              hidden min-h-[40px] w-full items-center
+              gap-3 rounded-xl px-3
+              text-sm text-[#C5D4D2]
+              transition-colors
+              hover:bg-white/10 hover:text-white
+              lg:flex
+              ${collapsed ? 'lg:justify-center lg:px-0' : ''}
+              ${focusClasses}
+            `}
+          >
+            {collapsed ? (
+              <ChevronRight className="h-4 w-4 shrink-0" />
+            ) : (
+              <ChevronLeft className="h-4 w-4 shrink-0" />
+            )}
+
+            {!collapsed && <span>Ocultar menú</span>}
+          </button>
         </div>
       </aside>
     </>
