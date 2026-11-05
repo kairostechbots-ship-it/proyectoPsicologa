@@ -1,9 +1,6 @@
 'use client';
 
-import type {
-  FormEvent,
-  ReactNode,
-} from 'react';
+import { useState, type FormEvent, type ReactNode } from 'react';
 
 import {
   AlertTriangle,
@@ -47,7 +44,7 @@ const inputClass = `
   border border-[#DCE5DF]
   bg-white
   px-4 py-3
-  text-[13px]
+  text-[15px]
   text-[#264A50]
   outline-none
   transition
@@ -59,8 +56,8 @@ const inputClass = `
 
 const labelClass = `
   mb-2 block
-  text-[10px]
-  font-semibold uppercase
+  text-[12px]
+  font-semibold
   tracking-[0.14em]
   text-[#6E7A73]
 `;
@@ -71,10 +68,12 @@ const labelClass = `
 
 export function PatientDialog({
   busy,
+  error,
   onClose,
   onSubmit,
 }: {
   busy: boolean;
+  error?: string;
 
   onClose: () => void;
 
@@ -140,7 +139,7 @@ export function PatientDialog({
               htmlFor="patient-email"
               className={labelClass}
             >
-              Correo electrónico
+              Correo electrónico (opcional)
             </label>
 
             <input
@@ -151,6 +150,8 @@ export function PatientDialog({
               placeholder="Opcional"
             />
           </div>
+
+          {error && <DialogError>{error}</DialogError>}
 
           <DialogActions
             busy={busy}
@@ -368,26 +369,7 @@ export function AppointmentDialog({
             </select>
           </div>
 
-          {/* FECHA */}
-
-          <div>
-            <label
-              htmlFor="appointment-date"
-              className={labelClass}
-            >
-              Fecha y hora
-            </label>
-
-            <input
-              id="appointment-date"
-              name="startsAt"
-              type="datetime-local"
-              className={
-                inputClass
-              }
-              required
-            />
-          </div>
+          <DateTimeFields id="appointment" />
 
           {/* MODALIDAD */}
 
@@ -525,45 +507,13 @@ export function RescheduleAppointmentDialog({
             </select>
           </div>
 
-          {/* FECHA */}
-
-          <div>
-            <label
-              htmlFor="reschedule-date"
-              className={labelClass}
-            >
-              Nueva fecha y hora
-            </label>
-
-            <input
-              id="reschedule-date"
-              name="startsAt"
-              type="datetime-local"
-              className={
-                inputClass
-              }
-              defaultValue={toLocalDateTimeInput(
-                appointment.startsAt,
-              )}
-              required
-            />
-
-            <p
-              className="
-                mt-2
-                text-[10px]
-                leading-5
-                text-[#8A9995]
-              "
-            >
-              La duración se
-              ajustará
-              automáticamente de
-              acuerdo con el
-              servicio
-              seleccionado.
-            </p>
-          </div>
+          <DateTimeFields
+            id="reschedule"
+            initialValue={toLocalDateTimeInput(appointment.startsAt)}
+          />
+          <p className="text-xs leading-5 text-[#71817E]">
+            La duración se ajusta según el servicio seleccionado.
+          </p>
 
           {/* MODALIDAD */}
 
@@ -650,13 +600,8 @@ export function RescheduleAppointmentDialog({
                     text-[#7B8A87]
                   "
                 >
-                  Al guardar, la
-                  nueva fecha
-                  también se
-                  actualizará en
-                  la agenda
-                  vinculada con
-                  Google Calendar.
+                  Al guardar, se actualizarán los datos
+                  de esta cita en el sistema.
                 </p>
               </div>
             </div>
@@ -678,6 +623,50 @@ export function RescheduleAppointmentDialog({
         </fieldset>
       </form>
     </Dialog>
+  );
+}
+
+/* Campos separados para elegir fecha y hora con claridad.
+   El campo oculto conserva el nombre startsAt que usa PatientsView. */
+function DateTimeFields({
+  id,
+  initialValue = '',
+}: {
+  id: string;
+  initialValue?: string;
+}) {
+  const [date, setDate] = useState(initialValue.slice(0, 10));
+  const [time, setTime] = useState(initialValue.slice(11, 16));
+
+  return (
+    <div>
+      <p className={labelClass}>Fecha y hora de la cita</p>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div>
+          <label htmlFor={`${id}-date`} className="mb-1.5 block text-sm text-[#435D61]">Fecha</label>
+          <input
+            id={`${id}-date`}
+            type="date"
+            required
+            value={date}
+            onChange={(event) => setDate(event.target.value)}
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label htmlFor={`${id}-time`} className="mb-1.5 block text-sm text-[#435D61]">Hora</label>
+          <input
+            id={`${id}-time`}
+            type="time"
+            required
+            value={time}
+            onChange={(event) => setTime(event.target.value)}
+            className={inputClass}
+          />
+        </div>
+      </div>
+      <input type="hidden" name="startsAt" value={date && time ? `${date}T${time}` : ''} />
+    </div>
   );
 }
 
@@ -712,6 +701,9 @@ function Dialog({
       "
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
         className="
           max-h-[calc(100vh-2rem)]
           w-full max-w-lg
@@ -882,12 +874,12 @@ function DialogActions({
         onClick={onClose}
         disabled={busy}
         className="
-          h-10
+          min-h-11
           rounded-xl
           border
           border-[#DCE5DF]
           px-4
-          text-[11px]
+          text-sm
           font-semibold
           text-[#60716D]
           transition
@@ -903,11 +895,11 @@ function DialogActions({
         type="submit"
         disabled={busy}
         className="
-          h-10
+          min-h-11
           rounded-xl
           bg-[#0F3D4A]
           px-5
-          text-[11px]
+          text-sm
           font-semibold
           text-white
           transition
