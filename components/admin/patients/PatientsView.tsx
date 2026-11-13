@@ -9,7 +9,6 @@ import {
   type ReactNode,
 } from 'react';
 
-import Link from 'next/link';
 
 import {
   CalendarDays,
@@ -384,6 +383,7 @@ export function PatientsView() {
       },
       {
         refreshPatients: true,
+        errorTarget: 'dialog',
       },
     );
   }
@@ -822,610 +822,100 @@ export function PatientsView() {
   }
 
   /* =========================================================
-     LISTADO GENERAL
+     LISTADO GENERAL · NUEVA EXPERIENCIA
   ========================================================= */
 
+  function openPatient(patientId: string) {
+    setError('');
+    setDialogError('');
+    setAppointments([]);
+    setSelectedPatientId(patientId);
+  }
+
+  function openNewAppointment() {
+    setDialogError('');
+    setAppointmentPatientId('');
+    setAppointmentDialogOpen(true);
+  }
+
   return (
-    <section className="space-y-7 pb-10">
-      <header
-        className="
-          flex flex-col gap-5
-          md:flex-row
-          md:items-end
-          md:justify-between
-        "
-      >
+    <section className="mx-auto max-w-[1240px] space-y-6 pb-12">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p
-            className="
-              text-[10px]
-              font-semibold uppercase
-              tracking-[0.18em]
-              text-[#A7B89A]
-            "
-          >
-            Consultorio
-          </p>
-
-         
-
-          <p
-            className="
-              mt-3 max-w-2xl
-              text-[13px]
-              leading-6
-              text-[#6E7A73]
-            "
-          >
-            Consulta tus pacientes y
-            registra sus próximas citas
-            desde un mismo lugar.
-          </p>
+          <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#916E25]">Consultorio</p>
+          <h2 className="mt-1 font-serif text-[27px] text-[#0F3D4A] sm:text-[32px]">Mis pacientes</h2>
+          <p className="mt-1 text-sm text-[#526368]">Busca un paciente o registra una nueva cita.</p>
         </div>
-
         <div className="flex flex-wrap gap-2">
-          <Link
-            href="/admin/agenda"
-            className="
-              inline-flex h-11
-              items-center
-              justify-center gap-2
-              rounded-xl
-              border
-              border-[#DCE5DF]
-              bg-white px-4
-              text-[11px]
-              font-semibold
-              text-[#526A6E]
-              transition
-              hover:border-[#A7B89A]
-              hover:bg-[#F9FBF8]
-            "
-          >
-            <CalendarDays
-              className="h-4 w-4"
-              strokeWidth={1.5}
-            />
-
-            Ver agenda
-          </Link>
-
-          <button
-            type="button"
-            onClick={() => {
-              setDialogError('');
-
-              setAppointmentPatientId(
-                '',
-              );
-
-              setAppointmentDialogOpen(
-                true,
-              );
-            }}
-            className="
-              inline-flex h-11
-              items-center
-              justify-center gap-2
-              rounded-xl
-              border
-              border-[#A7B89A]
-              bg-[#F6F9F4]
-              px-4
-              text-[11px]
-              font-semibold
-              text-[#526A55]
-              transition
-              hover:bg-[#EEF4EA]
-            "
-          >
-            <CalendarDays
-              className="h-4 w-4"
-              strokeWidth={1.6}
-            />
-
-            Nueva cita
+          <button type="button" onClick={openNewAppointment} className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#C8D5CB] bg-white px-4 text-sm font-semibold text-[#0F3D4A] hover:bg-[#EDF2ED] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0F3D4A]">
+            <CalendarDays className="h-4 w-4" aria-hidden="true" /> Nueva cita
           </button>
-
-          <button
-            type="button"
-            onClick={() =>
-              setPatientDialogOpen(
-                true,
-              )
-            }
-            className="
-              inline-flex h-11
-              items-center
-              justify-center gap-2
-              rounded-xl
-              bg-[#0F3D4A]
-              px-5
-              text-[11px]
-              font-semibold
-              text-white
-              transition
-              hover:bg-[#174F5D]
-            "
-          >
-            <Plus className="h-4 w-4" />
-
-            Nuevo paciente
+          <button type="button" onClick={() => { setDialogError(''); setPatientDialogOpen(true); }} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#0F3D4A] px-5 text-sm font-semibold text-white hover:bg-[#174F5D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D8BD66]">
+            <Plus className="h-4 w-4" aria-hidden="true" /> Nuevo paciente
           </button>
         </div>
       </header>
 
-      {error && (
-        <ErrorMessage>
-          {error}
-        </ErrorMessage>
-      )}
+      {error && <ErrorMessage>{error}</ErrorMessage>}
 
-      <div
-        className="
-          grid gap-4
-          sm:grid-cols-2
-        "
-      >
-        <SummaryCard
-          icon={
-            <Users
-              className="h-5 w-5"
-              strokeWidth={1.5}
-            />
-          }
-          value={patients.length}
-          label="Pacientes en esta página"
-        />
-
-        <SummaryCard
-          icon={
-            <UserRound
-              className="h-5 w-5"
-              strokeWidth={1.5}
-            />
-          }
-          value={activePatients}
-          label="Pacientes activos"
-          gold
-        />
-      </div>
-
-      <div
-        className="
-          overflow-hidden
-          rounded-2xl
-          border border-[#E4E9E5]
-          bg-white
-          shadow-[0_8px_30px_rgba(15,61,74,0.04)]
-        "
-      >
-        <div
-          className="
-            border-b
-            border-[#EDF0ED]
-            p-5
-          "
-        >
-          <div className="relative max-w-md">
-            <Search
-              className="
-                absolute left-4
-                top-1/2
-                h-4 w-4
-                -translate-y-1/2
-                text-[#91A19D]
-              "
-              strokeWidth={1.6}
-            />
-
-            <input
-              value={query}
-              onChange={(event) =>
-                setQuery(
-                  event.target.value,
-                )
-              }
-              placeholder="Buscar por nombre, teléfono o correo..."
-              className={`${inputClass} pl-11`}
-            />
+      <section aria-labelledby="patient-list-heading" className="overflow-hidden rounded-[24px] border border-[#DFE7DF] bg-white shadow-[0_10px_30px_rgba(15,61,74,0.035)]">
+        <div className="flex flex-col gap-4 border-b border-[#E8EDE8] p-5 sm:p-6 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h3 id="patient-list-heading" className="font-serif text-2xl text-[#0F3D4A]">Lista de pacientes</h3>
+            <p className="mt-1 text-sm text-[#647572]">
+              {loadingPatients ? 'Consultando pacientes…' : `${patients.length} ${patients.length === 1 ? 'paciente en esta página' : 'pacientes en esta página'} · ${activePatients} activos`}
+            </p>
+          </div>
+          <div className="w-full lg:max-w-[390px]">
+            <label htmlFor="buscar-paciente" className="mb-2 block text-sm font-medium text-[#435D61]">Buscar paciente</label>
+            <div className="relative">
+              <Search aria-hidden="true" className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#667D76]" />
+              <input id="buscar-paciente" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Nombre, teléfono o correo" className={`${inputClass} min-h-12 pl-12 text-sm`} />
+            </div>
           </div>
         </div>
 
-        {loadingPatients ? (
-          <PatientsLoading />
-        ) : (
-          <>
-            {/* DESKTOP */}
-
-            <div className="hidden md:block">
-              <div
-                className="
-                  grid
-                  grid-cols-[1.4fr_1fr_1fr_100px_24px]
-                  gap-4
-                  border-b
-                  border-[#EDF0ED]
-                  bg-[#FAFBF9]
-                  px-6 py-3
-                "
-              >
-                <TableTitle>
-                  Paciente
-                </TableTitle>
-
-                <TableTitle>
-                  Teléfono
-                </TableTitle>
-
-                <TableTitle>
-                  Correo
-                </TableTitle>
-
-                <TableTitle>
-                  Estado
-                </TableTitle>
-
-                <span />
-              </div>
-
-              {filteredPatients.length >
-              0 ? (
-                filteredPatients.map(
-                  (patient) => (
-                    <button
-                      key={patient.id}
-                      type="button"
-                      onClick={() => {
-                        setError('');
-
-                        setDialogError(
-                          '',
-                        );
-
-                        setAppointments(
-                          [],
-                        );
-
-                        setSelectedPatientId(
-                          patient.id,
-                        );
-                      }}
-                      className="
-                        grid w-full
-                        grid-cols-[1.4fr_1fr_1fr_100px_24px]
-                        items-center
-                        gap-4
-                        border-b
-                        border-[#F0F2F0]
-                        px-6 py-4
-                        text-left
-                        transition
-                        last:border-b-0
-                        hover:bg-[#FAFCF9]
-                      "
-                    >
-                      <div
-                        className="
-                          flex min-w-0
-                          items-center
-                          gap-3
-                        "
-                      >
-                        <div
-                          className="
-                            flex h-9 w-9
-                            shrink-0
-                            items-center
-                            justify-center
-                            rounded-full
-                            bg-[#EEF3EC]
-                            text-[#647A60]
-                          "
-                        >
-                          <UserRound
-                            className="h-4 w-4"
-                            strokeWidth={
-                              1.5
-                            }
-                          />
-                        </div>
-
-                        <p
-                          className="
-                            truncate
-                            text-[12px]
-                            font-semibold
-                            text-[#294F55]
-                          "
-                        >
-                          {patient.name}
-                        </p>
-                      </div>
-
-                      <p
-                        className="
-                          truncate
-                          text-[11px]
-                          text-[#657773]
-                        "
-                      >
-                        {patient.phone}
-                      </p>
-
-                      <p
-                        className="
-                          truncate
-                          text-[11px]
-                          text-[#657773]
-                        "
-                      >
-                        {patient.email ||
-                          '—'}
-                      </p>
-
-                      <PatientStatus
-                        patient={
-                          patient
-                        }
-                      />
-
-                      <ChevronRight
-                        className="
-                          h-4 w-4
-                          text-[#A4B0AD]
-                        "
-                      />
-                    </button>
-                  ),
-                )
-              ) : (
-                <EmptyPatients />
-              )}
-            </div>
-
-            {/* MÓVIL */}
-
-            <div
-              className="
-                divide-y
-                divide-[#EDF0ED]
-                md:hidden
-              "
-            >
-              {filteredPatients.length >
-              0 ? (
-                filteredPatients.map(
-                  (patient) => (
-                    <button
-                      key={patient.id}
-                      type="button"
-                      onClick={() => {
-                        setError('');
-
-                        setDialogError(
-                          '',
-                        );
-
-                        setAppointments(
-                          [],
-                        );
-
-                        setSelectedPatientId(
-                          patient.id,
-                        );
-                      }}
-                      className="
-                        flex w-full
-                        items-center
-                        gap-3 p-4
-                        text-left
-                      "
-                    >
-                      <div
-                        className="
-                          flex h-10 w-10
-                          shrink-0
-                          items-center
-                          justify-center
-                          rounded-full
-                          bg-[#EEF3EC]
-                          text-[#647A60]
-                        "
-                      >
-                        <UserRound
-                          className="h-4 w-4"
-                          strokeWidth={
-                            1.5
-                          }
-                        />
-                      </div>
-
-                      <div
-                        className="
-                          min-w-0
-                          flex-1
-                        "
-                      >
-                        <p
-                          className="
-                            truncate
-                            text-[12px]
-                            font-semibold
-                            text-[#294F55]
-                          "
-                        >
-                          {patient.name}
-                        </p>
-
-                        <p
-                          className="
-                            mt-1
-                            text-[10px]
-                            text-[#7B8A87]
-                          "
-                        >
-                          {patient.phone}
-                        </p>
-                      </div>
-
-                      <ChevronRight
-                        className="
-                          h-4 w-4
-                          text-[#A4B0AD]
-                        "
-                      />
-                    </button>
-                  ),
-                )
-              ) : (
-                <EmptyPatients />
-              )}
-            </div>
-          </>
+        {query.trim() && (
+          <p className="border-b border-[#E8EDE8] bg-[#F8F8F4] px-5 py-3 text-xs leading-5 text-[#536A65] sm:px-6">
+            Mostrando coincidencias de la página {page + 1}. Para buscar en otra página, usa los controles inferiores.
+          </p>
         )}
 
-        <div
-          className="
-            flex items-center
-            justify-between
-            border-t
-            border-[#EDF0ED]
-            px-5 py-4
-          "
-        >
-          <button
-            type="button"
-            disabled={
-              page === 0 ||
-              loadingPatients
-            }
-            onClick={() =>
-              setPage(
-                (current) =>
-                  current - 1,
-              )
-            }
-            className="
-              inline-flex
-              items-center gap-1
-              text-[10px]
-              font-semibold
-              text-[#526A6E]
-              disabled:cursor-not-allowed
-              disabled:opacity-30
-            "
-          >
-            <ChevronLeft className="h-4 w-4" />
+        {loadingPatients ? <PatientsLoading /> : filteredPatients.length ? (
+          <div className="divide-y divide-[#E8EDE8]">
+            {filteredPatients.map((patient) => (
+              <button type="button" key={patient.id} onClick={() => openPatient(patient.id)} className="group flex w-full items-center gap-3 px-4 py-4 text-left transition-colors hover:bg-[#F6F8F4] focus-visible:bg-[#F6F8F4] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#0F3D4A] sm:gap-4 sm:px-6">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#EEF3EC] text-[#52665A]"><UserRound className="h-5 w-5" aria-hidden="true" /></span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-[15px] font-semibold text-[#0F3D4A]">{patient.name}</span>
+                  <span className="mt-1 block text-sm text-[#637571]">{patient.phone}</span>
+                  {patient.email && <span className="mt-0.5 block truncate text-xs text-[#74837F]">{patient.email}</span>}
+                </span>
+                <span className="hidden shrink-0 sm:block"><PatientStatus patient={patient} /></span>
+                <span className="hidden text-sm font-semibold text-[#0F3D4A] lg:block">Ver ficha</span>
+                <ChevronRight className="h-5 w-5 shrink-0 text-[#607E78] transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </button>
+            ))}
+          </div>
+        ) : <EmptyPatients />}
 
-            Anterior
-          </button>
-
-          <span
-            className="
-              text-[10px]
-              text-[#879591]
-            "
-          >
-            Página {page + 1}
-          </span>
-
-          <button
-            type="button"
-            disabled={
-              patients.length <
-                PAGE_SIZE ||
-              loadingPatients
-            }
-            onClick={() =>
-              setPage(
-                (current) =>
-                  current + 1,
-              )
-            }
-            className="
-              inline-flex
-              items-center gap-1
-              text-[10px]
-              font-semibold
-              text-[#526A6E]
-              disabled:cursor-not-allowed
-              disabled:opacity-30
-            "
-          >
-            Siguiente
-
-            <ChevronRight className="h-4 w-4" />
-          </button>
+        {(page > 0 || patients.length === PAGE_SIZE) && (
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#E8EDE8] bg-[#FAFAF7] px-4 py-4 sm:px-6">
+          <button type="button" disabled={page === 0 || loadingPatients} onClick={() => setPage((current) => current - 1)} className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-[#D5E0D8] bg-white px-4 text-sm font-semibold text-[#0F3D4A] disabled:cursor-not-allowed disabled:opacity-40"><ChevronLeft className="h-4 w-4" />Anterior</button>
+          <span className="text-sm font-medium text-[#536A65]">Página {page + 1}</span>
+          <button type="button" disabled={patients.length < PAGE_SIZE || loadingPatients} onClick={() => setPage((current) => current + 1)} className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-[#D5E0D8] bg-white px-4 text-sm font-semibold text-[#0F3D4A] disabled:cursor-not-allowed disabled:opacity-40">Siguiente<ChevronRight className="h-4 w-4" /></button>
         </div>
-      </div>
+        )}
+      </section>
 
       {patientDialogOpen && (
-        <PatientDialog
-          busy={busy}
-          onClose={() =>
-            setPatientDialogOpen(
-              false,
-            )
-          }
-          onSubmit={
-            createPatient
-          }
-        />
+        <PatientDialog busy={busy} error={dialogError} onClose={() => { if (busy) return; setDialogError(''); setPatientDialogOpen(false); }} onSubmit={createPatient} />
       )}
 
       {appointmentDialogOpen && (
-        <AppointmentDialog
-          busy={busy}
-          error={dialogError}
-          patients={patients}
-          services={services}
-          patientId={
-            appointmentPatientId
-          }
-          onPatientChange={
-            setAppointmentPatientId
-          }
-          onClose={() => {
-            setDialogError('');
-
-            setAppointmentDialogOpen(
-              false,
-            );
-
-            setAppointmentPatientId(
-              '',
-            );
-          }}
-          onSubmit={
-            createAppointment
-          }
-        />
+        <AppointmentDialog busy={busy} error={dialogError} patients={patients} services={services} patientId={appointmentPatientId} onPatientChange={setAppointmentPatientId} onClose={() => { if (busy) return; setDialogError(''); setAppointmentDialogOpen(false); setAppointmentPatientId(''); }} onSubmit={createAppointment} />
       )}
     </section>
-  );
-}
-
-/* =========================================================
-   TABLE TITLE
-========================================================= */
-
-function TableTitle({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  return (
-    <p
-      className="
-        text-[9px]
-        font-semibold uppercase
-        tracking-[0.13em]
-        text-[#8A9995]
-      "
-    >
-      {children}
-    </p>
   );
 }
 
@@ -1457,71 +947,6 @@ function PatientStatus({
         ? 'Activo'
         : 'Inactivo'}
     </span>
-  );
-}
-
-/* =========================================================
-   RESUMEN
-========================================================= */
-
-function SummaryCard({
-  icon,
-  value,
-  label,
-  gold = false,
-}: {
-  icon: ReactNode;
-  value: number;
-  label: string;
-  gold?: boolean;
-}) {
-  return (
-    <div
-      className="
-        flex items-center
-        gap-4 rounded-2xl
-        border border-[#E4E9E5]
-        bg-white p-5
-      "
-    >
-      <div
-        className={`
-          flex h-11 w-11
-          items-center
-          justify-center
-          rounded-xl
-
-          ${
-            gold
-              ? 'bg-[#F7F0DE] text-[#9A7B35]'
-              : 'bg-[#EEF3EC] text-[#667B61]'
-          }
-        `}
-      >
-        {icon}
-      </div>
-
-      <div>
-        <p
-          className="
-            text-2xl
-            font-medium
-            text-[#0F3D4A]
-          "
-        >
-          {value}
-        </p>
-
-        <p
-          className="
-            text-[11px]
-            text-[#7C8D89]
-          "
-        >
-          {label}
-        </p>
-      </div>
-    </div>
   );
 }
 

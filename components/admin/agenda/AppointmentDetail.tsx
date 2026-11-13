@@ -154,7 +154,7 @@ export function AppointmentDetail({
               <div>
                 <p
                   className="
-                    text-[9px]
+                    text-[14px]
                     font-semibold
                     uppercase
                     tracking-[0.2em]
@@ -185,8 +185,8 @@ export function AppointmentDetail({
                 aria-label="Cerrar"
                 className="
                   flex
-                  h-9
-                  w-9
+                  h-11
+                  w-11
                   shrink-0
                   items-center
                   justify-center
@@ -223,8 +223,8 @@ export function AppointmentDetail({
                 <div
                   className="
                     flex
-                    h-9
-                    w-9
+                    h-11
+                    w-11
                     shrink-0
                     items-center
                     justify-center
@@ -243,7 +243,7 @@ export function AppointmentDetail({
                 <div>
                   <p
                     className="
-                      text-[9px]
+                      text-[14px]
                       font-semibold
                       uppercase
                       tracking-[0.14em]
@@ -256,7 +256,7 @@ export function AppointmentDetail({
                   <p
                     className="
                       mt-1
-                      text-[12px]
+                      text-[14px]
                       capitalize
                       leading-5
                       text-[#435D61]
@@ -274,8 +274,8 @@ export function AppointmentDetail({
                   <div
                     className="
                       flex
-                      h-9
-                      w-9
+                      h-11
+                      w-11
                       shrink-0
                       items-center
                       justify-center
@@ -294,7 +294,7 @@ export function AppointmentDetail({
                   <div>
                     <p
                       className="
-                        text-[9px]
+                        text-[14px]
                         font-semibold
                         uppercase
                         tracking-[0.14em]
@@ -307,7 +307,7 @@ export function AppointmentDetail({
                     <p
                       className="
                         mt-1
-                        text-[12px]
+                        text-[14px]
                         text-[#435D61]
                       "
                     >
@@ -324,8 +324,8 @@ export function AppointmentDetail({
                   <div
                     className="
                       flex
-                      h-9
-                      w-9
+                      h-11
+                      w-11
                       shrink-0
                       items-center
                       justify-center
@@ -352,7 +352,7 @@ export function AppointmentDetail({
                   <div>
                     <p
                       className="
-                        text-[9px]
+                        text-[14px]
                         font-semibold
                         uppercase
                         tracking-[0.14em]
@@ -365,7 +365,7 @@ export function AppointmentDetail({
                     <p
                       className="
                         mt-1
-                        text-[12px]
+                        text-[14px]
                         text-[#435D61]
                       "
                     >
@@ -382,8 +382,8 @@ export function AppointmentDetail({
                   <div
                     className="
                       flex
-                      h-9
-                      w-9
+                      h-11
+                      w-11
                       shrink-0
                       items-center
                       justify-center
@@ -402,7 +402,7 @@ export function AppointmentDetail({
                   <div>
                     <p
                       className="
-                        text-[9px]
+                        text-[14px]
                         font-semibold
                         uppercase
                         tracking-[0.14em]
@@ -415,7 +415,7 @@ export function AppointmentDetail({
                     <p
                       className="
                         mt-1
-                        text-[12px]
+                        text-[14px]
                         leading-5
                         text-[#435D61]
                       "
@@ -442,7 +442,7 @@ export function AppointmentDetail({
               >
                 <p
                   className="
-                    text-[9px]
+                    text-[14px]
                     font-semibold
                     uppercase
                     tracking-[0.14em]
@@ -455,7 +455,7 @@ export function AppointmentDetail({
                 <p
                   className="
                     mt-2
-                    text-[11px]
+                    text-[14px]
                     leading-5
                     text-[#718083]
                   "
@@ -492,7 +492,7 @@ export function AppointmentDetail({
                     rounded-xl
                     bg-[#0F3D4A]
                     px-5
-                    text-[11px]
+                    text-[14px]
                     font-semibold
                     text-white
 
@@ -543,7 +543,7 @@ export function AppointmentDetail({
                   border
                   border-[#A7B89A]/25
                   px-5
-                  text-[11px]
+                  text-[14px]
                   font-semibold
                   text-[#52665A]
 

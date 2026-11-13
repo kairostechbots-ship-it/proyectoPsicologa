@@ -1,1292 +1,419 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-
 import {
   ArrowRight,
   CalendarDays,
   CircleHelp,
-  Clock3,
+  ExternalLink,
   Gift,
   Leaf,
   MapPin,
+  PencilLine,
+  RefreshCw,
   Stethoscope,
-  Users,
   UserCog,
+  UserRound,
+  UsersRound,
+  type LucideIcon,
 } from 'lucide-react';
-
 import { apiFetch } from '@/lib/http';
-
-/* =========================================================
-   TIPOS
-========================================================= */
-
-interface Summary {
-  services: unknown[];
-  faqs: unknown[];
-  naturalMedicine: {
-    techniques: unknown[];
-  };
-}
 
 interface User {
   name: string;
   role: string;
 }
 
-/* =========================================================
-   ACCESOS RÁPIDOS
-========================================================= */
+interface Summary {
+  services?: unknown[];
+  faqs?: unknown[];
+  naturalMedicine?: { techniques?: unknown[] };
+  promotion?: {
+    activo: boolean;
+    nombre: string;
+    sesiones: number;
+    precio: number;
+  } | null;
+}
 
-const contentQuickLinks = [
+interface NavigationItem {
+  title: string;
+  description: string;
+  href: string;
+  icon: LucideIcon;
+}
+
+const focus =
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#276B65] focus-visible:ring-offset-2';
+
+const contentItems: NavigationItem[] = [
   {
-    title: 'Editar psicoterapia',
+    title: 'Psicoterapia',
+    description: 'Servicios, precios y modalidades',
     href: '/admin/psicoterapia',
     icon: Stethoscope,
   },
   {
-    title: 'Editar Medicina Natural',
+    title: 'Medicina natural',
+    description: 'Técnicas e información',
     href: '/admin/medicina-natural',
     icon: Leaf,
   },
   {
-    title: 'Editar promoción',
+    title: 'Sobre mí',
+    description: 'Presentación y formación profesional',
+    href: '/admin/perfil',
+    icon: UserRound,
+  },
+  {
+    title: 'Preguntas frecuentes',
+    description: 'Preguntas y respuestas del sitio',
+    href: '/admin/faq',
+    icon: CircleHelp,
+  },
+  {
+    title: 'Promoción',
+    description: 'Configura el paquete promocional',
     href: '/admin/promocion',
     icon: Gift,
   },
   {
     title: 'Contacto y horarios',
+    description: 'Teléfono, ubicación y horarios',
     href: '/admin/contacto',
     icon: MapPin,
   },
 ];
 
-/* =========================================================
-   PAGE
-========================================================= */
-
 export default function AdminPage() {
-  const [summary, setSummary] = useState<Summary | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [error, setError] = useState('');
+  const [summary, setSummary] = useState<Summary | null>(null);
   const [loading, setLoading] = useState(true);
-
-  /* =========================================================
-     DATOS DEL BACKEND
-  ========================================================= */
+  const [error, setError] = useState(false);
+  const [retry, setRetry] = useState(0);
 
   useEffect(() => {
-    Promise.all([
-      apiFetch<Summary>('/api/site'),
-      apiFetch<User>('/api/auth/me'),
-    ])
-      .then(([siteSummary, currentUser]) => {
-        setSummary(siteSummary);
-        setUser(currentUser);
+    let active = true;
+
+    setLoading(true);
+    setError(false);
+    setUser(null);
+
+    apiFetch<User>('/api/auth/me')
+      .then((result) => {
+        if (!result) throw new Error('Usuario no disponible');
+        if (active) setUser(result);
       })
-      .catch((err: Error) => {
-        setError(
-          err.message ||
-            'No fue posible cargar la información del panel.',
-        );
+      .catch(() => {
+        if (active) setError(true);
       })
       .finally(() => {
-        setLoading(false);
+        if (active) setLoading(false);
       });
-  }, []);
 
-  /* =========================================================
-     PERMISOS
-  ========================================================= */
+    return () => {
+      active = false;
+    };
+  }, [retry]);
 
   const canManageAppointments =
-    user?.role !== 'editor';
+    user?.role === 'admin' || user?.role === 'receptionist';
 
   const canManageContent =
-    user?.role !== 'receptionist';
+    user?.role === 'admin' || user?.role === 'editor';
 
-  const canManageUsers =
-    user?.role === 'admin';
+  const canManageUsers = user?.role === 'admin';
 
-  /* =========================================================
-     RESUMEN DE CONTENIDO
-  ========================================================= */
+  useEffect(() => {
+    if (!canManageContent) return;
 
-  const contentSummary = [
-    {
-      title: 'Psicoterapia',
-      value: summary?.services.length ?? 0,
-      label: 'servicios publicados',
-      href: '/admin/psicoterapia',
-      icon: Stethoscope,
-    },
-    {
-      title: 'Medicina Natural',
-      value:
-        summary?.naturalMedicine?.techniques?.length ?? 0,
-      label: 'técnicas publicadas',
-      href: '/admin/medicina-natural',
-      icon: Leaf,
-    },
-    {
-      title: 'Preguntas frecuentes',
-      value: summary?.faqs.length ?? 0,
-      label: 'preguntas publicadas',
-      href: '/admin/faq',
-      icon: CircleHelp,
-    },
-  ];
+    let active = true;
+
+    apiFetch<Summary>('/api/site')
+      .then((result) => {
+        if (active) setSummary(result);
+      })
+      .catch(() => {
+        if (active) setSummary(null);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [canManageContent]);
+
+  const firstName = user?.name?.trim().split(/\s+/)[0];
+
+  if (loading) {
+    return (
+      <div
+        role="status"
+        className="rounded-3xl border border-[#E5EBE5] bg-white p-8"
+      >
+        <p className="text-sm text-[#647572]">
+          Preparando tu espacio de trabajo…
+        </p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div
+        role="alert"
+        className="max-w-xl rounded-3xl border border-[#E5EBE5] bg-white p-8"
+      >
+        <h2 className="text-xl font-semibold text-[#173F43]">
+          No pudimos cargar tu información
+        </h2>
+        <p className="mt-2 text-sm text-[#647572]">
+          Revisa tu conexión e inténtalo nuevamente.
+        </p>
+        <button
+          type="button"
+          onClick={() => setRetry((value) => value + 1)}
+          className={`mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#174E50] px-5 text-sm font-semibold text-white ${focus}`}
+        >
+          <RefreshCw className="h-4 w-4" />
+          Intentar de nuevo
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div className="pb-10">
-      {/* =====================================================
-          BIENVENIDA
-      ====================================================== */}
+    <div className="mx-auto max-w-[1150px] space-y-9 pb-12">
 
-      <section>
-        <p
-          className="
-            text-[10px]
-            font-semibold
-            uppercase
-            tracking-[0.2em]
-            text-[#B08B28]
-          "
-        >
-          Panel administrativo
-        </p>
+      {/* BIENVENIDA */}
+      <section className="relative overflow-hidden rounded-[28px] border border-[#E0EAE2] bg-[#EAF2EB] px-6 py-8 sm:px-9 sm:py-10">
+        <div className="relative z-10 max-w-2xl">
+          <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#598076]">
+            Mi espacio de trabajo
+          </span>
+
+          <h1 className="mt-3 font-serif text-[30px] leading-tight text-[#173F43] sm:text-[40px]">
+            ¡Hola{firstName ? `, ${firstName}` : ''}!
+          </h1>
+
+          <p className="mt-3 max-w-xl text-[15px] leading-7 text-[#536E69]">
+            {canManageAppointments && canManageContent
+              ? 'Desde aquí puedes organizar tus citas y mantener actualizada tu página web.'
+              : canManageAppointments
+                ? 'Aquí puedes organizar la agenda y consultar la información de tus pacientes.'
+                : 'Aquí puedes actualizar la información que aparece en tu página web.'}
+          </p>
+        </div>
 
         <div
-          className="
-            mt-3
-            flex
-            flex-col
-            gap-5
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-16 -top-24 h-72 w-72 rounded-full border-[42px] border-white/35"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-24 right-24 h-56 w-56 rounded-full bg-[#DCEBDD]/60"
+        />
+      </section>
 
-            lg:flex-row
-            lg:items-end
-            lg:justify-between
-          "
-        >
-          <div>
-            <h2
-              className="
-                font-serif
-                text-[32px]
-                font-medium
-                tracking-[-0.03em]
-                text-[#0F3D4A]
+      {/* ACCIONES PRINCIPALES */}
+      <section aria-labelledby="quick-actions-title">
+        <SectionHeading
+          title="¿Qué te gustaría hacer hoy?"
+          description="Selecciona una opción para comenzar."
+          id="quick-actions-title"
+        />
 
-                sm:text-[38px]
-              "
-            >
-              Hola{user?.name ? `, ${user.name}` : ''}.
-            </h2>
+        <div className="mt-5 grid gap-4 sm:grid-cols-2">
+          {canManageAppointments && (
+            <FeatureCard
+              title="Mi agenda"
+              description="Consulta tus citas y organiza las actividades del consultorio."
+              href="/admin/agenda"
+              icon={CalendarDays}
+              action="Ver mi agenda"
+              emphasized
+            />
+          )}
 
-            <p
-              className="
-                mt-3
-                max-w-2xl
-                text-sm
-                leading-6
-                text-[#718083]
-              "
-            >
-              Administra el contenido de tu sitio web y consulta
-              la información del consultorio desde un solo lugar.
-            </p>
-          </div>
+          {canManageContent && (
+            <FeatureCard
+              title="Editar mi página"
+              description="Actualiza tus servicios, información profesional y datos de contacto."
+              href="#contenido-web"
+              icon={PencilLine}
+              action="Elegir qué editar"
+            />
+          )}
 
           {canManageAppointments && (
-            <Link
-              href="/admin/agenda"
-              className="
-                inline-flex
-                min-h-11
-                w-fit
-                items-center
-                justify-center
-                gap-2
-                rounded-xl
-                bg-[#0F3D4A]
-                px-5
-                text-[12px]
-                font-semibold
-                text-white
-                shadow-[0_8px_20px_rgba(15,61,74,0.08)]
-
-                transition-all
-                duration-200
-
-                hover:-translate-y-0.5
-                hover:bg-[#174F5D]
-              "
-            >
-              <CalendarDays
-                aria-hidden="true"
-                className="h-4 w-4 text-[#D8BD66]"
-                strokeWidth={1.6}
-              />
-
-              Ver mi agenda
-            </Link>
+            <FeatureCard
+              title="Pacientes y citas"
+              description="Consulta los pacientes registrados y administra sus citas."
+              href="/admin/pacientes"
+              icon={UsersRound}
+              action="Ver pacientes"
+            />
           )}
         </div>
       </section>
 
-      {/* =====================================================
-          ERROR
-      ====================================================== */}
-
-      {error && (
-        <div
-          role="alert"
-          className="
-            mt-6
-            rounded-[16px]
-            border
-            border-red-200
-            bg-red-50
-            px-4
-            py-3
-            text-[11px]
-            leading-5
-            text-red-700
-          "
-        >
-          {error}
-        </div>
-      )}
-
-      {/* =====================================================
-          RESUMEN DE CONTENIDO
-      ====================================================== */}
-
+      {/* CONTENIDO DEL SITIO */}
       {canManageContent && (
         <section
-          aria-labelledby="content-summary-title"
-          className="mt-9"
+          id="contenido-web"
+          aria-labelledby="content-title"
+          className="scroll-mt-28"
         >
-          <div>
-            <h3
-              id="content-summary-title"
-              className="
-                text-[13px]
-                font-semibold
-                text-[#435D61]
-              "
-            >
-              Contenido del sitio
-            </h3>
+          <SectionHeading
+            id="content-title"
+            title="Contenido de mi página"
+            description="Elige la sección de tu sitio web que deseas actualizar."
+          />
 
-            <p
-              className="
-                mt-1
-                text-[11px]
-                text-[#8A9691]
-              "
-            >
-              Resumen del contenido publicado actualmente.
+          <div className="mt-5 overflow-hidden rounded-[24px] border border-[#E5EBE5] bg-white">
+            <div className="grid divide-y divide-[#EDF0EC] sm:grid-cols-2 sm:divide-y-0">
+              {contentItems.map((item) => (
+                <ContentItem key={item.href} {...item} />
+              ))}
+            </div>
+          </div>
+
+          {summary?.promotion?.activo && (
+            <p className="mt-4 text-xs leading-5 text-[#647572]">
+              Actualmente tienes una promoción activa:{' '}
+              <span className="font-semibold text-[#174E50]">
+                {summary.promotion.nombre || 'Paquete promocional'}
+              </span>
+              .
             </p>
-          </div>
-
-          <div
-            className="
-              mt-4
-              grid
-              grid-cols-1
-              gap-4
-
-              md:grid-cols-3
-            "
-          >
-            {contentSummary.map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <Link
-                  key={item.title}
-                  href={item.href}
-                  className="
-                    group
-                    relative
-                    overflow-hidden
-                    rounded-[20px]
-                    border
-                    border-[#A7B89A]/20
-                    bg-white
-                    p-5
-                    shadow-[0_10px_30px_rgba(15,61,74,0.025)]
-
-                    transition-all
-                    duration-200
-
-                    hover:-translate-y-0.5
-                    hover:border-[#A7B89A]/40
-                    hover:shadow-[0_14px_35px_rgba(15,61,74,0.05)]
-
-                    sm:p-6
-                  "
-                >
-                  <div
-                    aria-hidden="true"
-                    className="
-                      absolute
-                      -right-10
-                      -top-10
-                      h-28
-                      w-28
-                      rounded-full
-                      bg-[#A7B89A]/[0.06]
-                    "
-                  />
-
-                  <div
-                    className="
-                      relative
-                      z-10
-                      flex
-                      items-start
-                      justify-between
-                      gap-4
-                    "
-                  >
-                    <div
-                      className="
-                        flex
-                        h-10
-                        w-10
-                        items-center
-                        justify-center
-                        rounded-xl
-                        bg-[#A7B89A]/10
-                        text-[#52665A]
-                      "
-                    >
-                      <Icon
-                        aria-hidden="true"
-                        className="h-[18px] w-[18px]"
-                        strokeWidth={1.5}
-                      />
-                    </div>
-
-                    <ArrowRight
-                      aria-hidden="true"
-                      className="
-                        h-4
-                        w-4
-                        text-[#A7B89A]
-
-                        transition-transform
-                        duration-200
-
-                        group-hover:translate-x-1
-                      "
-                      strokeWidth={1.5}
-                    />
-                  </div>
-
-                  <div className="relative z-10 mt-6">
-                    <p
-                      className="
-                        text-[10px]
-                        font-semibold
-                        uppercase
-                        tracking-[0.16em]
-                        text-[#8A9691]
-                      "
-                    >
-                      {item.title}
-                    </p>
-
-                    <div
-                      className="
-                        mt-2
-                        flex
-                        items-baseline
-                        gap-2
-                      "
-                    >
-                      <span
-                        className="
-                          font-serif
-                          text-[34px]
-                          leading-none
-                          text-[#0F3D4A]
-                        "
-                      >
-                        {loading ? '—' : item.value}
-                      </span>
-
-                      <span
-                        className="
-                          text-[11px]
-                          text-[#718083]
-                        "
-                      >
-                        {item.label}
-                      </span>
-                    </div>
-
-                    <p
-                      className="
-                        mt-5
-                        inline-flex
-                        items-center
-                        gap-2
-                        text-[11px]
-                        font-semibold
-                        text-[#52665A]
-
-                        transition-colors
-
-                        group-hover:text-[#0F3D4A]
-                      "
-                    >
-                      Administrar
-
-                      <ArrowRight
-                        aria-hidden="true"
-                        className="h-3.5 w-3.5"
-                        strokeWidth={1.5}
-                      />
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+          )}
         </section>
       )}
 
-      {/* =====================================================
-          AGENDA + PROMOCIÓN
-      ====================================================== */}
-
-      <section
-        className="
-          mt-6
-          grid
-          grid-cols-1
-          gap-5
-
-          xl:grid-cols-[1.5fr_0.8fr]
-        "
-      >
-        {/* =================================================
-            AGENDA / PACIENTES
-        ================================================== */}
-
-        {canManageAppointments && (
-          <article
-            className="
-              overflow-hidden
-              rounded-[22px]
-              border
-              border-[#A7B89A]/20
-              bg-white
-              shadow-[0_10px_30px_rgba(15,61,74,0.025)]
-            "
-          >
-            <div
-              className="
-                flex
-                items-center
-                justify-between
-                gap-4
-                border-b
-                border-[#A7B89A]/15
-                px-5
-                py-5
-
-                sm:px-6
-              "
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className="
-                    flex
-                    h-10
-                    w-10
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-[#0F3D4A]
-                    text-[#D8BD66]
-                  "
-                >
-                  <CalendarDays
-                    aria-hidden="true"
-                    className="h-[18px] w-[18px]"
-                    strokeWidth={1.5}
-                  />
-                </div>
-
-                <div>
-                  <h3
-                    className="
-                      text-[13px]
-                      font-semibold
-                      text-[#435D61]
-                    "
-                  >
-                    Pacientes y citas
-                  </h3>
-
-                  <p
-                    className="
-                      mt-0.5
-                      text-[10px]
-                      text-[#8A9691]
-                    "
-                  >
-                    Gestión del consultorio y agenda
-                  </p>
-                </div>
-              </div>
-
-              <Link
-                href="/admin/agenda"
-                className="
-                  hidden
-                  items-center
-                  gap-1.5
-                  text-[11px]
-                  font-semibold
-                  text-[#52665A]
-
-                  transition-colors
-
-                  hover:text-[#0F3D4A]
-
-                  sm:flex
-                "
-              >
-                Ver agenda
-
-                <ArrowRight
-                  aria-hidden="true"
-                  className="h-3.5 w-3.5"
-                />
-              </Link>
-            </div>
-
-            <div
-              className="
-                grid
-                min-h-[260px]
-                grid-cols-1
-
-                sm:grid-cols-2
-              "
-            >
-              {/* Pacientes */}
-
-              <Link
-                href="/admin/pacientes"
-                className="
-                  group
-                  flex
-                  flex-col
-                  justify-center
-                  border-b
-                  border-[#A7B89A]/15
-                  p-6
-
-                  transition-colors
-
-                  hover:bg-[#A7B89A]/[0.035]
-
-                  sm:border-b-0
-                  sm:border-r
-                "
-              >
-                <div
-                  className="
-                    flex
-                    h-12
-                    w-12
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-[#A7B89A]/10
-                    text-[#52665A]
-                  "
-                >
-                  <Users
-                    aria-hidden="true"
-                    className="h-5 w-5"
-                    strokeWidth={1.4}
-                  />
-                </div>
-
-                <h4
-                  className="
-                    mt-5
-                    font-serif
-                    text-[20px]
-                    text-[#0F3D4A]
-                  "
-                >
-                  Pacientes y citas
-                </h4>
-
-                <p
-                  className="
-                    mt-2
-                    max-w-[280px]
-                    text-[11px]
-                    leading-5
-                    text-[#7A8783]
-                  "
-                >
-                  Consulta y administra la información relacionada
-                  con pacientes y sus citas.
-                </p>
-
-                <span
-                  className="
-                    mt-5
-                    inline-flex
-                    items-center
-                    gap-2
-                    text-[11px]
-                    font-semibold
-                    text-[#52665A]
-                  "
-                >
-                  Administrar
-
-                  <ArrowRight
-                    aria-hidden="true"
-                    className="
-                      h-3.5
-                      w-3.5
-                      transition-transform
-                      group-hover:translate-x-0.5
-                    "
-                  />
-                </span>
-              </Link>
-
-              {/* Agenda */}
-
-              <Link
-                href="/admin/agenda"
-                className="
-                  group
-                  flex
-                  flex-col
-                  justify-center
-                  p-6
-
-                  transition-colors
-
-                  hover:bg-[#A7B89A]/[0.035]
-                "
-              >
-                <div
-                  className="
-                    flex
-                    h-12
-                    w-12
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-[#D4AF37]/10
-                    text-[#9A7A28]
-                  "
-                >
-                  <CalendarDays
-                    aria-hidden="true"
-                    className="h-5 w-5"
-                    strokeWidth={1.4}
-                  />
-                </div>
-
-                <h4
-                  className="
-                    mt-5
-                    font-serif
-                    text-[20px]
-                    text-[#0F3D4A]
-                  "
-                >
-                  Agenda del consultorio
-                </h4>
-
-                <p
-                  className="
-                    mt-2
-                    max-w-[280px]
-                    text-[11px]
-                    leading-5
-                    text-[#7A8783]
-                  "
-                >
-                  Consulta las próximas citas y eventos de la
-                  agenda.
-                </p>
-
-                <span
-                  className="
-                    mt-5
-                    inline-flex
-                    items-center
-                    gap-2
-                    text-[11px]
-                    font-semibold
-                    text-[#52665A]
-                  "
-                >
-                  Ver agenda
-
-                  <ArrowRight
-                    aria-hidden="true"
-                    className="
-                      h-3.5
-                      w-3.5
-                      transition-transform
-                      group-hover:translate-x-0.5
-                    "
-                  />
-                </span>
-              </Link>
-            </div>
-          </article>
-        )}
-
-        {/* =================================================
-            PROMOCIÓN
-        ================================================== */}
-
-        {canManageContent && (
-          <article
-            className="
-              relative
-              overflow-hidden
-              rounded-[22px]
-              bg-[#0F3D4A]
-              p-6
-              text-white
-              shadow-[0_12px_35px_rgba(15,61,74,0.08)]
-            "
-          >
-            <div
-              aria-hidden="true"
-              className="
-                absolute
-                -right-20
-                -top-20
-                h-56
-                w-56
-                rounded-full
-                border
-                border-white/[0.07]
-              "
-            />
-
-            <div
-              aria-hidden="true"
-              className="
-                absolute
-                -bottom-20
-                -left-20
-                h-48
-                w-48
-                rounded-full
-                bg-[#A7B89A]/[0.06]
-              "
-            />
-
-            <div
-              className="
-                relative
-                z-10
-                flex
-                h-full
-                flex-col
-              "
-            >
-              <div
-                className="
-                  flex
-                  items-start
-                  justify-between
-                  gap-4
-                "
-              >
-                <div
-                  className="
-                    flex
-                    h-10
-                    w-10
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-white/[0.08]
-                    text-[#D8BD66]
-                  "
-                >
-                  <Gift
-                    aria-hidden="true"
-                    className="h-[18px] w-[18px]"
-                    strokeWidth={1.5}
-                  />
-                </div>
-
-                <span
-                  className="
-                    inline-flex
-                    items-center
-                    gap-2
-                    rounded-full
-                    border
-                    border-white/10
-                    bg-white/[0.06]
-                    px-3
-                    py-1.5
-                    text-[9px]
-                    font-semibold
-                    text-white/75
-                  "
-                >
-                  <span
-                    aria-hidden="true"
-                    className="
-                      h-1.5
-                      w-1.5
-                      rounded-full
-                      bg-[#D8BD66]
-                    "
-                  />
-
-                  Activa
-                </span>
-              </div>
-
-              <div className="mt-8">
-                <p
-                  className="
-                    text-[9px]
-                    font-semibold
-                    uppercase
-                    tracking-[0.18em]
-                    text-[#D8BD66]
-                  "
-                >
-                  Promoción actual
-                </p>
-
-                <h3
-                  className="
-                    mt-3
-                    font-serif
-                    text-[27px]
-                    leading-tight
-                    text-white
-                  "
-                >
-                  Paquete de psicoterapia
-                </h3>
-
-                <p
-                  className="
-                    mt-3
-                    text-[12px]
-                    leading-5
-                    text-white/55
-                  "
-                >
-                  10 sesiones de psicoterapia individual.
-                </p>
-              </div>
-
-              <div
-                className="
-                  mt-8
-                  border-t
-                  border-white/10
-                  pt-5
-                "
-              >
-                <p
-                  className="
-                    text-[9px]
-                    uppercase
-                    tracking-[0.14em]
-                    text-white/35
-                  "
-                >
-                  Precio del paquete
-                </p>
-
-                <p
-                  className="
-                    mt-1
-                    font-serif
-                    text-[30px]
-                    text-white
-                  "
-                >
-                  $3,600
-
-                  <span
-                    className="
-                      ml-1
-                      font-sans
-                      text-[9px]
-                      text-white/40
-                    "
-                  >
-                    MXN
-                  </span>
-                </p>
-              </div>
-
-              <Link
-                href="/admin/promocion"
-                className="
-                  mt-auto
-                  inline-flex
-                  items-center
-                  gap-2
-                  pt-7
-                  text-[11px]
-                  font-semibold
-                  text-[#E5CF80]
-
-                  transition-colors
-
-                  hover:text-white
-                "
-              >
-                Administrar promoción
-
-                <ArrowRight
-                  aria-hidden="true"
-                  className="h-3.5 w-3.5"
-                />
-              </Link>
-            </div>
-          </article>
-        )}
-
-        {/* Receptionist: ocupa el espacio cuando no ve promoción */}
-
-        {!canManageContent && canManageAppointments && (
-          <article
-            className="
-              relative
-              overflow-hidden
-              rounded-[22px]
-              bg-[#0F3D4A]
-              p-6
-              text-white
-              shadow-[0_12px_35px_rgba(15,61,74,0.08)]
-            "
-          >
-            <div
-              aria-hidden="true"
-              className="
-                absolute
-                -right-20
-                -top-20
-                h-56
-                w-56
-                rounded-full
-                border
-                border-white/[0.07]
-              "
-            />
-
-            <div className="relative z-10">
-              <div
-                className="
-                  flex
-                  h-10
-                  w-10
-                  items-center
-                  justify-center
-                  rounded-xl
-                  bg-white/[0.08]
-                  text-[#D8BD66]
-                "
-              >
-                <CalendarDays
-                  aria-hidden="true"
-                  className="h-[18px] w-[18px]"
-                  strokeWidth={1.5}
-                />
-              </div>
-
-              <p
-                className="
-                  mt-8
-                  text-[9px]
-                  font-semibold
-                  uppercase
-                  tracking-[0.18em]
-                  text-[#D8BD66]
-                "
-              >
-                Consultorio
-              </p>
-
-              <h3
-                className="
-                  mt-3
-                  font-serif
-                  text-[27px]
-                  leading-tight
-                  text-white
-                "
-              >
-                Gestión de citas
-              </h3>
-
-              <p
-                className="
-                  mt-3
-                  text-[12px]
-                  leading-5
-                  text-white/55
-                "
-              >
-                Accede rápidamente a pacientes y a la agenda del
-                consultorio.
-              </p>
-            </div>
-          </article>
-        )}
-      </section>
-
-      {/* =====================================================
-          ACCESOS RÁPIDOS
-      ====================================================== */}
-
-      <section className="mt-6">
-        <div>
-          <h3
-            className="
-              text-[13px]
-              font-semibold
-              text-[#435D61]
-            "
-          >
-            Accesos rápidos
-          </h3>
-
-          <p
-            className="
-              mt-1
-              text-[11px]
-              text-[#8A9691]
-            "
-          >
-            Ve directamente a las secciones que utilizas con mayor
-            frecuencia.
-          </p>
-        </div>
-
-        <div
-          className="
-            mt-4
-            grid
-            grid-cols-1
-            gap-3
-
-            sm:grid-cols-2
-
-            xl:grid-cols-4
-          "
+      {/* CONFIGURACIÓN */}
+      {canManageUsers && (
+        <section
+          aria-labelledby="settings-title"
+          className="border-t border-[#E1E9E2] pt-7"
         >
-          {/* Contenido */}
-
-          {canManageContent &&
-            contentQuickLinks.map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <QuickLink
-                  key={item.href}
-                  title={item.title}
-                  href={item.href}
-                  icon={Icon}
-                />
-              );
-            })}
-
-          {/* Pacientes */}
-
-          {canManageAppointments && (
-            <QuickLink
-              title="Pacientes y citas"
-              href="/admin/pacientes"
-              icon={Users}
-            />
-          )}
-
-          {/* Agenda */}
-
-          {canManageAppointments && (
-            <QuickLink
-              title="Mi agenda"
-              href="/admin/agenda"
-              icon={CalendarDays}
-            />
-          )}
-
-          {/* Usuarios internos */}
-
-          {canManageUsers && (
-            <QuickLink
-              title="Usuarios internos"
-              href="/admin/usuarios"
-              icon={UserCog}
-            />
-          )}
-        </div>
-      </section>
-
-      {/* =====================================================
-          NOTA AGENDA
-      ====================================================== */}
-
-      {canManageAppointments && (
-        <div
-          className="
-            mt-6
-            flex
-            items-start
-            gap-3
-            rounded-[16px]
-            border
-            border-[#D4AF37]/15
-            bg-[#D4AF37]/[0.035]
-            px-4
-            py-4
-          "
-        >
-          <Clock3
-            aria-hidden="true"
-            className="
-              mt-0.5
-              h-4
-              w-4
-              shrink-0
-              text-[#B08B28]
-            "
-            strokeWidth={1.5}
+          <SectionHeading
+            id="settings-title"
+            title="Configuración"
+            description="Opciones de administración del sistema."
           />
 
-          <p
-            className="
-              text-[10px]
-              leading-5
-              text-[#74817D]
-            "
+          <Link
+            href="/admin/usuarios"
+            className={`mt-4 inline-flex min-h-12 items-center gap-3 rounded-xl border border-[#E1E9E2] bg-white px-5 py-3 text-sm font-medium text-[#174E50] transition-colors hover:bg-[#EDF5EF] ${focus}`}
           >
-            La agenda se muestra únicamente dentro del panel
-            administrativo.
-          </p>
-        </div>
+            <UserCog className="h-5 w-5" />
+            Administrar usuarios
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </section>
+      )}
+
+      {!canManageAppointments && !canManageContent && (
+        <p role="status" className="text-sm text-[#647572]">
+          Tu cuenta no tiene secciones de trabajo disponibles.
+        </p>
       )}
     </div>
   );
 }
 
-/* =========================================================
-   QUICK LINK
-========================================================= */
-
-interface QuickLinkProps {
+function SectionHeading({
+  id,
+  title,
+  description,
+}: {
+  id: string;
   title: string;
-  href: string;
-  icon: React.ComponentType<{
-    className?: string;
-    strokeWidth?: number;
-    'aria-hidden'?: boolean | 'true' | 'false';
-  }>;
+  description: string;
+}) {
+  return (
+    <div>
+      <h2
+        id={id}
+        className="font-serif text-[25px] leading-tight text-[#173F43] sm:text-[28px]"
+      >
+        {title}
+      </h2>
+      <p className="mt-2 text-sm leading-6 text-[#647572]">
+        {description}
+      </p>
+    </div>
+  );
 }
 
-function QuickLink({
+function FeatureCard({
   title,
+  description,
   href,
   icon: Icon,
-}: QuickLinkProps) {
+  action,
+  emphasized = false,
+}: NavigationItem & {
+  action: string;
+  emphasized?: boolean;
+}) {
   return (
     <Link
       href={href}
-      className="
-        group
-        flex
-        min-h-[76px]
-        items-center
-        gap-3
-        rounded-[16px]
-        border
-        border-[#A7B89A]/20
-        bg-white
-        px-4
-        py-4
-
-        transition-all
-        duration-200
-
-        hover:border-[#A7B89A]/40
-        hover:shadow-[0_8px_25px_rgba(15,61,74,0.035)]
-      "
+      className={`group flex min-h-[205px] flex-col rounded-[24px] border p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${focus} ${
+        emphasized
+          ? 'border-[#BDD6CC] bg-[#DDEDE6]'
+          : 'border-[#E2EAE3] bg-white'
+      }`}
     >
-      <div
-        className="
-          flex
-          h-9
-          w-9
-          shrink-0
-          items-center
-          justify-center
-          rounded-xl
-          bg-[#A7B89A]/10
-          text-[#52665A]
-        "
-      >
-        <Icon
-          aria-hidden="true"
-          className="h-4 w-4"
-          strokeWidth={1.5}
-        />
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#EDF5EF] text-[#276B65]">
+        <Icon className="h-6 w-6" strokeWidth={1.7} aria-hidden="true" />
       </div>
 
-      <span
-        className="
-          min-w-0
-          flex-1
-          text-[11px]
-          font-semibold
-          text-[#52665A]
-
-          transition-colors
-
-          group-hover:text-[#0F3D4A]
-        "
-      >
+      <h3 className="mt-5 text-lg font-semibold text-[#173F43]">
         {title}
+      </h3>
+
+      <p className="mt-2 flex-1 text-sm leading-6 text-[#647572]">
+        {description}
+      </p>
+
+      <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#276B65]">
+        {action}
+        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+      </span>
+    </Link>
+  );
+}
+
+function ContentItem({
+  title,
+  description,
+  href,
+  icon: Icon,
+}: NavigationItem) {
+  return (
+    <Link
+      href={href}
+      className={`group flex min-h-[104px] items-center gap-4 border-b border-[#EDF0EC] p-5 transition-colors hover:bg-[#F5F9F5] sm:p-6 ${focus}`}
+    >
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-[#EDF5EF] text-[#35776B]">
+        <Icon className="h-5 w-5" strokeWidth={1.7} aria-hidden="true" />
+      </span>
+
+      <span className="min-w-0 flex-1">
+        <span className="block text-[14px] font-semibold text-[#173F43]">
+          {title}
+        </span>
+        <span className="mt-1 block text-[12px] leading-5 text-[#71817C]">
+          {description}
+        </span>
       </span>
 
       <ArrowRight
+        className="h-4 w-4 shrink-0 text-[#8BA49A] transition-transform group-hover:translate-x-1"
         aria-hidden="true"
-        className="
-          h-3.5
-          w-3.5
-          shrink-0
-          text-[#A7B89A]
-
-          transition-transform
-
-          group-hover:translate-x-0.5
-        "
       />
     </Link>
   );

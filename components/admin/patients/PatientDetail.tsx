@@ -101,25 +101,12 @@ export function PatientDetail({
 
   return (
     <section className="space-y-6 pb-10">
-      {/* ===================================================
-          VOLVER
-      =================================================== */}
-
       <button
         type="button"
         onClick={onBack}
-        className="
-          inline-flex items-center gap-2
-          text-[11px] font-semibold
-          text-[#667A76] transition
-          hover:text-[#0F3D4A]
-        "
+        className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#DCE5DF] bg-white px-4 text-sm font-semibold text-[#0F3D4A] transition-colors hover:bg-[#F2F6F1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0F3D4A]"
       >
-        <ArrowLeft
-          className="h-4 w-4"
-          strokeWidth={1.6}
-        />
-
+        <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         Volver a pacientes
       </button>
 
@@ -129,7 +116,7 @@ export function PatientDetail({
 
       <div
         className="
-          overflow-hidden rounded-2xl
+          overflow-hidden rounded-[22px]
           border border-[#E3E9E4]
           bg-white
           shadow-[0_8px_30px_rgba(15,61,74,0.04)]
@@ -149,7 +136,7 @@ export function PatientDetail({
               className="
                 flex h-14 w-14 shrink-0
                 items-center justify-center
-                rounded-2xl bg-[#EEF3EC]
+                rounded-[22px] bg-[#EEF3EC]
                 text-[#60775D]
               "
             >
@@ -176,7 +163,7 @@ export function PatientDetail({
                 <span
                   className={`
                     rounded-full px-2.5 py-1
-                    text-[9px] font-semibold
+                    text-sm font-semibold
 
                     ${
                       patient.active
@@ -197,7 +184,7 @@ export function PatientDetail({
                   gap-x-5 gap-y-2
                 "
               >
-                <span className="text-[11px] text-[#71817E]">
+                <span className="text-sm text-[#71817E]">
                   {patient.phone}
                 </span>
 
@@ -205,7 +192,7 @@ export function PatientDetail({
                   <span
                     className="
                       inline-flex items-center gap-1.5
-                      text-[11px] text-[#71817E]
+                      text-sm text-[#71817E]
                     "
                   >
                     <Mail
@@ -229,7 +216,7 @@ export function PatientDetail({
               inline-flex h-11 items-center
               justify-center gap-2 rounded-xl
               bg-[#0F3D4A] px-5
-              text-[11px] font-semibold
+              text-sm font-semibold
               text-white transition
               hover:bg-[#174F5D]
             "
@@ -247,7 +234,7 @@ export function PatientDetail({
 
       <section
         className="
-          rounded-2xl border border-[#E3E9E4]
+          rounded-[22px] border border-[#E3E9E4]
           bg-white p-5 sm:p-6
         "
       >
@@ -257,7 +244,7 @@ export function PatientDetail({
           <div>
             <p
               className="
-                text-[9px] font-semibold uppercase
+                text-sm font-semibold uppercase
                 tracking-[0.16em] text-[#A7B89A]
               "
             >
@@ -301,7 +288,7 @@ export function PatientDetail({
               <div>
                 <p
                   className="
-                    text-[13px] font-semibold
+                    text-base font-semibold
                     capitalize text-[#31555B]
                   "
                 >
@@ -314,7 +301,7 @@ export function PatientDetail({
                   <span
                     className="
                       inline-flex items-center gap-1.5
-                      text-[11px] text-[#71817E]
+                      text-sm text-[#71817E]
                     "
                   >
                     <Clock3 className="h-3.5 w-3.5" />
@@ -327,7 +314,7 @@ export function PatientDetail({
                   <span
                     className="
                       inline-flex items-center gap-1.5
-                      text-[11px] text-[#71817E]
+                      text-sm text-[#71817E]
                     "
                   >
                     {nextAppointment.modality ===
@@ -346,7 +333,7 @@ export function PatientDetail({
 
                 {/* Servicio */}
 
-                <p className="mt-3 text-[11px] text-[#71817E]">
+                <p className="mt-3 text-sm text-[#71817E]">
                   {getServiceName(
                     nextAppointment.serviceId,
                   )}
@@ -376,7 +363,7 @@ export function PatientDetail({
                     gap-1.5 rounded-xl
                     border border-[#DCE5DF]
                     bg-white px-3 py-2
-                    text-[10px] font-semibold
+                    text-xs font-semibold
                     text-[#536A6E]
                     transition
 
@@ -403,7 +390,7 @@ export function PatientDetail({
           <div
             className="
               rounded-xl border border-dashed
-              border-[#DCE5DF] py-8 text-center
+              border-[#DCE5DF] px-4 py-4 text-center
             "
           >
             <CalendarDays
@@ -416,7 +403,7 @@ export function PatientDetail({
 
             <p
               className="
-                mt-3 text-[11px] font-semibold
+                mt-2 text-sm font-semibold
                 text-[#61736F]
               "
             >
@@ -427,7 +414,7 @@ export function PatientDetail({
               type="button"
               onClick={onNewAppointment}
               className="
-                mt-3 text-[10px] font-semibold
+                mt-3 text-xs font-semibold
                 text-[#0F3D4A] underline
                 decoration-[#A7B89A]
                 underline-offset-4
@@ -445,7 +432,7 @@ export function PatientDetail({
 
       <section
         className="
-          overflow-hidden rounded-2xl
+          overflow-hidden rounded-[22px]
           border border-[#E3E9E4]
           bg-white
         "
@@ -460,7 +447,7 @@ export function PatientDetail({
         >
           <p
             className="
-              text-[9px] font-semibold uppercase
+              text-sm font-semibold uppercase
               tracking-[0.16em] text-[#A7B89A]
             "
           >
@@ -514,7 +501,7 @@ export function PatientDetail({
                     <div>
                       <p
                         className="
-                          text-[12px] font-semibold
+                          text-sm font-semibold
                           capitalize text-[#36585D]
                         "
                       >
@@ -529,13 +516,13 @@ export function PatientDetail({
                           gap-x-4 gap-y-1
                         "
                       >
-                        <span className="text-[10px] text-[#7C8B88]">
+                        <span className="text-xs text-[#7C8B88]">
                           {formatTime(
                             appointment.startsAt,
                           )}
                         </span>
 
-                        <span className="text-[10px] text-[#7C8B88]">
+                        <span className="text-xs text-[#7C8B88]">
                           {getServiceName(
                             appointment.serviceId,
                           )}
@@ -544,7 +531,7 @@ export function PatientDetail({
                         {appointment.modality && (
                           <span
                             className="
-                              text-[10px]
+                              text-xs
                               text-[#7C8B88]
                             "
                           >
@@ -555,6 +542,9 @@ export function PatientDetail({
                           </span>
                         )}
                       </div>
+                      {new Date(appointment.startsAt).getTime() < now && appointment.status === 'pending' && (
+                        <p className="mt-2 text-xs font-semibold text-[#956B25]">Cita pasada · Revisa su estado</p>
+                      )}
                     </div>
                   </div>
 
@@ -566,10 +556,6 @@ export function PatientDetail({
                       items-center gap-3
                     "
                   >
-                    <StatusBadge
-                      status={appointment.status}
-                    />
-
                     {/* Reprogramar solamente citas activas */}
 
                     {appointment.status !==
@@ -589,7 +575,7 @@ export function PatientDetail({
                             gap-1.5 rounded-xl
                             border border-[#DCE5DF]
                             bg-white px-3 py-2
-                            text-[10px] font-semibold
+                            text-xs font-semibold
                             text-[#536A6E]
                             transition
 
@@ -612,7 +598,10 @@ export function PatientDetail({
 
                     {/* Estado */}
 
+                    <label className="flex flex-col gap-1 text-xs font-semibold text-[#526A6E]">
+                      Estado de la cita
                     <select
+                      aria-label={`Estado de la cita del ${formatDate(appointment.startsAt)}`}
                       value={appointment.status}
                       disabled={busy}
                       onChange={(event) =>
@@ -625,7 +614,7 @@ export function PatientDetail({
                         rounded-xl border
                         border-[#DCE5DF]
                         bg-white px-3 py-2
-                        text-[10px] font-medium
+                        text-xs font-medium
                         text-[#536A6E]
                         outline-none
                       "
@@ -646,6 +635,7 @@ export function PatientDetail({
                         Completada
                       </option>
                     </select>
+                    </label>
                   </div>
                 </div>
               ),
@@ -665,7 +655,7 @@ export function PatientDetail({
 
             <p
               className="
-                mt-3 text-[11px]
+                mt-3 text-sm
                 text-[#82918E]
               "
             >
@@ -694,7 +684,7 @@ function StatusBadge({
     <span
       className={`
         inline-flex w-fit rounded-full
-        px-2.5 py-1 text-[9px]
+        px-2.5 py-1 text-sm
         font-semibold ${info.className}
       `}
     >
