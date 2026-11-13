@@ -1,18 +1,82 @@
 
 import { eq, asc } from "drizzle-orm";
+
 import { getDb } from "@/lib/db";
 import { services, faqs } from "@/lib/db/schema";
 import { getContent } from "@/lib/content";
 import { success, handleApiError, ApiError } from "@/lib/api";
 import { serviceView } from "@/lib/service-view";
 
+/* =========================================================
+   DIAGNÓSTICO DE ERRORES
+   ========================================================= */
+
 /**
- * DIAGNÓSTICO TEMPORAL
+ * Obtiene el código de error sin exponer información
+ * sensible de la base de datos.
+ */
+function obtenerCodigo(error: unknown): string | null {
+  if (
+    error !== null &&
+    typeof error === "object" &&
+    "code" in error &&
+    typeof error.code === "string"
+  ) {
+    return error.code;
+  }
+
+  return null;
+}
+
+/**
+ * Extrae información segura del error y sus causas.
  *
- * Identifica qué operación falla en producción.
+ * No registra:
+ * - Contraseñas
+ * - DATABASE_URL
+ * - Consultas SQL completas
+ * - Información de pacientes
+ * - Tokens de autenticación
+ */
+function obtenerDiagnostico(error: unknown) {
+  const principal =
+    error instanceof Error ? error : null;
+
+  const causa = principal?.cause;
+
+  const causaInterna =
+    causa instanceof Error ? causa.cause : undefined;
+
+  return {
+    tipo: principal?.name ?? typeof error,
+
+    codigo: obtenerCodigo(error),
+
+    causaTipo:
+      causa instanceof Error
+        ? causa.name
+        : causa === null || causa === undefined
+          ? null
+          : typeof causa,
+
+    causaCodigo: obtenerCodigo(causa),
+
+    causaInternaTipo:
+      causaInterna instanceof Error
+        ? causaInterna.name
+        : causaInterna === null || causaInterna === undefined
+          ? null
+          : typeof causaInterna,
+
+    causaInternaCodigo: obtenerCodigo(causaInterna),
+  };
+}
+
+/**
+ * Ejecuta una operación e identifica si falla.
  *
- * No imprime datos personales, contraseñas,
- * cadenas de conexión ni contenido de la BD.
+ * Conserva el resultado original.
+ * No modifica los datos ni las consultas.
  */
 async function diagnosticar<T>(
   nombre: string,
@@ -29,25 +93,8 @@ async function diagnosticar<T>(
 
     return resultado;
   } catch (error) {
-    let tipo = "Unknown";
-    let codigo = "SIN_CODIGO";
-
-    if (error instanceof Error) {
-      tipo = error.name;
-    }
-
-    if (
-      error &&
-      typeof error === "object" &&
-      "code" in error &&
-      typeof error.code === "string"
-    ) {
-      codigo = error.code;
-    }
-
     console.error(`[API SITE] ERROR: ${nombre}`, {
-      tipo,
-      codigo,
+      ...obtenerDiagnostico(error),
       duracionMs: Date.now() - inicio,
     });
 
@@ -55,17 +102,10 @@ async function diagnosticar<T>(
   }
 }
 
-/**
- * GET /api/site
- *
- * Obtiene la información pública del sitio:
- * - Contacto
- * - Perfil profesional
- * - Medicina natural
- * - Promoción
- * - Servicios activos
- * - Preguntas frecuentes
- */
+/* =========================================================
+   GET /api/site
+   ========================================================= */
+
 export async function GET() {
   console.info("[API SITE] Iniciando consultas");
 
@@ -78,22 +118,22 @@ export async function GET() {
       serviceRows,
       faqRows,
     ] = await Promise.all([
-      // CONTACTO
+      /* CONTACTO */
       diagnosticar("contact", () =>
         getContent("contact", true)
       ),
 
-      // PERFIL PROFESIONAL
+      /* PERFIL PROFESIONAL */
       diagnosticar("profile", () =>
         getContent("profile", true)
       ),
 
-      // MEDICINA NATURAL
+      /* MEDICINA NATURAL */
       diagnosticar("natural-medicine", () =>
         getContent("natural-medicine", true)
       ),
 
-      // PROMOCIÓN
+      /* PROMOCIÓN */
       diagnosticar("promotion", () =>
         getContent("promotion", true).catch((error) => {
           if (
@@ -107,32 +147,36 @@ export async function GET() {
         })
       ),
 
-      // SERVICIOS ACTIVOS
-      diagnosticar("services", () =>
-        getDb()
+      /* SERVICIOS */
+      diagnosticar("services", async () => {
+        const db = getDb();
+
+        return db
           .select()
           .from(services)
           .where(eq(services.active, true))
           .orderBy(asc(services.displayOrder))
-          .limit(100)
-      ),
+          .limit(100);
+      }),
 
-      // PREGUNTAS FRECUENTES
-      diagnosticar("faqs", () =>
-        getDb()
+      /* PREGUNTAS FRECUENTES */
+      diagnosticar("faqs", async () => {
+        const db = getDb();
+
+        return db
           .select()
           .from(faqs)
           .where(eq(faqs.active, true))
           .orderBy(asc(faqs.displayOrder))
-          .limit(100)
-      ),
+          .limit(100);
+      }),
     ]);
 
-    console.info(
-      "[API SITE] Todas las consultas finalizaron correctamente"
-    );
+    /* =====================================================
+       RESPUESTA ORIGINAL DEL SITIO
+       ===================================================== */
 
-    return success({
+    const response = {
       chatEnabled: Boolean(process.env.GEMINI_API_KEY),
 
       contact: contact.data,
@@ -159,16 +203,21 @@ export async function GET() {
         ...faq,
         id: index + 1,
       })),
-    });
+    };
+
+    console.info(
+      "[API SITE] Respuesta construida correctamente",
+      {
+        totalServicios: serviceRows.length,
+        totalFaqs: faqRows.length,
+      }
+    );
+
+    return success(response);
   } catch (error) {
     console.error(
       "[API SITE] La solicitud no pudo completarse",
-      {
-        tipo:
-          error instanceof Error
-            ? error.name
-            : typeof error,
-      }
+      obtenerDiagnostico(error)
     );
 
     return handleApiError(error);
